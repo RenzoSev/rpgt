@@ -1,33 +1,33 @@
 # dependencies
-front/node_modules
-front/.pnp
-front/.pnp.js
+/packages/*/node_modules/
+packages/.pnp
+packages/.pnp.js
 
 # testing
-front/coverage
+/packages/*/coverage
 
 # next.js
-front/.next/
-front/out/
+packages/.next/
+packages/out/
 
 # production
-front/build
+/packages/*/build
 
 # misc
-front/.DS_Store
-front/*.pem
+/packages/*/.DS_Store
+/packages/*/*.pem
 
 # debug
-front/npm-debug.log*
-front/yarn-debug.log*
-front/yarn-error.log*
+/packages/*/npm-debug.log*
+/packages/*/yarn-debug.log*
+/packages/*/yarn-error.log*
 
 # local env files
-front/.env*.local
+/packages/*/.env*.local
 
 # vercel
-front/.vercel
+/packages/*/.vercel
 
 # typescript
-front/*.tsbuildinfo
-front/next-env.d.ts
+/packages/*/*.tsbuildinfo
+/packages/*/next-env.d.ts
