@@ -28,7 +28,7 @@ const TabsMenu = () => {
 
     smith: {
       value: 'smith',
-      content: 'Smit',
+      content: 'Smith',
     },
   };
   const triggersValues = Object.values(triggers);
