@@ -1,7 +1,5 @@
-import Image from 'next/image'
+import TabsMenu from './tabs';
 
 export default function Home() {
-  return (
-    <div>Home</div>
-  )
+  return <TabsMenu />;
 }
