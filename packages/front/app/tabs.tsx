@@ -1,4 +1,7 @@
 import { TabsRoot, TabsContent, TabsList, TabsTrigger } from '@/lib/radix';
+import { FaDungeon } from 'react-icons/fa';
+import { GiLockedChest, GiSwordSmithing } from 'react-icons/gi';
+import { IconType } from 'react-icons';
 import React from 'react';
 import DungeonTabContent from './dungeon/tab-content';
 import InventoryTabContent from './inventory/tab-content';
@@ -6,7 +9,8 @@ import ArmorSmithTabContent from './armorsmith/tab-content';
 
 interface Trigger {
   value: string;
-  content: string;
+  content: IconType;
+  size: number;
 }
 
 interface Content {
@@ -18,24 +22,31 @@ const TabsMenu = () => {
   const triggers: Record<string, Trigger> = {
     dungeon: {
       value: 'dungeon',
-      content: 'Dungeon',
+      content: FaDungeon,
+      size: 24,
     },
 
     inventory: {
       value: 'inventory',
-      content: 'Inventory',
+      content: GiLockedChest,
+      size: 24,
     },
 
     smith: {
       value: 'smith',
-      content: 'Smith',
+      content: GiSwordSmithing,
+      size: 24,
     },
   };
   const triggersValues = Object.values(triggers);
   const renderTriggers = () =>
-    triggersValues.map((trigger, index) => (
-      <TabsTrigger key={index} value={trigger.value}>
-        {trigger.content}
+    triggersValues.map(({ content: Content, value, size }, index) => (
+      <TabsTrigger
+        key={index}
+        value={value}
+        className="flex flex-col justify-end"
+      >
+        {<Content size={size} color="#FAFAFA" fontWeight={900} />}
       </TabsTrigger>
     ));
 
@@ -62,10 +73,17 @@ const TabsMenu = () => {
     ));
 
   return (
-    <TabsRoot defaultValue="tab-menu">
-      <TabsList aria-label="Manage your adventure">{renderTriggers()}</TabsList>
+    <TabsRoot defaultValue="tab-menu" className="h-full">
+      <TabsList
+        className="ctp-macchiato bg-ctp-base flex justify-around p-2 rounded-t"
+        aria-label="Manage your adventure"
+      >
+        {renderTriggers()}
+      </TabsList>
 
-      {renderContents()}
+      <div className="ctp-frappe bg-ctp-base rounded-b h-full">
+        {renderContents()}
+      </div>
     </TabsRoot>
   );
 };
