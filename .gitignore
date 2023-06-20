@@ -7,8 +7,8 @@ packages/.pnp.js
 /packages/*/coverage
 
 # next.js
-packages/.next/
-packages/out/
+packages/front/.next/
+packages/front/out/
 
 # production
 /packages/*/build
