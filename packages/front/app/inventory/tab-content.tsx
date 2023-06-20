@@ -1,7 +1,7 @@
 export default function InventoryTabContent() {
   return (
     <>
-      <h1>Choose your weapon</h1>
+      <h2>Choose your weapon</h2>
       <div>Wood Sword</div>
     </>
   );

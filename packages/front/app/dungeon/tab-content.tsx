@@ -1,7 +1,7 @@
 export default function DungeonTabContent() {
   return (
     <>
-      <h1>Choose a monster</h1>
+      <h2>Choose a monster</h2>
 
       <div>Spider</div>
     </>

@@ -1,7 +1,7 @@
 export default function ArmorSmithTabContent() {
   return (
     <>
-      <h1>Buy a weapon</h1>
+      <h2>Buy a weapon</h2>
       <div>Stone Sword</div>
     </>
   );
