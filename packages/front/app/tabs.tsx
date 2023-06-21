@@ -81,7 +81,7 @@ const TabsMenu = () => {
         {renderTriggers()}
       </TabsList>
 
-      <div className="ctp-frappe bg-ctp-base rounded-b h-full flex justify-center text-center p-4">
+      <div className="ctp-frappe bg-ctp-base rounded-b h-full text-center p-4">
         {renderContents()}
       </div>
     </TabsRoot>
