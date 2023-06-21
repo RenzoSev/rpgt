@@ -1,5 +1,5 @@
 import './globals.css';
-import { Poppins } from 'next/font/google';
+import Providers from './providers';
 
 export const metadata = {
   title: 'Create Next App',
@@ -13,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="ctp-mocha bg-ctp-base p-5 h-[94vh]">{children}</body>
+      <body className="ctp-mocha bg-ctp-base p-5 h-[94vh]">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
