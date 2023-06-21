@@ -66,9 +66,9 @@ const TabsMenu = () => {
   };
   const contentsValues = Object.values(contents);
   const renderContents = () =>
-    contentsValues.map((content, index) => (
-      <TabsContent key={index} value={content.value}>
-        {<content.component />}
+    contentsValues.map(({ value, component: Component }, index) => (
+      <TabsContent key={index} value={value} className="flex flex-col gap-4">
+        {<Component />}
       </TabsContent>
     ));
 
@@ -81,7 +81,7 @@ const TabsMenu = () => {
         {renderTriggers()}
       </TabsList>
 
-      <div className="ctp-frappe bg-ctp-base rounded-b h-full">
+      <div className="ctp-frappe bg-ctp-base rounded-b h-full flex justify-center text-center p-4">
         {renderContents()}
       </div>
     </TabsRoot>
