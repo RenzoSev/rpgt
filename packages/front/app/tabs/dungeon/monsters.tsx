@@ -1,11 +1,11 @@
 'use client';
 
 import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
-import { monsters as monstersAtom } from '../store/useMonsters';
+import { monsters as monstersAtom } from '../../store/useMonsters';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
-import { Monsters as MonstersService } from '../services/Monsters';
-import { catppuccin } from '../styles/colors';
+import { Monsters as MonstersService } from '../../services/Monsters';
+import { catppuccin } from '../../styles/colors';
 
 export default function Monsters() {
   const [monsters, setMonsters] = useAtom(monstersAtom);

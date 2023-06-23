@@ -1,7 +1,10 @@
+import TabTitle from '../../components/tab-title';
+
 export default function InventoryTabContent() {
   return (
     <>
-      <h2>Choose your weapon</h2>
+      <TabTitle title="Choose your items" />
+
       <div>Wood Sword</div>
     </>
   );
