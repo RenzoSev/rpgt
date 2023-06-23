@@ -7,8 +7,8 @@ export default function DungeonTabContent() {
         Choose a monster
       </h2>
 
-      <section>
-        <Monsters />
+      <section className="overflow-y-scroll h-[calc(100vh-15rem)] flex flex-col gap-5">
+          <Monsters />
       </section>
     </>
   );

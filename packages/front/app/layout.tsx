@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="ctp-mocha bg-ctp-base p-5 h-[94vh]">
+      <body className="ctp-mocha bg-ctp-base p-5">
         <Providers>{children}</Providers>
       </body>
     </html>

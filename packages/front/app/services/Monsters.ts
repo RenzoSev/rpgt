@@ -22,6 +22,6 @@ export class Monsters {
 
     console.log('Starting request for monsters');
 
-    return [spider];
+    return [...Array.from({ length: 30 }, () => spider)];
   }
 }
