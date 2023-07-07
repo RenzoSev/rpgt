@@ -2,26 +2,13 @@
 
 import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
 import { monsters as monstersAtom } from '../../store/useMonsters';
-import { useAtom } from 'jotai';
-import { useEffect } from 'react';
-import { Monsters as MonstersService } from '../../services/Monsters';
+import { Monster, Monsters as MonstersService } from '../../services/Monsters';
 import { catppuccin } from '../../styles/colors';
+import { useService } from '@/app/hooks/useService';
 
 export default function Monsters() {
-  const [monsters, setMonsters] = useAtom(monstersAtom);
-
-  useEffect(() => {
-    if (monsters.length) return;
-
-    const fetchMonsters = async () => {
-      const monstersService = new MonstersService();
-      const monstersData = await monstersService.getAll();
-
-      setMonsters(monstersData);
-    };
-
-    fetchMonsters();
-  }, [monsters.length, setMonsters]);
+  const monstersService = new MonstersService();
+  const { atom: monsters } = useService<Monster>(monstersService, monstersAtom);
 
   return (
     <>
