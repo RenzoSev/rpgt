@@ -1,3 +1,5 @@
+import { Service } from './Service';
+
 type TypeItems = 'shield' | 'weapon';
 
 interface StatusItem {

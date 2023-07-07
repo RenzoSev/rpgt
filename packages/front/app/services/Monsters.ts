@@ -1,3 +1,5 @@
+import { Service } from './Service';
+
 export interface StatusMonster {
   attack: number;
   health: number;
