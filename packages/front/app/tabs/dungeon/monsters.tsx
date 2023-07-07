@@ -25,7 +25,7 @@ export default function Monsters() {
 
   return (
     <>
-      {monsters.map(({ id, name, status: { attack, health } }) => (
+      {monsters.map(({ id, name, status: { attack, health, level } }) => (
         <div
           key={id}
           className="cursor-pointer bg-ctp-base ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
@@ -49,7 +49,7 @@ export default function Monsters() {
           </div>
 
           <div className="flex flex-col justify-center">
-            <p className="text-lg text-ctp-subtext0 font-bold">1</p>
+            <p className="text-lg text-ctp-subtext0 font-bold">{level}</p>
           </div>
         </div>
       ))}

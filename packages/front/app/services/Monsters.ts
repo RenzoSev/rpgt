@@ -1,6 +1,7 @@
 export interface StatusMonster {
   attack: number;
   health: number;
+  level: number;
 }
 
 export interface Monster {
@@ -17,6 +18,7 @@ export class Monsters {
       status: {
         attack: 5,
         health: 10,
+        level: 1,
       },
     };
 
