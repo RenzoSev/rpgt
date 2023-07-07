@@ -10,7 +10,7 @@ export interface Monster {
   status: StatusMonster;
 }
 
-export class Monsters {
+export class Monsters implements Service {
   async getAll(): Promise<Monster[]> {
     const spider: Monster = {
       id: 'ads298209382902',

@@ -24,7 +24,7 @@ export interface Item {
   status: Status;
 }
 
-export class Items {
+export class Items implements Service {
   async getAll(): Promise<Item[]> {
     const shields: Item[] = [
       {
