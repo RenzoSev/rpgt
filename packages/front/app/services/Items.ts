@@ -18,14 +18,14 @@ interface Weapon extends StatusItem {
 
 type Status = Weapon | Shield;
 
-interface Item {
+export interface Item {
   id: number;
   name: string;
   status: Status;
 }
 
 export class Items {
-  async getItems(): Promise<Item[]> {
+  async getAll(): Promise<Item[]> {
     const shields: Item[] = [
       {
         id: 1,

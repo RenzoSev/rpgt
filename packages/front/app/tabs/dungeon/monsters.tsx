@@ -15,7 +15,7 @@ export default function Monsters() {
 
     const fetchMonsters = async () => {
       const monstersService = new MonstersService();
-      const monstersData = await monstersService.getMonsters();
+      const monstersData = await monstersService.getAll();
 
       setMonsters(monstersData);
     };

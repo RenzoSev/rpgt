@@ -11,7 +11,7 @@ export interface Monster {
 }
 
 export class Monsters {
-  async getMonsters(): Promise<Monster[]> {
+  async getAll(): Promise<Monster[]> {
     const spider: Monster = {
       id: 'ads298209382902',
       name: 'spider',
