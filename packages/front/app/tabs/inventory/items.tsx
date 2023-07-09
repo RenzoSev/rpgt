@@ -63,6 +63,12 @@ export default function Items() {
               </div>
             </div>
           </div>
+
+          <div className="flex flex-col justify-center">
+            <p className="text-lg text-ctp-subtext0 font-bold">
+              {status.level}
+            </p>
+          </div>
         </div>
       ))}
     </>
