@@ -1,6 +1,5 @@
 import { TabContainer } from '@/app/components/tabs/tab-container';
 import TabTitle from '../../components/tabs/tab-title';
-import { scrollable } from '../../styles/scrollable';
 import Monsters from './monsters';
 
 export default function DungeonTabContent() {
