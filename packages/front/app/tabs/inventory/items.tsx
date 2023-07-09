@@ -12,6 +12,8 @@ import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
 import { IconType } from 'react-icons';
 import { catppuccin } from '@/app/styles/colors';
 import classNames from 'classnames';
+import { TabCardName } from '@/app/components/tabs/tab-card-name';
+import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
 
 export default function Items() {
   const itemsService = new ItemsService();
@@ -45,9 +47,7 @@ export default function Items() {
           className="cursor-pointer bg-ctp-base ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
         >
           <div className="flex flex-col items-start">
-            <p className="text-xl text-ctp-subtext1 font-bold capitalize">
-              {name}
-            </p>
+            <TabCardName name={name} />
 
             <div className="flex gap-4">
               {renderStatusByItemType(status)}
@@ -64,11 +64,7 @@ export default function Items() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center">
-            <p className="text-lg text-ctp-subtext0 font-bold">
-              {status.level}
-            </p>
-          </div>
+          <TabCardLevel level={status.level} />
         </div>
       ))}
     </>

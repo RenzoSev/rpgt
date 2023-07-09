@@ -5,6 +5,9 @@ import { monsters as monstersAtom } from '../../store/useMonsters';
 import { Monster, Monsters as MonstersService } from '../../services/Monsters';
 import { catppuccin } from '../../styles/colors';
 import { useService } from '@/app/hooks/useService';
+import { TabCard } from '@/app/components/tabs/tab-card';
+import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
+import { TabCardName } from '@/app/components/tabs/tab-card-name';
 
 export default function Monsters() {
   const monstersService = new MonstersService();
@@ -13,14 +16,9 @@ export default function Monsters() {
   return (
     <>
       {monsters.map(({ id, name, status: { attack, health, level } }) => (
-        <div
-          key={id}
-          className="cursor-pointer bg-ctp-base ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
-        >
+        <TabCard key={id}>
           <div className="flex flex-col items-start">
-            <p className="text-xl text-ctp-subtext1 font-bold capitalize">
-              {name}
-            </p>
+            <TabCardName name={name} />
 
             <div className="flex gap-4">
               <div className="flex items-center gap-1">
@@ -35,10 +33,8 @@ export default function Monsters() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center">
-            <p className="text-lg text-ctp-subtext0 font-bold">{level}</p>
-          </div>
-        </div>
+          <TabCardLevel level={level} />
+        </TabCard>
       ))}
     </>
   );
