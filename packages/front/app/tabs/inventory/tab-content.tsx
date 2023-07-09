@@ -1,12 +1,16 @@
+import { scrollable } from '@/app/styles/scrollable';
 import TabTitle from '../../components/tab-title';
 import Items from './items';
+import { TabContainer } from '@/app/components/tab-container';
 
 export default function InventoryTabContent() {
   return (
     <>
       <TabTitle title="Choose your items" />
 
-      <Items />
+      <TabContainer>
+        <Items />
+      </TabContainer>
     </>
   );
 }

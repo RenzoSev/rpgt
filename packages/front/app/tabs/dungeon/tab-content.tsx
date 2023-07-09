@@ -1,3 +1,4 @@
+import { TabContainer } from '@/app/components/tab-container';
 import TabTitle from '../../components/tab-title';
 import { scrollable } from '../../styles/scrollable';
 import Monsters from './monsters';
@@ -7,9 +8,9 @@ export default function DungeonTabContent() {
     <>
       <TabTitle title="Choose a monster" />
 
-      <section className={scrollable('flex flex-col gap-5')}>
+      <TabContainer>
         <Monsters />
-      </section>
+      </TabContainer>
     </>
   );
 }
