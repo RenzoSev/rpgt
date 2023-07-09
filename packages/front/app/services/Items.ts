@@ -1,6 +1,8 @@
 import { Service } from './Service';
 
-type TypeItems = 'shield' | 'weapon';
+export type TypeItems = 'shield' | 'weapon';
+
+export type PowerItems = 'attack' | 'defense';
 
 interface StatusItem {
   level: number;
@@ -18,7 +20,7 @@ interface Weapon extends StatusItem {
   type: 'weapon';
 }
 
-type Status = Weapon | Shield;
+export type Status = Weapon | Shield;
 
 export interface Item {
   id: number;
