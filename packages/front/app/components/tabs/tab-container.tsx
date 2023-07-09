@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { scrollable } from '../styles/scrollable';
+import { scrollable } from '../../styles/scrollable';
 
 export function TabContainer({ children }: { children: React.ReactNode }) {
   return (

@@ -1,5 +1,5 @@
-import { TabContainer } from '@/app/components/tab-container';
-import TabTitle from '../../components/tab-title';
+import { TabContainer } from '@/app/components/tabs/tab-container';
+import TabTitle from '../../components/tabs/tab-title';
 import { scrollable } from '../../styles/scrollable';
 import Monsters from './monsters';
 

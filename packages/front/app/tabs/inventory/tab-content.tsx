@@ -1,7 +1,7 @@
 import { scrollable } from '@/app/styles/scrollable';
-import TabTitle from '../../components/tab-title';
+import TabTitle from '../../components/tabs/tab-title';
 import Items from './items';
-import { TabContainer } from '@/app/components/tab-container';
+import { TabContainer } from '@/app/components/tabs/tab-container';
 
 export default function InventoryTabContent() {
   return (
