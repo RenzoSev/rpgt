@@ -14,30 +14,11 @@ import { catppuccin } from '@/app/styles/colors';
 import classNames from 'classnames';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
 import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
+import { TabCardStatusItem } from '@/app/components/tabs/tab-card-status-item';
 
 export default function Items() {
   const itemsService = new ItemsService();
   const { atom: items } = useService(itemsService, itemsAtom);
-
-  const weaponsIcons: Record<TypeItems, IconType> = {
-    weapon: GiBroadsword,
-    shield: GiTemplarShield,
-  };
-
-  const renderStatusByItemType = (status: Status) => {
-    const statusPowerKey: PowerItems =
-      status.type === 'shield' ? 'defense' : 'attack';
-    const statusPower = status[statusPowerKey as keyof Status];
-    const iconColorKey = status.type === 'shield' ? 'green' : 'red';
-    const Icon = weaponsIcons[status.type];
-
-    return (
-      <div className="flex items-center gap-1">
-        <p className="text-lg font-bold text-ctp-subtext0">{statusPower}</p>
-        <Icon color={catppuccin.mocha[iconColorKey]} />
-      </div>
-    );
-  };
 
   return (
     <>
@@ -49,9 +30,7 @@ export default function Items() {
           <div className="flex flex-col items-start">
             <TabCardName name={name} />
 
-            <div className="flex gap-4">
-              {renderStatusByItemType(status)}
-
+            <TabCardStatusItem status={status}>
               <div className="flex items-center gap-1">
                 <span
                   className={classNames('h-3 w-3 rounded-full', {
@@ -61,7 +40,7 @@ export default function Items() {
                 ></span>
                 <p className="text-lg font-bold text-ctp-subtext0">Equipped</p>
               </div>
-            </div>
+            </TabCardStatusItem>
           </div>
 
           <TabCardLevel level={status.level} />
