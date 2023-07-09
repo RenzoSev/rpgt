@@ -1,3 +1,5 @@
+'use client'
+
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { Service } from '../services/Service';
 import { useEffect } from 'react';
