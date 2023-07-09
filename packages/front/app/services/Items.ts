@@ -4,18 +4,20 @@ export type TypeItems = 'shield' | 'weapon';
 
 export type PowerItems = 'attack' | 'defense';
 
-interface StatusItem {
+export interface StatusItem {
   level: number;
   type: TypeItems;
   equipped: boolean;
+  bought: boolean;
+  gold: number;
 }
 
-interface Shield extends StatusItem {
+export interface Shield extends StatusItem {
   defense: number;
   type: 'shield';
 }
 
-interface Weapon extends StatusItem {
+export interface Weapon extends StatusItem {
   attack: number;
   type: 'weapon';
 }
@@ -39,6 +41,8 @@ export class Items implements Service {
           type: 'shield',
           equipped: true,
           defense: 50,
+          gold: 1,
+          bought: true,
         },
       },
       {
@@ -49,6 +53,8 @@ export class Items implements Service {
           type: 'shield',
           equipped: false,
           defense: 500,
+          gold: 1,
+          bought: true,
         },
       },
     ];
@@ -62,6 +68,8 @@ export class Items implements Service {
           equipped: true,
           attack: 75,
           level: 2,
+          gold: 1,
+          bought: true,
         },
       },
       {
@@ -72,6 +80,8 @@ export class Items implements Service {
           equipped: false,
           attack: 750,
           level: 75,
+          gold: 1,
+          bought: true,
         },
       },
     ];
