@@ -1,3 +1,3 @@
 export interface Service {
-  getAll(): Promise<any[]>;
+  getAll(): Promise<any>;
 }
