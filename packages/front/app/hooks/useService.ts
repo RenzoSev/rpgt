@@ -1,21 +1,25 @@
-'use client'
+'use client';
 
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { Service } from '../services/Service';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Atom<T> = PrimitiveAtom<T>;
 
-export function useService<T>(service: Service, atomArgs: Atom<T[]>) {
+export function useService<T>(service: Service, atomArgs: Atom<T>) {
   const [atom, setAtom] = useAtom(atomArgs);
+  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    if (atom.length) return;
+    if (hasFetched) {
+      return;
+    }
 
     const fetchAtom = async () => {
       const atomData = await service.getAll();
 
       setAtom(atomData);
+      setHasFetched(true);
     };
 
     fetchAtom();
