@@ -1,20 +1,13 @@
 'use client';
 
 import { items as itemsAtom } from '../../store/useItems';
-import {
-  Items as ItemsService,
-  PowerItems,
-  Status,
-  TypeItems,
-} from '../../services/Items';
+import { Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
-import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
-import { IconType } from 'react-icons';
-import { catppuccin } from '@/app/styles/colors';
 import classNames from 'classnames';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
 import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
 import { TabCardStatusItem } from '@/app/components/tabs/tab-card-status-item';
+import { TabCard } from '@/app/components/tabs/tab-card';
 
 export default function Items() {
   const itemsService = new ItemsService();
@@ -23,10 +16,7 @@ export default function Items() {
   return (
     <>
       {items.map(({ id, name, status }) => (
-        <div
-          key={id}
-          className="cursor-pointer bg-ctp-base ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
-        >
+        <TabCard key={id}>
           <div className="flex flex-col items-start">
             <TabCardName name={name} />
 
@@ -44,7 +34,7 @@ export default function Items() {
           </div>
 
           <TabCardLevel level={status.level} />
-        </div>
+        </TabCard>
       ))}
     </>
   );

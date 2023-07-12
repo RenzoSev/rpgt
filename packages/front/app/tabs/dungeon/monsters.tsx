@@ -11,7 +11,10 @@ import { TabCardName } from '@/app/components/tabs/tab-card-name';
 
 export default function Monsters() {
   const monstersService = new MonstersService();
-  const { atom: monsters } = useService<Monster>(monstersService, monstersAtom);
+  const { atom: monsters } = useService<Monster[]>(
+    monstersService,
+    monstersAtom
+  );
 
   return (
     <>

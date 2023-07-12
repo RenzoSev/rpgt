@@ -1,11 +1,11 @@
 import { TabContainer } from '@/app/components/tabs/tab-container';
-import TabTitle from '@/app/components/tabs/tab-title';
 import { ShopItems } from './shop-items';
+import { ProfileInfo } from './profile-info';
 
 export default function ArmorSmithTabContent() {
   return (
     <>
-      <TabTitle title="Buy items" />
+      <ProfileInfo />
 
       <TabContainer>
         <ShopItems />

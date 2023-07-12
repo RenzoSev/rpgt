@@ -3,13 +3,12 @@ import { PowerItems, Status, TypeItems } from '../../services/Items';
 import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
 import { catppuccin } from '../../styles/colors';
 
-export function TabCardStatusItem({
-  children,
-  status,
-}: {
-  children: React.ReactNode;
+export interface ITabCardStatusItem {
+  children?: React.ReactNode;
   status: Status;
-}) {
+}
+
+export function TabCardStatusItem({ children, status }: ITabCardStatusItem) {
   const weaponsIcons: Record<TypeItems, IconType> = {
     weapon: GiBroadsword,
     shield: GiTemplarShield,

@@ -10,7 +10,7 @@ export function TabCard({
   return (
     <div
       key={id}
-      className="cursor-pointer bg-ctp-base ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
+      className="cursor-pointer bg-ctp-crust ctp-macchiato border border-ctp-lavender rounded-lg shadow-lg flex justify-between p-3"
     >
       {children}
     </div>
