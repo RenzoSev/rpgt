@@ -14,8 +14,6 @@ export function ProfileInfo() {
     status: { gold },
   } = profile;
 
-  console.log(profile);
-
   return (
     <div className="flex justify-around items-center">
       <TabTitle title="Buy items" />
