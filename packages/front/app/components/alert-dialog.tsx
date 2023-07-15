@@ -11,6 +11,7 @@ export interface IAlertDialogTexts {
 export interface IAlertDialog {
   children: React.ReactNode;
   texts: IAlertDialogTexts;
+  handleConfirmAction: () => void;
 }
 
 export function AlertDialog({
@@ -21,6 +22,7 @@ export function AlertDialog({
     descriptionMessage: DescriptionMessage,
     titleMessage,
   },
+  handleConfirmAction,
 }: IAlertDialog) {
   return (
     <RadixAlertDialog.Root>
@@ -48,7 +50,10 @@ export function AlertDialog({
             </RadixAlertDialog.Cancel>
 
             <RadixAlertDialog.Action asChild>
-              <button className="text-ctp-crust bg-ctp-green hover:opacity-60 focus:shadow-ctp-lavender inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+              <button
+                onClick={handleConfirmAction}
+                className="text-ctp-crust bg-ctp-green hover:opacity-60 focus:shadow-ctp-lavender inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
+              >
                 {ConfirmActionMessage}
               </button>
             </RadixAlertDialog.Action>

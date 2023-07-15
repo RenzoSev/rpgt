@@ -15,6 +15,8 @@ interface IDialogTexts {
 interface IDialog {
   texts: IDialogTexts;
   children: React.ReactNode;
+  handleConfirmAction: () => void;
+  handleSecondConfirmAction: () => void;
 }
 
 export function Dialog({
@@ -26,6 +28,8 @@ export function Dialog({
     textConfirmAction,
     secondTextConfirmAction,
   },
+  handleConfirmAction,
+  handleSecondConfirmAction,
 }: IDialog) {
   return (
     <RadixDialog.Root>
@@ -51,13 +55,19 @@ export function Dialog({
 
           <div className="mt-[25px] flex gap-4 justify-end">
             <RadixDialog.Close asChild>
-              <button className="bg-ctp-green text-ctp-crust hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+              <button
+                onClick={handleConfirmAction}
+                className="bg-ctp-green text-ctp-crust hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+              >
                 {textConfirmAction}
               </button>
             </RadixDialog.Close>
 
             <RadixDialog.Close asChild>
-              <button className="bg-ctp-green text-ctp-crust hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none">
+              <button
+                onClick={handleSecondConfirmAction}
+                className="bg-ctp-green text-ctp-crust hover:bg-green5 focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none focus:shadow-[0_0_0_2px] focus:outline-none"
+              >
                 {secondTextConfirmAction}
               </button>
             </RadixDialog.Close>
