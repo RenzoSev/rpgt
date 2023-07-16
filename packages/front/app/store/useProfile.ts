@@ -11,3 +11,4 @@ export const profile = atom<IProfile>({
     gold: 0,
   },
 });
+export const hasFetched = atom<boolean>(false);

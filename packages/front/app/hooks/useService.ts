@@ -2,13 +2,17 @@
 
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { Service } from '../services/Service';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 type Atom<T> = PrimitiveAtom<T>;
 
-export function useService<T>(service: Service, atomArgs: Atom<T>) {
+export function useService<T>(
+  service: Service,
+  atomArgs: Atom<T>,
+  hasFetchedAtom: Atom<boolean>
+) {
   const [atom, setAtom] = useAtom(atomArgs);
-  const [hasFetched, setHasFetched] = useState(false);
+  const [hasFetched, setHasFetched] = useAtom(hasFetchedAtom);
 
   useEffect(() => {
     if (hasFetched) {
@@ -25,5 +29,5 @@ export function useService<T>(service: Service, atomArgs: Atom<T>) {
     fetchAtom();
   }, []);
 
-  return { atom, setAtom };
+  return { atom, setAtom, hasFetched, setHasFetched };
 }

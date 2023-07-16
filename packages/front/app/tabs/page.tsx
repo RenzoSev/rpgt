@@ -19,7 +19,7 @@ interface Content {
 }
 
 const TabsMenu = () => {
-  const triggers: Record<string, Trigger> = {
+  const triggers: Record<'dungeon' | 'inventory' | 'smith', Trigger> = {
     dungeon: {
       value: 'dungeon',
       content: FaDungeon,
@@ -46,7 +46,7 @@ const TabsMenu = () => {
         value={value}
         className="flex flex-col justify-end"
       >
-        {<Content size={size} color="#FAFAFA" fontWeight={900} />}
+        <Content size={size} color="#FAFAFA" fontWeight={900} />
       </TabsTrigger>
     ));
 
@@ -73,7 +73,7 @@ const TabsMenu = () => {
     ));
 
   return (
-    <TabsRoot defaultValue="tab-menu" className="h-full">
+    <TabsRoot defaultValue={triggers.dungeon.value} className="h-full">
       <TabsList
         className="ctp-macchiato bg-ctp-base flex justify-around p-2 rounded-t"
         aria-label="Manage your adventure"

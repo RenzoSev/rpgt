@@ -9,17 +9,17 @@ export interface IProfile {
   };
 }
 
+export const profile: IProfile = {
+  id: 'ads:298209382902',
+  nickname: 'alexstrasza',
+  class: 'mage',
+  status: {
+    gold: 30000,
+  },
+};
+
 export class Profile implements Service {
   async getAll(): Promise<IProfile> {
-    const profile: IProfile = {
-      id: 'ads:298209382902',
-      nickname: 'alexstrasza',
-      class: 'mage',
-      status: {
-        gold: 5,
-      },
-    };
-
     console.log('Starting request for monsters');
 
     return profile;

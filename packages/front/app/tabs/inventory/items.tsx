@@ -1,6 +1,9 @@
 'use client';
 
-import { items as itemsAtom } from '../../store/useItems';
+import {
+  items as itemsAtom,
+  hasFetched as hasFetchedAtom,
+} from '../../store/useItems';
 import { Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
 import classNames from 'classnames';
@@ -15,7 +18,7 @@ import { AlertDialog, IAlertDialogTexts } from '@/app/components/alert-dialog';
 
 export default function Items() {
   const itemsService = new ItemsService();
-  const { atom: items } = useService(itemsService, itemsAtom);
+  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedAtom);
 
   const getTexts = (
     itemName: string,
@@ -34,31 +37,38 @@ export default function Items() {
 
   return (
     <>
-      {items.map(({ id, name, status }) => (
-        <AlertDialog key={id} texts={getTexts(name, status)}>
-          <TabCard>
-            <div className="flex flex-col items-start">
-              <TabCardName name={name} />
+      {items.map(
+        ({ id, name, status }) =>
+          status.bought && (
+            <AlertDialog
+              key={id}
+              texts={getTexts(name, status)}
+              handleConfirmAction={() => console.log('working')}
+            >
+              <TabCard>
+                <div className="flex flex-col items-start">
+                  <TabCardName name={name} />
 
-              <TabCardStatusItem status={status}>
-                <div className="flex items-center gap-1">
-                  <span
-                    className={classNames('h-3 w-3 rounded-full', {
-                      'bg-ctp-red': status.equipped,
-                      'bg-ctp-green': !status.equipped,
-                    })}
-                  ></span>
-                  <p className="text-lg font-bold text-ctp-subtext0">
-                    Equipped
-                  </p>
+                  <TabCardStatusItem status={status}>
+                    <div className="flex items-center gap-1">
+                      <span
+                        className={classNames('h-3 w-3 rounded-full', {
+                          'bg-ctp-red': status.equipped,
+                          'bg-ctp-green': !status.equipped,
+                        })}
+                      ></span>
+                      <p className="text-lg font-bold text-ctp-subtext0">
+                        Equipped
+                      </p>
+                    </div>
+                  </TabCardStatusItem>
                 </div>
-              </TabCardStatusItem>
-            </div>
 
-            <TabCardLevel level={status.level} />
-          </TabCard>
-        </AlertDialog>
-      ))}
+                <TabCardLevel level={status.level} />
+              </TabCard>
+            </AlertDialog>
+          )
+      )}
     </>
   );
 }

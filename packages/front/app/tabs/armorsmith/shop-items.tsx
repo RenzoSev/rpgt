@@ -10,18 +10,23 @@ import {
 import { useService } from '@/app/hooks/useService';
 import { ShopItems as ShopItemsService } from '@/app/services/ShopItems';
 import { Item } from '@/app/services/Items';
-import { shopItems as shopItemsAtom } from '@/app/store/useShopItems';
-import { catppuccin } from '@/app/styles/colors';
-import { GiTwoCoins } from 'react-icons/gi';
+import {
+  items as itemsAtom,
+  hasFetched as hasFetchedAtom,
+} from '@/app/store/useItems';
 import { AlertDialog, IAlertDialogTexts } from '@/app/components/alert-dialog';
 import { TabGold } from '@/app/components/tabs/tab-gold';
+import { profile as profileAtom } from '@/app/store/useProfile';
+import { useAtom } from 'jotai';
 
 export function ShopItems() {
   const shopItemsService = new ShopItemsService();
-  const { atom: shopItems } = useService<Item[]>(
+  const { atom: items, setAtom: setItems } = useService(
     shopItemsService,
-    shopItemsAtom
+    itemsAtom,
+    hasFetchedAtom
   );
+  const [profile, setProfile] = useAtom(profileAtom);
 
   const getTexts = (
     itemName: string,
@@ -43,23 +48,36 @@ export function ShopItems() {
     ),
   });
 
+  const handleBuyItem = async (item: Item) => {
+    const data = await shopItemsService.buyItem(profile, item);
+    setProfile(data.profile);
+    setItems(data.items);
+  };
+
   return (
     <>
-      {shopItems.map(({ id, name, status }) => (
-        <AlertDialog key={id} texts={getTexts(name, status)}>
-          <TabCard>
-            <div className="flex flex-col items-start">
-              <TabCardName name={name} />
+      {items.map(
+        ({ id, name, status }) =>
+          !status.bought && (
+            <AlertDialog
+              key={id}
+              texts={getTexts(name, status)}
+              handleConfirmAction={() => handleBuyItem({ id, name, status })}
+            >
+              <TabCard>
+                <div className="flex flex-col items-start">
+                  <TabCardName name={name} />
 
-              <TabCardStatusItem status={status}>
-                <TabGold gold={status.gold} />
-              </TabCardStatusItem>
-            </div>
+                  <TabCardStatusItem status={status}>
+                    <TabGold gold={status.gold} />
+                  </TabCardStatusItem>
+                </div>
 
-            <TabCardLevel level={status.level} />
-          </TabCard>
-        </AlertDialog>
-      ))}
+                <TabCardLevel level={status.level} />
+              </TabCard>
+            </AlertDialog>
+          )
+      )}
     </>
   );
 }

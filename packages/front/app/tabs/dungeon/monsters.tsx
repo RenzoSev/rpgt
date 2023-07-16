@@ -1,7 +1,10 @@
 'use client';
 
 import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
-import { monsters as monstersAtom } from '../../store/useMonsters';
+import {
+  monsters as monstersAtom,
+  hasFetched as hasFetchedAtom,
+} from '../../store/useMonsters';
 import { Monster, Monsters as MonstersService } from '../../services/Monsters';
 import { catppuccin } from '../../styles/colors';
 import { useService } from '@/app/hooks/useService';
@@ -13,7 +16,8 @@ export default function Monsters() {
   const monstersService = new MonstersService();
   const { atom: monsters } = useService<Monster[]>(
     monstersService,
-    monstersAtom
+    monstersAtom,
+    hasFetchedAtom
   );
 
   return (

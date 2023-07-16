@@ -5,11 +5,18 @@ import { catppuccin } from '@/app/styles/colors';
 import { GiTwoCoins } from 'react-icons/gi';
 import { Profile as ProfileService } from '@/app/services/Profile';
 import { useService } from '@/app/hooks/useService';
-import { profile as profileAtoms } from '@/app/store/useProfile';
+import {
+  profile as profileAtoms,
+  hasFetched as hasFetchedAtom,
+} from '@/app/store/useProfile';
 
 export function ProfileInfo() {
   const profileService = new ProfileService();
-  const { atom: profile } = useService(profileService, profileAtoms);
+  const { atom: profile } = useService(
+    profileService,
+    profileAtoms,
+    hasFetchedAtom
+  );
   const {
     status: { gold },
   } = profile;

@@ -7,7 +7,7 @@ export interface StatusMonster {
 }
 
 export interface Monster {
-  id: string;
+  id: number;
   name: string;
   status: StatusMonster;
 }
@@ -15,7 +15,7 @@ export interface Monster {
 export class Monsters implements Service {
   async getAll(): Promise<Monster[]> {
     const spider: Monster = {
-      id: 'ads298209382902',
+      id: 1,
       name: 'spider',
       status: {
         attack: 5,
@@ -26,6 +26,8 @@ export class Monsters implements Service {
 
     console.log('Starting request for monsters');
 
-    return [...Array.from({ length: 30 }, () => spider)];
+    return [
+      ...Array.from({ length: 30 }, () => ({ ...spider, id: Math.random() })),
+    ];
   }
 }

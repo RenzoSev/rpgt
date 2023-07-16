@@ -1,64 +1,50 @@
-import { Item } from './Items';
+import {
+  Item,
+  Items as ItemsService,
+  shields,
+  shieldsShop,
+  weapons,
+  weaponsShop,
+} from './Items';
+import { IProfile, profile as profileMock } from './Profile';
 import { Service } from './Service';
 
 export class ShopItems implements Service {
   async getAll(): Promise<Item[]> {
-    const shields: Item[] = [
-      {
-        id: 1,
-        name: 'wooden shield',
-        status: {
-          level: 1,
-          type: 'shield',
-          equipped: false,
-          defense: 50,
-          gold: 1,
-          bought: false,
-        },
-      },
-      {
-        id: 15,
-        name: 'silver shield',
-        status: {
-          level: 50,
-          type: 'shield',
-          equipped: false,
-          defense: 500,
-          gold: 1,
-          bought: false,
-        },
-      },
-    ];
-
-    const weapons: Item[] = [
-      {
-        id: 2,
-        name: 'stone sword',
-        status: {
-          type: 'weapon',
-          equipped: false,
-          attack: 75,
-          level: 2,
-          gold: 1,
-          bought: false,
-        },
-      },
-      {
-        id: 20,
-        name: 'diamond sword',
-        status: {
-          type: 'weapon',
-          equipped: false,
-          attack: 750,
-          level: 75,
-          gold: 1,
-          bought: false,
-        },
-      },
-    ];
-
     console.log('Starting request for shop items');
 
-    return [...shields, ...weapons];
+    const itemsService = new ItemsService();
+    const items = await itemsService.getAll();
+
+    return items;
+  }
+
+  async buyItem(
+    profile: IProfile,
+    item: Item
+  ): Promise<{ profile: IProfile; items: Item[] }> {
+    const updatedProfile = {
+      ...profileMock,
+      status: {
+        ...profile.status,
+        gold: profile.status.gold - item.status.gold,
+      },
+    };
+
+    return {
+      profile: updatedProfile,
+      items: [
+        ...shields,
+        ...weapons,
+        ...weaponsShop.map((w) => ({
+          ...w,
+          status: { ...w.status, bought: true },
+        })),
+        ...shieldsShop.map((w) => ({
+          ...w,
+          status: { ...w.status, bought: true },
+        })),
+      ],
+    };
   }
 }
