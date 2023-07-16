@@ -6,6 +6,9 @@ import React from 'react';
 import DungeonTabContent from './dungeon/tab-content';
 import InventoryTabContent from './inventory/tab-content';
 import ArmorSmithTabContent from './armorsmith/tab-content';
+import classNames from 'classnames';
+import { header } from '../styles/classes';
+import { headerIcon } from '../styles/sizes';
 
 interface Trigger {
   value: string;
@@ -23,19 +26,19 @@ const TabsMenu = () => {
     dungeon: {
       value: 'dungeon',
       content: FaDungeon,
-      size: 24,
+      size: headerIcon,
     },
 
     inventory: {
       value: 'inventory',
       content: GiLockedChest,
-      size: 24,
+      size: headerIcon,
     },
 
     smith: {
       value: 'smith',
       content: GiSwordSmithing,
-      size: 24,
+      size: headerIcon,
     },
   };
   const triggersValues = Object.values(triggers);
@@ -75,7 +78,7 @@ const TabsMenu = () => {
   return (
     <TabsRoot defaultValue={triggers.dungeon.value} className="h-full">
       <TabsList
-        className="ctp-macchiato bg-ctp-base flex justify-around p-2 rounded-t"
+        className={classNames(header)}
         aria-label="Manage your adventure"
       >
         {renderTriggers()}
