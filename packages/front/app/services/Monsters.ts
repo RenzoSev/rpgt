@@ -23,11 +23,18 @@ export class Monsters implements Service {
         level: 1,
       },
     };
+    const wolf: Monster = {
+      id: 2,
+      name: 'wolf',
+      status: {
+        attack: 10,
+        health: 15,
+        level: 2,
+      },
+    };
 
     console.log('Starting request for monsters');
 
-    return [
-      ...Array.from({ length: 30 }, () => ({ ...spider, id: Math.random() })),
-    ];
+    return [spider, wolf];
   }
 }
