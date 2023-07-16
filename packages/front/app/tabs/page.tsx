@@ -7,7 +7,7 @@ import DungeonTabContent from './dungeon/tab-content';
 import InventoryTabContent from './inventory/tab-content';
 import ArmorSmithTabContent from './armorsmith/tab-content';
 import classNames from 'classnames';
-import { header } from '../styles/classes';
+import { containerContent, header } from '../styles/classes';
 import { headerIcon } from '../styles/sizes';
 
 interface Trigger {
@@ -84,9 +84,7 @@ const TabsMenu = () => {
         {renderTriggers()}
       </TabsList>
 
-      <div className="ctp-frappe bg-ctp-base rounded-b h-full text-center p-4">
-        {renderContents()}
-      </div>
+      <div className={classNames(containerContent)}>{renderContents()}</div>
     </TabsRoot>
   );
 };
