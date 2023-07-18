@@ -22,7 +22,7 @@ export default function Monsters() {
 
   return (
     <>
-      {monsters.map(({ id, name, status: { attack, health, level } }) => (
+      {monsters.map(({ id, name, status: { attack, defense, level } }) => (
         <TabCard key={id}>
           <div className="flex flex-col items-start">
             <TabCardName name={name} />
@@ -34,7 +34,7 @@ export default function Monsters() {
               </div>
 
               <div className="flex items-center gap-1">
-                <p className="text-lg font-bold text-ctp-subtext0">{health}</p>
+                <p className="text-lg font-bold text-ctp-subtext0">{defense}</p>
                 <GiTemplarShield color={catppuccin.mocha.green} />
               </div>
             </div>

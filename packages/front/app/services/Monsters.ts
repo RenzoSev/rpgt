@@ -2,7 +2,7 @@ import { Service } from './Service';
 
 export interface StatusMonster {
   attack: number;
-  health: number;
+  defense: number;
   level: number;
 }
 
@@ -19,7 +19,7 @@ export class Monsters implements Service {
       name: 'spider',
       status: {
         attack: 5,
-        health: 10,
+        defense: 10,
         level: 1,
       },
     };
@@ -28,7 +28,7 @@ export class Monsters implements Service {
       name: 'wolf',
       status: {
         attack: 10,
-        health: 15,
+        defense: 15,
         level: 2,
       },
     };
