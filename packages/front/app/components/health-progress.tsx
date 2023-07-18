@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { ReactElement, ReactHTMLElement } from 'react';
 import * as RadixProgress from '@radix-ui/react-progress';
 import classNames from 'classnames';
 
 interface IProgress {
   progress: number;
   totalProgress: number;
-  size?: 'large' | 'small';
+  containerClassName?: HTMLDivElement['className'];
 }
 
 export default function Progress({
   progress,
   totalProgress,
-  size = 'large',
+  containerClassName = 'w-[300px] h-[25px]',
 }: IProgress) {
   const healthColors = {
     green: {
@@ -49,10 +49,7 @@ export default function Progress({
     <RadixProgress.Root
       className={classNames(
         'relative overflow-hidden bg-ctp-crust rounded-full',
-        {
-          'w-[300px] h-[25px]': size === 'large',
-          'w-[200px] h-[20px]': size === 'small',
-        }
+        containerClassName
       )}
       style={{
         // Fix overflow clipping in Safari

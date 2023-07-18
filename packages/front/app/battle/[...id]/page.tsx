@@ -77,7 +77,7 @@ export default function Battle() {
           'p-0'
         )}
       >
-        <div className='pt-4 flex flex-col gap-4'>
+        <div className="pt-4 flex flex-col gap-4">
           <h1 className="text-4xl font-bold capitalize text-ctp-subtext1 tracking-wide">
             {monster.name}
           </h1>
@@ -123,7 +123,7 @@ export default function Battle() {
             <HealthProgress
               progress={playerHealth}
               totalProgress={profile.inventory.defense.status.defense}
-              size="small"
+              containerClassName="w-[300px] h-[20px]"
             />
           </div>
 
