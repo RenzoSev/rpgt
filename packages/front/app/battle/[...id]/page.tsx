@@ -43,6 +43,15 @@ export default function Battle() {
     profile.inventory.defense.status.defense ?? 0
   );
 
+  const endBattle = (winner: 'player' | 'monster') => {
+    // enviar os dados para o servidor sobre quem ganhou
+    // (se perdeu, vai perder gold. se ganhou, vai ganhar gold)
+    
+    // anunciar, por meio do toast/ alert dialog, o resultado da batalha
+    
+    // redirecionar para a tela de dungeon ou para o próximo monstro
+  };
+
   useEffect(() => {
     setMonsterHealth(monster?.status.defense ?? 0);
   }, [monster]);
@@ -50,6 +59,18 @@ export default function Battle() {
   useEffect(() => {
     setPlayerHealth(profile.inventory.defense.status.defense);
   }, [profile]);
+
+  useEffect(() => {
+    if (playerHealth <= 0) {
+      endBattle('player');
+      return;
+    }
+
+    if (monsterHealth <= 0) {
+      endBattle('monster');
+      return;
+    }
+  }, [monsterHealth, playerHealth]);
 
   if (!monster) {
     return <h1>Monster not found</h1>;
