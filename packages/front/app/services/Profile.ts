@@ -1,12 +1,21 @@
+import { Item, Shield, Weapon } from './Items';
 import { Service } from './Service';
+
+export interface IProfileInventory {
+  attack: Item & { status: Weapon };
+  defense: Item & { status: Shield };
+}
+
+export interface IProfileStatus {
+  gold: number;
+}
 
 export interface IProfile {
   id: string;
   nickname: string;
   class: string;
-  status: {
-    gold: number;
-  };
+  inventory: IProfileInventory;
+  status: IProfileStatus;
 }
 
 export const profile: IProfile = {
@@ -15,6 +24,32 @@ export const profile: IProfile = {
   class: 'mage',
   status: {
     gold: 30000,
+  },
+  inventory: {
+    attack: {
+      id: 2133123,
+      name: 'stone sword',
+      status: {
+        type: 'weapon',
+        equipped: true,
+        attack: 2,
+        level: 2,
+        gold: 1,
+        bought: true,
+      },
+    },
+    defense: {
+      id: 1,
+      name: 'wooden shield',
+      status: {
+        level: 1,
+        type: 'shield',
+        equipped: true,
+        defense: 50,
+        gold: 1,
+        bought: true,
+      },
+    },
   },
 };
 
