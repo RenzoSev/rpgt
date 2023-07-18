@@ -73,41 +73,52 @@ export default function Battle() {
         className={classNames(
           containerContent,
           'min-h-[calc(100vh-5rem)]',
-          'flex flex-col justify-around items-center'
+          'flex flex-col justify-between items-center',
+          'p-0'
         )}
       >
-        <h1 className="text-4xl font-bold capitalize text-ctp-subtext1 tracking-wide">
-          {monster.name}
-        </h1>
+        <div className='pt-4 flex flex-col gap-4'>
+          <h1 className="text-4xl font-bold capitalize text-ctp-subtext1 tracking-wide">
+            {monster.name}
+          </h1>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-6 justify-center">
-            <StatusPower
-              statusBattlePower={monster.status.attack}
-              statusBattleKey="attack"
-            />
-            <StatusPower
-              statusBattlePower={monster.status.defense}
-              statusBattleKey="defense"
-            />
-            <StatusPower
-              statusBattlePower={monster.status.level}
-              statusBattleKey="xp"
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-6 justify-center">
+              <StatusPower
+                statusBattlePower={monster.status.attack}
+                statusBattleKey="attack"
+              />
+              <StatusPower
+                statusBattlePower={monster.status.defense}
+                statusBattleKey="defense"
+              />
+              <StatusPower
+                statusBattlePower={monster.status.level}
+                statusBattleKey="xp"
+              />
+            </div>
+
+            <HealthProgress
+              progress={monsterHealth}
+              totalProgress={monster.status.defense}
             />
           </div>
-
-          <HealthProgress
-            progress={monsterHealth}
-            totalProgress={monster.status.defense}
-          />
         </div>
 
-        <div className="flex flex-col items-center gap-5">
-          <div className="flex flex-col items-center gap-0.5">
-            <StatusPower
-              statusBattlePower={profile.inventory.defense.status.defense}
-              statusBattleKey="defense"
-            />
+        <div className="flex flex-col w-full items-center gap-5">
+          <div className="flex flex-col items-center gap-2 w-full px-4">
+            <div className="flex gap-3">
+              <StatusPower
+                statusBattlePower={profile.inventory.defense.status.defense}
+                statusBattleKey="defense"
+              />
+
+              <StatusPower
+                statusBattlePower={profile.inventory.attack.status.attack}
+                statusBattleKey="attack"
+                paragraphClassName="text-ctp-red"
+              />
+            </div>
 
             <HealthProgress
               progress={playerHealth}
@@ -116,20 +127,18 @@ export default function Battle() {
             />
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={attackMonster}
-              className="flex items-end justify-around w-40 bg-ctp-lavender active:bg-ctp-mauve text-ctp-crust text-2xl font-bold px-2 py-4 rounded shadow-md transition-transform duration-200 transform-gpu active:scale-95"
-            >
-              Attack
-              <StatusPower
-                statusBattlePower={profile.inventory.attack.status.attack}
-                statusBattleKey="attack"
-                paragraphClassName="text-ctp-red"
-                containerClassName="items-stretch"
-              />
-            </button>
-          </div>
+          <button
+            onClick={attackMonster}
+            className={classNames(
+              'flex items-end justify-around',
+              'w-full px-2 py-8',
+              'bg-ctp-red shadow-md rounded-b',
+              'active:bg-ctp-mauve transition-transform duration-200 transform-gpu active:scale-95',
+              'text-ctp-crust text-2xl font-bold'
+            )}
+          >
+            Attack
+          </button>
         </div>
       </div>
     </section>
