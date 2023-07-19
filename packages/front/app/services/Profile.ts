@@ -57,7 +57,7 @@ export const profile: IProfile = {
 
 export class Profile implements Service {
   async getAll(): Promise<IProfile> {
-    console.log('Starting request for monsters');
+    console.log('Starting request for profile');
 
     return profile;
   }
