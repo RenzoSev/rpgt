@@ -20,6 +20,8 @@ import {
   hasFetched as hasFetchedProfileAtom,
 } from '@/app/store/useProfile';
 import { Winner } from '@/app/services/Battle';
+import AlertDialogWin from './alert-dialog-win';
+import AlertDialogLose from './alert-dialog-lose';
 
 export default function Battle() {
   const monstersService = new MonstersService();
@@ -27,50 +29,27 @@ export default function Battle() {
   const battleService = new BattleService();
 
   const params = useParams();
-  const { atom: profile, setAtom: setProfile } = useService<IProfile>(
-    profileService,
-    profileAtom,
-    hasFetchedProfileAtom
-  );
-  const { atom: monsters } = useService<Monster[]>(
-    monstersService,
-    monstersAtom,
-    hasFetchedMonstersAtom
-  );
+  const {
+    atom: profile,
+    setAtom: setProfile,
+    hasFetched: hasFetchedProfile,
+  } = useService<IProfile>(profileService, profileAtom, hasFetchedProfileAtom);
+  const playerAttack = profile.inventory.attack.status.attack;
+  const playerDefense = profile.inventory.defense.status.defense;
 
+  const { atom: monsters, hasFetched: hasFetchedMonsters } = useService<
+    Monster[]
+  >(monstersService, monstersAtom, hasFetchedMonstersAtom);
   const monster = monsters.find(({ id }) => id === Number(params.id));
-  const [monsterHealth, setMonsterHealth] = useState(
-    monster?.status.defense ?? 0
-  );
-  const [playerHealth, setPlayerHealth] = useState(
-    profile.inventory.defense.status.defense ?? 0
-  );
+  const monsterAttack = Number(monster?.status.attack);
+  const monsterDefense = Number(monster?.status.defense);
 
-  useEffect(() => {
-    setMonsterHealth(monster?.status.defense ?? 0);
-  }, [monster]);
+  const [battleHasStarted, setBattleHasStarted] = useState(false);
+  const [turnCount, setTurnCount] = useState(0);
+  const [openDialogWin, setOpenDialogWin] = useState(false);
+  const [openDialogLose, setOpenDialogLose] = useState(false);
 
-  useEffect(() => {
-    setPlayerHealth(profile.inventory.defense.status.defense);
-  }, [profile]);
-
-  useEffect(() => {
-    if (playerHealth <= 0) {
-      endBattle('player');
-      return;
-    }
-
-    if (monsterHealth <= 0) {
-      endBattle('monster');
-      return;
-    }
-  }, [monsterHealth, playerHealth]);
-
-  if (!monster) {
-    return <h1>Monster not found</h1>;
-  }
-
-  const endBattle = async (winner: Winner) => {
+  const endBattle = async (winner: Winner, monster: Monster) => {
     const { gold, level } = await battleService.sendBattleResult(
       winner,
       monster.id
@@ -80,20 +59,46 @@ export default function Battle() {
       ...profile,
       status: { ...profile.status, gold, level },
     }));
-    // anunciar, por meio do toast/ alert dialog, o resultado da batalha
-    // redirecionar para a tela de dungeon ou para o próximo monstro
+
+    if (winner === 'player') {
+      setOpenDialogWin(true);
+      return;
+    }
+
+    setOpenDialogLose(true);
   };
 
-  const attackMonster = () => {
-    const attackPlayer = profile.inventory.attack.status.attack;
-    const attackMonster = monster.status.attack;
+  const playerHealth = playerDefense - monsterAttack * turnCount;
+  const monsterHealth = monsterDefense - playerAttack * turnCount;
 
-    setMonsterHealth((prevMonsterHealth) => prevMonsterHealth - attackPlayer);
-    setPlayerHealth((prevPlayerHealth) => prevPlayerHealth - attackMonster);
+  useEffect(() => {
+    if (!battleHasStarted) return;
+
+    if (playerHealth <= 0) {
+      endBattle('monster', monster as Monster);
+      return;
+    }
+
+    if (monsterHealth <= 0) {
+      endBattle('player', monster as Monster);
+      return;
+    }
+  }, [monsterHealth, playerHealth, battleHasStarted]);
+
+  if (!monster || !profile.id || !hasFetchedProfile || !hasFetchedMonsters) {
+    return <h1>Loading</h1>;
+  }
+
+  const attackMonster = () => {
+    if (!battleHasStarted) setBattleHasStarted(true);
+    setTurnCount((previousTurnCount) => previousTurnCount + 1);
   };
 
   return (
     <section className="h-full">
+      <AlertDialogWin open={openDialogWin} onOpenChange={setOpenDialogWin} />
+      <AlertDialogLose open={openDialogLose} onOpenChange={setOpenDialogLose} />
+
       <header className={classNames(header)}>
         <BackToTabs />
       </header>
@@ -103,7 +108,7 @@ export default function Battle() {
           containerContent,
           'min-h-[calc(100vh-5rem)]',
           'flex flex-col justify-between items-center',
-          'p-0'
+          'pb-0 pt-0 pl-0 pr-0'
         )}
       >
         <div className="pt-4 flex flex-col gap-4">
