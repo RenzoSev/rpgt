@@ -8,6 +8,7 @@ export interface IProfileInventory {
 
 export interface IProfileStatus {
   gold: number;
+  level: number;
 }
 
 export interface IProfile {
@@ -24,6 +25,7 @@ export const profile: IProfile = {
   class: 'mage',
   status: {
     gold: 30000,
+    level: 10,
   },
   inventory: {
     attack: {

@@ -4,6 +4,7 @@ export interface StatusMonster {
   attack: number;
   defense: number;
   level: number;
+  xp: number;
 }
 
 export interface Monster {
@@ -21,6 +22,7 @@ export class Monsters implements Service {
         attack: 5,
         defense: 10,
         level: 1,
+        xp: 5,
       },
     };
     const wolf: Monster = {
@@ -30,6 +32,7 @@ export class Monsters implements Service {
         attack: 10,
         defense: 15,
         level: 2,
+        xp: 10,
       },
     };
 

@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useService } from '../../hooks/useService';
-import { Monster, Monsters as MonstersService } from '../../services/Monsters';
+import { Monster, Monsters as MonstersService } from '@/app/services/Monsters';
+import { Battle as BattleService } from '@/app/services/Battle';
 import {
   monsters as monstersAtom,
   hasFetched as hasFetchedMonstersAtom,
@@ -18,13 +19,15 @@ import {
   profile as profileAtom,
   hasFetched as hasFetchedProfileAtom,
 } from '@/app/store/useProfile';
+import { Winner } from '@/app/services/Battle';
 
 export default function Battle() {
   const monstersService = new MonstersService();
   const profileService = new ProfileService();
+  const battleService = new BattleService();
 
   const params = useParams();
-  const { atom: profile } = useService<IProfile>(
+  const { atom: profile, setAtom: setProfile } = useService<IProfile>(
     profileService,
     profileAtom,
     hasFetchedProfileAtom
@@ -42,15 +45,6 @@ export default function Battle() {
   const [playerHealth, setPlayerHealth] = useState(
     profile.inventory.defense.status.defense ?? 0
   );
-
-  const endBattle = (winner: 'player' | 'monster') => {
-    // enviar os dados para o servidor sobre quem ganhou
-    // (se perdeu, vai perder gold. se ganhou, vai ganhar gold)
-    
-    // anunciar, por meio do toast/ alert dialog, o resultado da batalha
-    
-    // redirecionar para a tela de dungeon ou para o próximo monstro
-  };
 
   useEffect(() => {
     setMonsterHealth(monster?.status.defense ?? 0);
@@ -75,6 +69,20 @@ export default function Battle() {
   if (!monster) {
     return <h1>Monster not found</h1>;
   }
+
+  const endBattle = async (winner: Winner) => {
+    const { gold, level } = await battleService.sendBattleResult(
+      winner,
+      monster.id
+    );
+
+    setProfile((profile) => ({
+      ...profile,
+      status: { ...profile.status, gold, level },
+    }));
+    // anunciar, por meio do toast/ alert dialog, o resultado da batalha
+    // redirecionar para a tela de dungeon ou para o próximo monstro
+  };
 
   const attackMonster = () => {
     const attackPlayer = profile.inventory.attack.status.attack;
