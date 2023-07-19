@@ -1,6 +1,7 @@
 import React from 'react';
 import * as RadixAlertDialog from '@radix-ui/react-alert-dialog';
 
+
 export interface IAlertDialogTexts {
   titleMessage: string | React.ReactNode;
   descriptionMessage: string | React.ReactNode;
@@ -8,10 +9,13 @@ export interface IAlertDialogTexts {
   cancelActionMessage: string;
 }
 
+export type IRootProps = RadixAlertDialog.AlertDialogProps;
+
 export interface IAlertDialog {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   texts: IAlertDialogTexts;
-  handleConfirmAction: () => void;
+  rootProps?: IRootProps;
+  handleConfirmAction?: () => void;
 }
 
 export function AlertDialog({
@@ -22,10 +26,11 @@ export function AlertDialog({
     descriptionMessage: DescriptionMessage,
     titleMessage,
   },
+  rootProps,
   handleConfirmAction,
 }: IAlertDialog) {
   return (
-    <RadixAlertDialog.Root>
+    <RadixAlertDialog.Root {...rootProps}>
       <RadixAlertDialog.Trigger asChild>
         <button>{children}</button>
       </RadixAlertDialog.Trigger>
