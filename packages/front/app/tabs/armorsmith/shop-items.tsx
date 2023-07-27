@@ -14,7 +14,10 @@ import {
   items as itemsAtom,
   hasFetched as hasFetchedAtom,
 } from '@/app/store/useItems';
-import { AlertDialog, IAlertDialogTexts } from '@/app/components/alert-dialog';
+import {
+  AlertDialog,
+  AlertDialogTextsProps,
+} from '@/app/components/alert-dialog';
 import { TabGold } from '@/app/components/tabs/tab-gold';
 import { profile as profileAtom } from '@/app/store/useProfile';
 import { useAtom } from 'jotai';
@@ -31,7 +34,7 @@ export function ShopItems() {
   const getTexts = (
     itemName: string,
     status: ITabCardStatusItem['status']
-  ): IAlertDialogTexts => ({
+  ): AlertDialogTextsProps => ({
     cancelActionMessage: 'Cancel',
     confirmActionMessage: (
       <span className="flex gap-1 items-center">

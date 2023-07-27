@@ -1,15 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Dialog } from './components/dialog';
 import { FormAccount } from './form-account';
+import { usePages } from './hooks/usePages';
 
 export function PlayButton() {
-  const { push } = useRouter();
-
-  const pushToTabs = () => {
-    push('/tabs');
-  };
+  const { pushToTabs } = usePages();
 
   const handleSignUp = () => {
     pushToTabs();

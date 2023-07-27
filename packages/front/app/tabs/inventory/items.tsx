@@ -14,7 +14,10 @@ import {
   TabCardStatusItem,
 } from '@/app/components/tabs/tab-card-status-item';
 import { TabCard } from '@/app/components/tabs/tab-card';
-import { AlertDialog, IAlertDialogTexts } from '@/app/components/alert-dialog';
+import {
+  AlertDialog,
+  AlertDialogTextsProps,
+} from '@/app/components/alert-dialog';
 
 export default function Items() {
   const itemsService = new ItemsService();
@@ -23,7 +26,7 @@ export default function Items() {
   const getTexts = (
     itemName: string,
     status: ITabCardStatusItem['status']
-  ): IAlertDialogTexts => ({
+  ): AlertDialogTextsProps => ({
     cancelActionMessage: 'Cancel',
     confirmActionMessage: 'Equip',
     titleMessage: itemName,

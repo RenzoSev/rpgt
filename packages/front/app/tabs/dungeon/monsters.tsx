@@ -11,6 +11,8 @@ import { useService } from '@/app/hooks/useService';
 import { TabCard } from '@/app/components/tabs/tab-card';
 import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
+import Link from 'next/link';
+import { usePages } from '@/app/hooks/usePages';
 
 export default function Monsters() {
   const monstersService = new MonstersService();
@@ -19,29 +21,36 @@ export default function Monsters() {
     monstersAtom,
     hasFetchedAtom
   );
+  const { getBattleMonsterPage } = usePages();
 
   return (
     <>
       {monsters.map(({ id, name, status: { attack, defense, level } }) => (
-        <TabCard key={id}>
-          <div className="flex flex-col items-start">
-            <TabCardName name={name} />
+        <Link href={getBattleMonsterPage(id)} key={id}>
+          <TabCard>
+            <div className="flex flex-col items-start">
+              <TabCardName name={name} />
 
-            <div className="flex gap-4">
-              <div className="flex items-center gap-1">
-                <p className="text-lg font-bold text-ctp-subtext0">{attack}</p>
-                <GiBroadsword color={catppuccin.mocha.red} />
-              </div>
+              <div className="flex gap-4">
+                <div className="flex items-center gap-1">
+                  <p className="text-lg font-bold text-ctp-subtext0">
+                    {attack}
+                  </p>
+                  <GiBroadsword color={catppuccin.mocha.red} />
+                </div>
 
-              <div className="flex items-center gap-1">
-                <p className="text-lg font-bold text-ctp-subtext0">{defense}</p>
-                <GiTemplarShield color={catppuccin.mocha.green} />
+                <div className="flex items-center gap-1">
+                  <p className="text-lg font-bold text-ctp-subtext0">
+                    {defense}
+                  </p>
+                  <GiTemplarShield color={catppuccin.mocha.green} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <TabCardLevel level={level} />
-        </TabCard>
+            <TabCardLevel level={level} />
+          </TabCard>
+        </Link>
       ))}
     </>
   );

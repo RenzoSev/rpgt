@@ -68,6 +68,13 @@ export default function Battle() {
     setOpenDialogLose(true);
   };
 
+  const resetBattle = () => {
+    setBattleHasStarted(false);
+    setTurnCount(0);
+    setOpenDialogWin(false);
+    setOpenDialogLose(false);
+  };
+
   const playerHealth = playerDefense - monsterAttack * turnCount;
   const monsterHealth = monsterDefense - playerAttack * turnCount;
 
@@ -96,8 +103,17 @@ export default function Battle() {
 
   return (
     <section className="h-full">
-      <AlertDialogWin open={openDialogWin} onOpenChange={setOpenDialogWin} />
-      <AlertDialogLose open={openDialogLose} onOpenChange={setOpenDialogLose} />
+      <AlertDialogWin
+        open={openDialogWin}
+        onOpenChange={setOpenDialogWin}
+        monsters={monsters}
+        currentlyMonsterId={monster.id}
+      />
+      <AlertDialogLose
+        open={openDialogLose}
+        onOpenChange={setOpenDialogLose}
+        handlePlayAgain={resetBattle}
+      />
 
       <header className={classNames(header)}>
         <BackToTabs />

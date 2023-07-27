@@ -40,4 +40,12 @@ export class Monsters implements Service {
 
     return [spider, wolf];
   }
+
+  static getNextMonsterByASC(currentlyMonsterId: number, monsters: Monster[]) {
+    const currentlyMonsterIndex = monsters.findIndex(
+      ({ id }) => id === currentlyMonsterId
+    );
+
+    return monsters[currentlyMonsterIndex + 1];
+  }
 }
