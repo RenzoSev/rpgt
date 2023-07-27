@@ -4,7 +4,7 @@ import {
   items as itemsAtom,
   hasFetched as hasFetchedAtom,
 } from '../../store/useItems';
-import { Items as ItemsService } from '../../services/Items';
+import { Item, Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
 import classNames from 'classnames';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
@@ -21,7 +21,11 @@ import {
 
 export default function Items() {
   const itemsService = new ItemsService();
-  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedAtom);
+  const { atom: items, setAtom: setItems } = useService(
+    itemsService,
+    itemsAtom,
+    hasFetchedAtom
+  );
 
   const getTexts = (
     itemName: string,
@@ -38,6 +42,14 @@ export default function Items() {
     ),
   });
 
+  const handleEquipItem = async (
+    id: number,
+    itemType: Item['status']['type']
+  ) => {
+    const itemsUpdated = await itemsService.equipItem(id, itemType);
+    setItems(itemsUpdated);
+  };
+
   return (
     <>
       {items.map(
@@ -46,7 +58,7 @@ export default function Items() {
             <AlertDialog
               key={id}
               texts={getTexts(name, status)}
-              handleConfirmAction={() => console.log('working')}
+              handleConfirmAction={() => handleEquipItem(id, status.type)}
             >
               <TabCard>
                 <div className="flex flex-col items-start">

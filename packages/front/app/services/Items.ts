@@ -30,6 +30,11 @@ export interface Item {
   status: Status;
 }
 
+const changeEquippedItem = (item: Item): Item => ({
+  ...item,
+  status: { ...item.status, equipped: !item.status.equipped },
+});
+
 export const shields: Item[] = [
   {
     id: 1,
@@ -82,6 +87,9 @@ export const weapons: Item[] = [
     },
   },
 ];
+
+export const changedEquippedShields: Item[] = shields.map(changeEquippedItem);
+export const changedEquippedWeapons: Item[] = weapons.map(changeEquippedItem);
 
 export const shieldsShop: Item[] = [
   {
@@ -141,5 +149,16 @@ export class Items implements Service {
     console.log('Starting request for items');
 
     return [...shields, ...weapons, ...shieldsShop, ...weaponsShop];
+  }
+
+  async equipItem(id: number, type: Item['status']['type']): Promise<Item[]> {
+    console.log('Starting request for equip items');
+
+    return [
+      ...changedEquippedShields,
+      ...changedEquippedWeapons,
+      ...shieldsShop,
+      ...weaponsShop,
+    ];
   }
 }
