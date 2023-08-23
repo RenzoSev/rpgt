@@ -1,4 +1,4 @@
-import { Schema } from '@nestjs/mongoose';
+import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { RelationManyProp } from '../decorators/RelationManyProp.decorator';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
@@ -8,10 +8,7 @@ export type PlayerDocument = HydratedDocument<Player>;
 @Schema()
 export class Player {
   @RequiredProp()
-  id: string;
-
-  @RequiredProp()
-  nickname: string;
+  name: string;
 
   @RequiredProp()
   class: string;
@@ -34,3 +31,5 @@ export class Inventory {
   @RelationManyProp('Item')
   bought: string[];
 }
+
+export const PlayerSchema = SchemaFactory.createForClass(Player);

@@ -1,4 +1,4 @@
-import { Schema } from '@nestjs/mongoose';
+import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
 
@@ -6,9 +6,6 @@ export type MonsterDocument = HydratedDocument<Monster>;
 
 @Schema()
 export class Monster {
-  @RequiredProp()
-  id: string;
-
   @RequiredProp()
   name: string;
 
@@ -20,3 +17,5 @@ export class Monster {
     xp: number;
   };
 }
+
+export const MonsterSchema = SchemaFactory.createForClass(Monster);

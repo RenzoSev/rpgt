@@ -1,4 +1,4 @@
-import { Schema } from '@nestjs/mongoose';
+import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
 
@@ -32,3 +32,5 @@ export class DefenseItem extends Item {
   @RequiredProp()
   defense: number;
 }
+
+export const ItemSchema = SchemaFactory.createForClass(Item);
