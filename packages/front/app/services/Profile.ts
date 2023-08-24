@@ -1,9 +1,9 @@
-import { Item, Shield, Weapon } from './Items';
-import { Service } from './Service';
+import { Item, Shield, Weapon } from "./Items";
+import { Service } from "./Service";
 
 export interface IProfileInventory {
-  attack: Item & { status: Weapon };
-  defense: Item & { status: Shield };
+  bought: number[];
+  equipped: [number, number];
 }
 
 export interface IProfileStatus {
@@ -20,9 +20,9 @@ export interface IProfile {
 }
 
 export const profile: IProfile = {
-  id: 'ads:298209382902',
-  nickname: 'alexstrasza',
-  class: 'mage',
+  id: "ads:298209382902",
+  nickname: "alexstrasza",
+  class: "mage",
   status: {
     gold: 30000,
     level: 10,
@@ -30,9 +30,9 @@ export const profile: IProfile = {
   inventory: {
     attack: {
       id: 2133123,
-      name: 'stone sword',
+      name: "stone sword",
       status: {
-        type: 'weapon',
+        type: "weapon",
         equipped: true,
         attack: 2,
         level: 2,
@@ -42,10 +42,10 @@ export const profile: IProfile = {
     },
     defense: {
       id: 1,
-      name: 'wooden shield',
+      name: "wooden shield",
       status: {
         level: 1,
-        type: 'shield',
+        type: "shield",
         equipped: true,
         defense: 50,
         gold: 1,
@@ -57,7 +57,7 @@ export const profile: IProfile = {
 
 export class Profile implements Service {
   async getAll(): Promise<IProfile> {
-    console.log('Starting request for profile');
+    console.log("Starting request for profile");
 
     return profile;
   }
