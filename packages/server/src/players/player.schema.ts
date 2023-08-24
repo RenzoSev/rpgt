@@ -2,6 +2,7 @@ import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { RelationManyProp } from '../decorators/RelationManyProp.decorator';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
+import { ArrayOrEmpty, CountedArrayOrEmpty } from 'src/types';
 
 export type PlayerDocument = HydratedDocument<Player>;
 
@@ -17,10 +18,10 @@ export class Status {
 @Schema()
 export class Inventory {
   @RelationManyProp('Item')
-  equipped: [string, string];
+  equipped: CountedArrayOrEmpty<string>;
 
   @RelationManyProp('Item')
-  bought: string[];
+  bought: ArrayOrEmpty<string>;
 }
 
 @Schema()
