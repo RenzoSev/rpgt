@@ -6,15 +6,15 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 
 @Controller()
 export class PlayerController {
-  constructor(private readonly playerService: PlayerService) { }
+  constructor(private readonly playerService: PlayerService) {}
 
-  @Get()
+  @Get('/player')
   async get(@Body() getPlayerDto: GetPlayerDto): Promise<Player> {
     const player = await this.playerService.get(getPlayerDto);
     return player;
   }
 
-  @Post()
+  @Post('/player')
   async create(@Body() createPlayerDto: CreatePlayerDto) {
     const player = await this.playerService.create(createPlayerDto);
     return player;
