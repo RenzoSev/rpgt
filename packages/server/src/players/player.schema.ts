@@ -6,21 +6,12 @@ import { HydratedDocument } from 'mongoose';
 export type PlayerDocument = HydratedDocument<Player>;
 
 @Schema()
-export class Player {
+export class Status {
   @RequiredProp()
-  name: string;
+  gold: number;
 
   @RequiredProp()
-  class: string;
-
-  @RequiredProp()
-  status: {
-    gold: number;
-    level: number;
-  };
-
-  @RequiredProp()
-  inventory: Inventory;
+  level: number;
 }
 
 @Schema()
@@ -30,6 +21,21 @@ export class Inventory {
 
   @RelationManyProp('Item')
   bought: string[];
+}
+
+@Schema()
+export class Player {
+  @RequiredProp()
+  name: string;
+
+  @RequiredProp()
+  class: string;
+
+  @RequiredProp()
+  status: Status;
+
+  @RequiredProp()
+  inventory: Inventory;
 }
 
 export const PlayerSchema = SchemaFactory.createForClass(Player);
