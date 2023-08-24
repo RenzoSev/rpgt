@@ -1,26 +1,18 @@
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import { RelationManyProp } from '../decorators/RelationManyProp.decorator';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
 import { ArrayOrEmpty, CountedArrayOrEmpty } from 'src/types';
+import { getRelationManyProp, getRequiredProp } from 'src/utils';
 
 export type PlayerDocument = HydratedDocument<Player>;
 
-@Schema()
-export class Status {
-  @RequiredProp()
+export interface Status {
   gold: number;
-
-  @RequiredProp()
   level: number;
 }
 
-@Schema()
-export class Inventory {
-  @RelationManyProp('Item')
+export interface Inventory {
   equipped: CountedArrayOrEmpty<string>;
-
-  @RelationManyProp('Item')
   bought: ArrayOrEmpty<string>;
 }
 
@@ -32,10 +24,20 @@ export class Player {
   @RequiredProp()
   class: string;
 
-  @RequiredProp()
+  @Prop(
+    raw({
+      gold: getRequiredProp({ type: Number }),
+      level: getRequiredProp({ type: Number }),
+    }),
+  )
   status: Status;
 
-  @RequiredProp()
+  @Prop(
+    raw({
+      equipped: [getRelationManyProp('Item')],
+      bought: [getRelationManyProp('Item')],
+    }),
+  )
   inventory: Inventory;
 }
 
