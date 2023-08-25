@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { RequiredProp } from '../decorators/RequiredProp.decorator';
 import { HydratedDocument } from 'mongoose';
-import { ArrayOrEmpty, CountedArrayOrEmpty } from 'src/types';
-import { getRelationManyProp, getRequiredProp } from 'src/utils';
+import { ArrayOrEmpty, CountedArrayOrEmpty } from '../types';
+import { getRelationManyProp, getRequiredProp } from '../utils';
 
 export type PlayerDocument = HydratedDocument<Player>;
 
