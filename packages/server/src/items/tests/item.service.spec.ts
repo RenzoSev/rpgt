@@ -34,7 +34,7 @@ describe('ItemService', () => {
         exec: jest.fn().mockResolvedValue(itemMock),
       });
       const result = await itemService.get(getItemDtoMock);
-      expect(result).toBe(itemMock);
+      expect(result).toStrictEqual(itemMock);
     });
   });
 
@@ -59,15 +59,17 @@ describe('ItemService', () => {
         exec: jest.fn().mockResolvedValue(itemsMock),
       });
       const result = await itemService.getAll();
-      expect(result).toBe(itemsMock);
+      expect(result).toStrictEqual(itemsMock);
     });
   });
 
   describe('create', () => {
     it('should create item', async () => {
-      itemModel.create.mockReturnValue(itemMock);
+      itemModel.create.mockResolvedValue({
+        toObject: jest.fn().mockReturnValue(itemMock),
+      });
       const result = await itemService.create(createItemDtoMock);
-      expect(result).toBe(itemMock);
+      expect(result).toStrictEqual(itemMock);
     });
   });
 });

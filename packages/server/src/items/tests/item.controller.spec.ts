@@ -31,7 +31,7 @@ describe('ItemController', () => {
     it('should return get item', async () => {
       jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
       const result = await itemController.get(getItemDtoMock);
-      expect(result).toBe(itemMock);
+      expect(result).toStrictEqual(itemMock);
     });
   });
 
@@ -52,7 +52,7 @@ describe('ItemController', () => {
     it('should return get all items', async () => {
       jest.spyOn(itemService, 'getAll').mockResolvedValue(itemsMock);
       const result = await itemController.getAll();
-      expect(result).toBe(itemsMock);
+      expect(result).toStrictEqual(itemsMock);
     });
   });
 
@@ -60,7 +60,7 @@ describe('ItemController', () => {
     it('should create item', async () => {
       jest.spyOn(itemService, 'create').mockResolvedValue(itemMock);
       const result = await itemController.create(createItemDtoMock);
-      expect(result).toBe(itemMock);
+      expect(result).toStrictEqual(itemMock);
     });
   });
 });

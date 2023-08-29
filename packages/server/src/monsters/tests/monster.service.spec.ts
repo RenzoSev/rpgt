@@ -34,15 +34,17 @@ describe('MonsterService', () => {
         exec: jest.fn().mockResolvedValue(monsterMock),
       });
       const result = await monsterService.get(getMonsterDtoMock);
-      expect(result).toBe(monsterMock);
+      expect(result).toStrictEqual(monsterMock);
     });
   });
 
   describe('create', () => {
     it('should create monster', async () => {
-      monsterModel.create.mockReturnValue(monsterMock);
+      monsterModel.create.mockResolvedValue({
+        toObject: jest.fn().mockReturnValue(monsterMock),
+      });
       const result = await monsterService.create(createMonsterDtoMock);
-      expect(result).toBe(monsterMock);
+      expect(result).toStrictEqual(monsterMock);
     });
   });
 });

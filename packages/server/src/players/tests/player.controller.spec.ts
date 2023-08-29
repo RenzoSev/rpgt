@@ -30,7 +30,7 @@ describe('PlayerController', () => {
     it('should return get player', async () => {
       jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
       const result = await playerController.get(getPlayerDtoMock);
-      expect(result).toBe(playerMock);
+      expect(result).toStrictEqual(playerMock);
     });
   });
 
@@ -38,7 +38,7 @@ describe('PlayerController', () => {
     it('should create player', async () => {
       jest.spyOn(playerService, 'create').mockResolvedValue(playerMock);
       const result = await playerController.create(createPlayerDtoMock);
-      expect(result).toBe(playerMock);
+      expect(result).toStrictEqual(playerMock);
     });
   });
 });

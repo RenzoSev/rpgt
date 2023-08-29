@@ -30,7 +30,7 @@ describe('MonsterController', () => {
     it('should return get monster', async () => {
       jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
       const result = await monsterController.get(getMonsterDtoMock);
-      expect(result).toBe(monsterMock);
+      expect(result).toStrictEqual(monsterMock);
     });
   });
 
@@ -38,7 +38,7 @@ describe('MonsterController', () => {
     it('should create monster', async () => {
       jest.spyOn(monsterService, 'create').mockResolvedValue(monsterMock);
       const result = await monsterController.create(createMonsterDtoMock);
-      expect(result).toBe(monsterMock);
+      expect(result).toStrictEqual(monsterMock);
     });
   });
 });

@@ -33,15 +33,17 @@ describe('PlayerService', () => {
         exec: jest.fn().mockResolvedValue(playerMock),
       });
       const result = await playerService.get(getPlayerDtoMock);
-      expect(result).toBe(playerMock);
+      expect(result).toStrictEqual(playerMock);
     });
   });
 
   describe('create', () => {
     it('should create player', async () => {
-      playerModel.create.mockReturnValue(playerMock);
+      playerModel.create.mockResolvedValue({
+        toObject: jest.fn().mockReturnValue(playerMock),
+      });
       const result = await playerService.create(createPlayerDtoMock);
-      expect(result).toBe(playerMock);
+      expect(result).toStrictEqual(playerMock);
     });
   });
 });
