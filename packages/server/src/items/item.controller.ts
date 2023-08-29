@@ -14,7 +14,7 @@ export class ItemController {
     return item;
   }
 
-  @Get('/item')
+  @Get('/items')
   async getAll(): Promise<Item[]> {
     const item = await this.itemService.getAll();
     return item;
