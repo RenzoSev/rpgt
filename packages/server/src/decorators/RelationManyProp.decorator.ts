@@ -1,5 +1,5 @@
 import { Prop, PropOptions } from '@nestjs/mongoose';
-import { getRelationManyProp } from 'src/utils';
+import { getRelationManyProp } from '../utils';
 
 export const RelationManyProp = (ref: string, options?: PropOptions) => {
   return Prop({

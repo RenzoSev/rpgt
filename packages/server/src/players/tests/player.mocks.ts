@@ -2,19 +2,19 @@ import { CreatePlayerDto } from '../dto/create-player.dto';
 import { GetPlayerDto } from '../dto/get-player.dto';
 import { Player } from '../player.schema';
 
-const name = 'name';
-const playerClass = 'mage';
+const getName = (): Player['name'] => 'name';
+const getClass = (): Player['class'] => 'mage';
 
-export const getPlayerDtoMock: GetPlayerDto = { name };
+export const getPlayerDtoMock: GetPlayerDto = { name: getName() };
 
 export const createPlayerDtoMock: CreatePlayerDto = {
-  name,
-  class: playerClass,
+  name: getName(),
+  class: getClass(),
 };
 
 export const playerMock: Player = {
-  class: 'mage',
-  name,
+  class: getClass(),
+  name: getName(),
   status: { gold: 2000, level: 30 },
   inventory: { bought: ['123', '321'], equipped: ['456', '654'] },
 };

@@ -15,7 +15,7 @@ export class PlayerController {
   }
 
   @Post('/player')
-  async create(@Body() createPlayerDto: CreatePlayerDto) {
+  async create(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
     const player = await this.playerService.create(createPlayerDto);
     return player;
   }
