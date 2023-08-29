@@ -5,13 +5,19 @@ import { Model } from 'mongoose';
 import { GetPlayerDto } from './dto/get-player.dto';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { createNewInventory, createNewStatus } from './utils';
+import {
+  removeIdFromCreateMethod,
+  removeIdFromFindMethod,
+} from '../utils/services';
 
 @Injectable()
 export class PlayerService {
   constructor(@InjectModel(Player.name) private playerModel: Model<Player>) {}
 
   async get(getPlayerDto: GetPlayerDto): Promise<Player> {
-    const player = await this.playerModel.findOne(getPlayerDto).exec();
+    const player = await this.playerModel
+      .findOne(getPlayerDto, removeIdFromFindMethod)
+      .exec();
     return player;
   }
 
@@ -21,6 +27,6 @@ export class PlayerService {
       inventory: createNewInventory(),
       status: createNewStatus(),
     });
-    return player;
+    return removeIdFromCreateMethod(player);
   }
 }

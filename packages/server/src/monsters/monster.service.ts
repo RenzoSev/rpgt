@@ -4,6 +4,10 @@ import { Monster } from './monster.schema';
 import { Model } from 'mongoose';
 import { GetMonsterDto } from './dto/get-monster.dto';
 import { CreateMonsterDto } from './dto/create-monster.dto';
+import {
+  removeIdFromCreateMethod,
+  removeIdFromFindMethod,
+} from '../utils/services';
 
 @Injectable()
 export class MonsterService {
@@ -12,12 +16,14 @@ export class MonsterService {
   ) {}
 
   async get(getMonsterDto: GetMonsterDto): Promise<Monster> {
-    const monster = await this.monsterModel.findOne(getMonsterDto).exec();
+    const monster = await this.monsterModel
+      .findOne(getMonsterDto, removeIdFromFindMethod)
+      .exec();
     return monster;
   }
 
   async create(createMonsterDto: CreateMonsterDto): Promise<Monster> {
     const monster = await this.monsterModel.create(createMonsterDto);
-    return monster;
+    return removeIdFromCreateMethod(monster);
   }
 }

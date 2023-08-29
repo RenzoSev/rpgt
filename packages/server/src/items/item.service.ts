@@ -4,23 +4,29 @@ import { Item } from './item.schema';
 import { Model } from 'mongoose';
 import { GetItemDto } from './dto/get-item.dto';
 import { CreateItemDto } from './dto/create-item.dto';
+import {
+  removeIdFromCreateMethod,
+  removeIdFromFindMethod,
+} from '../utils/services';
 
 @Injectable()
 export class ItemService {
   constructor(@InjectModel(Item.name) private itemModel: Model<Item>) {}
 
   async get(getItemDto: GetItemDto): Promise<Item> {
-    const item = await this.itemModel.findOne(getItemDto).exec();
+    const item = await this.itemModel
+      .findOne(getItemDto, removeIdFromFindMethod)
+      .exec();
     return item;
   }
 
   async getAll(): Promise<Item[]> {
-    const item = await this.itemModel.find().exec();
+    const item = await this.itemModel.find({}, removeIdFromFindMethod).exec();
     return item;
   }
 
   async create(createItemDto: CreateItemDto): Promise<Item> {
     const item = await this.itemModel.create(createItemDto);
-    return item;
+    return removeIdFromCreateMethod(item);
   }
 }
