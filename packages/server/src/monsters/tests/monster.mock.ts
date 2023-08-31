@@ -23,3 +23,8 @@ export const monsterMock: Monster = {
   name: getName(),
   status: getStatus(),
 };
+
+export const monsterServiceMock = {
+  get: async () => monsterMock,
+  create: async () => monsterMock,
+};

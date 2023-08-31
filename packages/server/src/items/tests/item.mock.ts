@@ -45,3 +45,9 @@ export const itemsMock: Item[] = [
     type: getAttackType('shield'),
   },
 ];
+
+export const itemServiceMock = {
+  get: async () => itemMock,
+  getAll: async () => itemsMock,
+  create: async () => itemMock,
+};

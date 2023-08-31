@@ -18,3 +18,8 @@ export const playerMock: Player = {
   status: { gold: 2000, level: 30 },
   inventory: { bought: ['123', '321'], equipped: ['456', '654'] },
 };
+
+export const playerServiceMock = {
+  get: async () => playerMock,
+  create: async () => playerMock,
+};
