@@ -28,3 +28,16 @@ export const monsterServiceMock = {
   get: async () => monsterMock,
   create: async () => monsterMock,
 };
+
+export const getMonsterErrorMessageForInvalidBody = [
+  'name must be longer than or equal to 4 characters',
+  'name must be a string',
+  'name should not be empty',
+];
+
+export const createMonsterErrorMessageForInvalidBody = [
+  'name must be longer than or equal to 4 characters',
+  'name must be a string',
+  'name should not be empty',
+  'status should not be empty',
+];

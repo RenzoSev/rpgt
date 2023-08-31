@@ -23,3 +23,17 @@ export const playerServiceMock = {
   get: async () => playerMock,
   create: async () => playerMock,
 };
+
+export const getPlayerErrorMessageForInvalidBody = [
+  'name must be a string',
+  'name must be longer than or equal to 4 characters',
+  'name should not be empty',
+];
+
+export const createPlayerErrorMessageForInvalidBody = [
+  'name must be a string',
+  'name must be longer than or equal to 4 characters',
+  'name should not be empty',
+  'class must be a string',
+  'class should not be empty',
+];

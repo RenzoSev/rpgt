@@ -51,3 +51,24 @@ export const itemServiceMock = {
   getAll: async () => itemsMock,
   create: async () => itemMock,
 };
+
+export const getItemErrorMessageForInvalidBody = [
+  'name must be a string',
+  'name should not be empty',
+];
+
+export const createItemErrorMessageForInvalidBody = [
+  'name must be a string',
+  'name should not be empty',
+  'The type must be either weapon or shield.',
+  'level must not be greater than 999',
+  'level must not be less than 1',
+  'level must be a number conforming to the specified constraints',
+  'level should not be empty',
+  'gold must not be greater than 99999',
+  'gold must not be less than 1',
+  'gold must be a number conforming to the specified constraints',
+  'gold should not be empty',
+  'At least one of the properties (attack or defense) is required.',
+  'At least one of the properties (attack or defense) is required.',
+];
