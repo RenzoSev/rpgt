@@ -12,6 +12,6 @@ https GET http://localhost:3000/item name=sword
 https GET http://localhost:3000/item name=shield
 https GET http://localhost:3000/items
 
-#Monsters
+# Monsters
 https POST http://localhost:3000/monster name=monster status:='{"attack":10,"defense":10,"level":10,"xp":20}'
 https GET http://localhost:3000/monster name=monster
