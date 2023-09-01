@@ -36,7 +36,7 @@ import {
   itemServiceMock,
   itemsMock,
 } from '../src/items/tests/item.mock';
-import { getValidationPipeError } from './app.e2e.utils';
+import { getValidationPipeError } from '../src/utils/tests';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
