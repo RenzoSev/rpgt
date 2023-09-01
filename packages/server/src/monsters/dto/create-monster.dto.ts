@@ -38,8 +38,8 @@ export class StatusDto {
 
 export class CreateMonsterDto {
   @IsNotEmpty()
-  @IsString()
   @Length(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
+  @IsString()
   readonly name: string;
 
   @IsNotEmpty()
