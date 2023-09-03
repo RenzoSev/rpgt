@@ -39,6 +39,7 @@ export class Player {
   @Prop(
     raw({
       bought: [getRelationManyProp('Item')],
+      equipped: [getRelationManyProp('Item')],
     }),
   )
   inventory: Inventory;
