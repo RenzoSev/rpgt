@@ -18,8 +18,10 @@ export const whoShouldWin = (
   playerTurnsToKill: number,
   monsterTurnsToKill: number,
 ): Fighter => {
-  if (monsterTurnsToKill < 1 && playerTurnsToKill < 1) return FIGHTERS.PLAYER;
+  const bothInstantKillEachOther =
+    monsterTurnsToKill < 1 && playerTurnsToKill < 1;
+  if (bothInstantKillEachOther) return FIGHTERS.PLAYER;
 
-  const result = playerTurnsToKill < monsterTurnsToKill;
-  return result ? FIGHTERS.PLAYER : FIGHTERS.MONSTER;
+  const playerKillsFirst = playerTurnsToKill < monsterTurnsToKill;
+  return playerKillsFirst ? FIGHTERS.PLAYER : FIGHTERS.MONSTER;
 };
