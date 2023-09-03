@@ -47,12 +47,6 @@ export class PlayerAnalyzer {
       monster.status.attack,
     );
     const winner = whoShouldWin(playerTurnsToKill, monsterTurnsToKill);
-    console.log({
-      winner,
-      playerTurnsToKill,
-      monsterTurnsToKill,
-      monsterAttack: monster.status.attack,
-    });
 
     const checkers = {
       level: {
