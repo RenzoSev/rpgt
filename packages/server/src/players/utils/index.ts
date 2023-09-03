@@ -11,5 +11,7 @@ export function createNewStatus(): Status {
   return {
     gold: 0,
     level: 0,
+    attack: 0,
+    defense: 0,
   };
 }

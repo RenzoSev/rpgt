@@ -9,6 +9,8 @@ export type PlayerDocument = HydratedDocument<Player>;
 export interface Status {
   gold: number;
   level: number;
+  attack: number;
+  defense: number;
 }
 
 export interface Inventory {
@@ -28,13 +30,14 @@ export class Player {
     raw({
       gold: getRequiredProp({ type: Number }),
       level: getRequiredProp({ type: Number }),
+      attack: getRequiredProp({ type: Number }),
+      defense: getRequiredProp({ type: Number }),
     }),
   )
   status: Status;
 
   @Prop(
     raw({
-      equipped: [getRelationManyProp('Item')],
       bought: [getRelationManyProp('Item')],
     }),
   )
