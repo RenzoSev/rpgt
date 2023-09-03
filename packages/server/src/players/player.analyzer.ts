@@ -15,13 +15,13 @@ type Checkers = Record<string, Checker>;
 export class PlayerAnalyzer {
   constructor() {}
 
-  private check(checkers: Checkers) {
+  private check(checkers: Checkers): string[] | [] {
     return Object.values(checkers).flatMap(({ condition, error }) =>
       condition ? error : [],
     );
   }
 
-  playerBuyItem(player: Player, item: Item) {
+  playerBuyItem(player: Player, item: Item): string[] | [] {
     const checkers: Checkers = {
       level: {
         condition: player.status.level < item.level,
@@ -37,7 +37,7 @@ export class PlayerAnalyzer {
     return errors;
   }
 
-  playerFightMonster(player: Player, monster: Monster) {
+  playerFightMonster(player: Player, monster: Monster): string[] | [] {
     const playerTurnsToKill = turnsToKill(
       monster.status.defense,
       player.status.attack,

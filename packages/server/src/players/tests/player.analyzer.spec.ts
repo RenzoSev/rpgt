@@ -8,6 +8,8 @@ import { ERRORS } from '../utils/analyze';
 import { monsterMock } from '../../monsters/tests/monster.mock';
 import { Monster } from '../../monsters/monster.schema';
 
+// TODO: maybe pass this to another structure instead on players
+
 describe('PlayerAnalyzer', () => {
   let playerAnalyzer: PlayerAnalyzer;
 

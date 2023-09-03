@@ -14,7 +14,7 @@ import { BadRequestResponse } from '../utils';
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
-  @Post('/player/buy-item')
+  @Post('/actions/buy-item')
   @UsePipes(ValidationPipe)
   async buyItem(
     @Body() buyItemDto: BuyItemDto,
