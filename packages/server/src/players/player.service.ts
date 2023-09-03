@@ -4,7 +4,7 @@ import { Player } from './player.schema';
 import { Model } from 'mongoose';
 import { GetPlayerDto } from './dto/get-player.dto';
 import { CreatePlayerDto } from './dto/create-player.dto';
-import { createNewInventory, createNewStatus } from './utils';
+import { createNewInventory, createNewStatus } from './utils/database';
 import {
   removeIdFromCreateMethod,
   removeIdFromFindMethod,
