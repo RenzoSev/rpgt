@@ -15,7 +15,7 @@ export const createPlayerDtoMock: CreatePlayerDto = {
 export const playerMock: Player = {
   class: getClass(),
   name: getName(),
-  status: { gold: 2000, level: 30 },
+  status: { gold: 2000, level: 30, attack: 100, defense: 100 },
   inventory: { bought: ['123', '321'], equipped: ['456', '654'] },
 };
 
