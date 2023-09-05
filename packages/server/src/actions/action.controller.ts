@@ -7,8 +7,9 @@ import {
 } from '@nestjs/common';
 import { BuyItemDto } from './dto/buy-item.dto';
 import { ActionService } from './action.service';
-import { Item } from '../items/item.schema';
 import { BadRequestResponse } from '../utils';
+import { Player } from 'src/players/player.schema';
+import { FightMonsterDto } from './dto/fight-monster.dto';
 
 @Controller()
 export class ActionController {
@@ -18,8 +19,17 @@ export class ActionController {
   @UsePipes(ValidationPipe)
   async buyItem(
     @Body() buyItemDto: BuyItemDto,
-  ): Promise<Item | BadRequestResponse<string[]>> {
+  ): Promise<Player | BadRequestResponse<string[]>> {
     const action = await this.actionService.buyItem(buyItemDto);
+    return action;
+  }
+
+  @Post('/actions/fight-monster')
+  @UsePipes(ValidationPipe)
+  async fightMonster(
+    @Body() fightMonsterDto: FightMonsterDto,
+  ): Promise<Player | BadRequestResponse<string[]>> {
+    const action = await this.actionService.fightMonster(fightMonsterDto);
     return action;
   }
 }

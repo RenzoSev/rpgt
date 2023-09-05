@@ -3,9 +3,10 @@ import { ItemService } from '../items/item.service';
 import { MonsterService } from '../monsters/monster.service';
 import { PlayerService } from '../players/player.service';
 import { BuyItemDto } from './dto/buy-item.dto';
-import { Item } from 'src/items/item.schema';
 import { PlayerAnalyzer } from '../players/player.analyzer';
 import { BadRequestResponse, buildBadRequestResponse } from '../utils';
+import { FightMonsterDto } from './dto/fight-monster.dto';
+import { Player } from 'src/players/player.schema';
 
 @Injectable()
 export class ActionService {
@@ -19,15 +20,28 @@ export class ActionService {
   async buyItem({
     itemName,
     playerName,
-  }: BuyItemDto): Promise<Item | BadRequestResponse<string[]>> {
+  }: BuyItemDto): Promise<Player | BadRequestResponse<string[]>> {
     const [player, item] = await Promise.all([
       this.playerService.get({ name: playerName }),
       this.itemService.get({ name: itemName }),
     ]);
-
     const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
 
     if (checkResult.length) return buildBadRequestResponse(checkResult);
-    return item;
+    return player;
+  }
+
+  async fightMonster({
+    playerName,
+    monsterName,
+  }: FightMonsterDto): Promise<Player | BadRequestResponse<string[]>> {
+    const [player, monster] = await Promise.all([
+      this.playerService.get({ name: playerName }),
+      this.monsterService.get({ name: monsterName }),
+    ]);
+    const checkResult = this.playerAnalyzer.playerFightMonster(player, monster);
+
+    if (checkResult.length) return buildBadRequestResponse(checkResult);
+    return player;
   }
 }
