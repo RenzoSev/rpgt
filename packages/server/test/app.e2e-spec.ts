@@ -37,6 +37,9 @@ import {
   itemsMock,
 } from '../src/items/tests/item.mock';
 import { getValidationPipeError } from '../src/utils/tests';
+import { ActionModule } from '../src/actions/action.module';
+import { ActionService } from '../src/actions/action.service';
+import { actionServiceMock } from '../src/actions/tests/action.mock';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -52,6 +55,7 @@ describe('AppController (e2e)', () => {
         PlayerModule,
         ItemModule,
         MonsterModule,
+        ActionModule,
       ],
       controllers: [AppController],
       providers: [AppService],
@@ -62,6 +66,8 @@ describe('AppController (e2e)', () => {
       .useValue(monsterServiceMock)
       .overrideProvider(ItemService)
       .useValue(itemServiceMock)
+      .overrideProvider(ActionService)
+      .useValue(actionServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
@@ -199,5 +205,9 @@ describe('AppController (e2e)', () => {
           .expect(getValidationPipeError(createItemErrorMessageForInvalidBody));
       });
     });
+  });
+
+  describe('Action', () => {
+    describe('OK', () => {});
   });
 });
