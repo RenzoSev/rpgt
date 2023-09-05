@@ -6,7 +6,7 @@ import { ActionService } from '../action.service';
 import { playerMock } from '../../players/tests/player.mocks';
 import { itemMock } from '../../items/tests/item.mock';
 import { monsterMock } from '../../monsters/tests/monster.mock';
-import { buyItemDtoMock } from './action.mock';
+import { buyItemDtoMock, fightMonsterDtoMock } from './action.mock';
 import { PlayerAnalyzer } from '../../players/player.analyzer';
 import { getModelToken } from '@nestjs/mongoose';
 import { Player } from '../../players/player.schema';
@@ -43,14 +43,14 @@ describe('ActionService', () => {
   });
 
   describe('buyItem', () => {
-    it('should return item when buy is valid', async () => {
+    it('should return player when buy is valid', async () => {
       jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
       jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
       jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
       jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionService.buyItem(buyItemDtoMock);
-      expect(result).toStrictEqual(itemMock);
+      expect(result).toStrictEqual(playerMock);
     });
 
     it('should return errors when buy is not valid', async () => {
@@ -66,6 +66,34 @@ describe('ActionService', () => {
         statusError: 400,
         error: 'Bad Request',
         message: [ERRORS.NOT_ENOUGH_LEVEL],
+      });
+    });
+  });
+
+  describe('fightMonster', () => {
+    it('should return player when fight is valid', async () => {
+      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
+      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
+      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
+      jest.spyOn(playerAnalyzer, 'playerFightMonster').mockReturnValue([]);
+
+      const result = await actionService.fightMonster(fightMonsterDtoMock);
+      expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should return errors when fight is not valid', async () => {
+      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
+      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
+      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
+      jest
+        .spyOn(playerAnalyzer, 'playerFightMonster')
+        .mockReturnValue([ERRORS.NOT_WIN_FIGHT]);
+
+      const result = await actionService.fightMonster(fightMonsterDtoMock);
+      expect(result).toStrictEqual({
+        statusError: 400,
+        error: 'Bad Request',
+        message: [ERRORS.NOT_WIN_FIGHT],
       });
     });
   });

@@ -11,7 +11,7 @@ import { itemMock } from '../../items/tests/item.mock';
 import { monsterMock } from '../../monsters/tests/monster.mock';
 import { Item } from '../../items/item.schema';
 import { Monster } from '../../monsters/monster.schema';
-import { buyItemDtoMock } from './action.mock';
+import { buyItemDtoMock, fightMonsterDtoMock } from './action.mock';
 import { PlayerAnalyzer } from '../../players/player.analyzer';
 
 describe('PlayerController', () => {
@@ -49,14 +49,27 @@ describe('PlayerController', () => {
 
   describe('buyItem', () => {
     it('should  buy item', async () => {
-      jest.spyOn(actionService, 'buyItem').mockResolvedValue(itemMock);
+      jest.spyOn(actionService, 'buyItem').mockResolvedValue(playerMock);
       jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
       jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
       jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
       jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionController.buyItem(buyItemDtoMock);
-      expect(result).toStrictEqual(itemMock);
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('fightMonster', () => {
+    it('should fight monster', async () => {
+      jest.spyOn(actionService, 'fightMonster').mockResolvedValue(playerMock);
+      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
+      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
+      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
+      jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
+
+      const result = await actionController.fightMonster(fightMonsterDtoMock);
+      expect(result).toStrictEqual(playerMock);
     });
   });
 });
