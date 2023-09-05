@@ -6,3 +6,7 @@ export const buyItemDtoMock: BuyItemDto = {
   itemName: itemMock.name,
   playerName: playerMock.name,
 };
+
+export const actionServiceMock = {
+  buyItem: async () => itemMock,
+};

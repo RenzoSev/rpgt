@@ -8,6 +8,7 @@ import { Monster, MonsterSchema } from '../monsters/monster.schema';
 import { Item, ItemSchema } from '../items/item.schema';
 import { ActionController } from './action.controller';
 import { PlayerAnalyzer } from '../players/player.analyzer';
+import { ActionService } from './action.service';
 
 @Module({
   imports: [
@@ -18,6 +19,12 @@ import { PlayerAnalyzer } from '../players/player.analyzer';
     ]),
   ],
   controllers: [ActionController],
-  providers: [PlayerService, MonsterService, ItemService, PlayerAnalyzer],
+  providers: [
+    ActionService,
+    PlayerService,
+    MonsterService,
+    ItemService,
+    PlayerAnalyzer,
+  ],
 })
 export class ActionModule {}
