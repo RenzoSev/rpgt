@@ -25,10 +25,17 @@ export class ActionService {
       this.playerService.get({ name: playerName }),
       this.itemService.get({ name: itemName }),
     ]);
-    const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
 
+    const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
-    return player;
+
+    // TODO: CANT BUY THE SAME ITEM TWICE
+    const playerUpdated = await this.playerService.updateBoughtItems({
+      items: [itemName],
+      playerName: player.name,
+    });
+
+    return playerUpdated;
   }
 
   async fightMonster({
