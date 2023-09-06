@@ -1,5 +1,7 @@
+import { itemMock } from '../../items/tests/item.mock';
 import { CreatePlayerDto } from '../dto/create-player.dto';
 import { GetPlayerDto } from '../dto/get-player.dto';
+import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
 import { Player } from '../player.schema';
 
 const getName = (): Player['name'] => 'name';
@@ -10,6 +12,11 @@ export const getPlayerDtoMock: GetPlayerDto = { name: getName() };
 export const createPlayerDtoMock: CreatePlayerDto = {
   name: getName(),
   class: getClass(),
+};
+
+export const updateBoughtItemsDtoMock: UpdateBoughtItemsDto = {
+  playerName: getName(),
+  items: [itemMock.name],
 };
 
 export const playerMock: Player = {

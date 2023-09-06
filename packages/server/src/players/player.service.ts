@@ -9,6 +9,7 @@ import {
   removeIdFromCreateMethod,
   removeIdFromFindMethod,
 } from '../utils/services';
+import { UpdateBoughtItemsDto } from './dto/update-bought-items.dto';
 
 @Injectable()
 export class PlayerService {
@@ -28,5 +29,26 @@ export class PlayerService {
       status: createNewStatus(),
     });
     return removeIdFromCreateMethod(player);
+  }
+
+  async updateBoughtItems({
+    playerName,
+    items,
+  }: UpdateBoughtItemsDto): Promise<Player> {
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $push: {
+          'inventory.bought': {
+            $each: items,
+          },
+        },
+      },
+      { new: true },
+    );
+
+    return player;
   }
 }
