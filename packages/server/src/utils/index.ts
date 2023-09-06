@@ -8,7 +8,7 @@ export interface BadRequestResponse<T = any> {
 }
 
 export const getRelationManyProp = (ref: string): PropOptions => ({
-  type: Schema.Types.ObjectId,
+  type: Schema.Types.String,
   ref,
   required: true,
 });
