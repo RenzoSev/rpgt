@@ -40,13 +40,18 @@ describe('ActionService', () => {
     monsterService = moduleRef.get<MonsterService>(MonsterService);
     itemService = moduleRef.get<ItemService>(ItemService);
     playerAnalyzer = moduleRef.get<PlayerAnalyzer>(PlayerAnalyzer);
+
+    jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
+    jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
+    jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
   });
 
   describe('buyItem', () => {
     it('should return player when buy is valid', async () => {
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
+      // TODO: IMPROVE SERVICE TESTS WITH TESTING ARGS
+      jest
+        .spyOn(playerService, 'updateBoughtItems')
+        .mockResolvedValue(playerMock);
       jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionService.buyItem(buyItemDtoMock);
@@ -54,9 +59,9 @@ describe('ActionService', () => {
     });
 
     it('should return errors when buy is not valid', async () => {
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
+      jest
+        .spyOn(playerService, 'updateBoughtItems')
+        .mockResolvedValue(playerMock);
       jest
         .spyOn(playerAnalyzer, 'playerBuyItem')
         .mockReturnValue([ERRORS.NOT_ENOUGH_LEVEL]);
@@ -72,9 +77,6 @@ describe('ActionService', () => {
 
   describe('fightMonster', () => {
     it('should return player when fight is valid', async () => {
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
       jest.spyOn(playerAnalyzer, 'playerFightMonster').mockReturnValue([]);
 
       const result = await actionService.fightMonster(fightMonsterDtoMock);
@@ -82,9 +84,6 @@ describe('ActionService', () => {
     });
 
     it('should return errors when fight is not valid', async () => {
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
       jest
         .spyOn(playerAnalyzer, 'playerFightMonster')
         .mockReturnValue([ERRORS.NOT_WIN_FIGHT]);
