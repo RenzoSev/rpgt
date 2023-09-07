@@ -10,6 +10,7 @@ import {
   removeIdFromFindMethod,
 } from '../utils/services';
 import { UpdateBoughtItemsDto } from './dto/update-bought-items.dto';
+import { UpdateLevelDto } from './dto/update-level.dto';
 
 @Injectable()
 export class PlayerService {
@@ -44,6 +45,22 @@ export class PlayerService {
           'inventory.bought': {
             $each: items,
           },
+        },
+      },
+      { new: true },
+    );
+
+    return player;
+  }
+
+  async updateLevel({ playerName, xp }: UpdateLevelDto): Promise<Player> {
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $inc: {
+          'status.level': xp,
         },
       },
       { new: true },

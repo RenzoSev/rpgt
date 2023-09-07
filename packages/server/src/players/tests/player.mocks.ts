@@ -1,9 +1,12 @@
+import { monsterMock } from '../../monsters/tests/monster.mock';
 import { itemMock } from '../../items/tests/item.mock';
 import { CreatePlayerDto } from '../dto/create-player.dto';
 import { GetPlayerDto } from '../dto/get-player.dto';
 import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
+import { UpdateLevelDto } from '../dto/update-level.dto';
 import { Player } from '../player.schema';
 
+// TODO: change it. there is no reason why
 const getName = (): Player['name'] => 'name';
 const getClass = (): Player['class'] => 'mage';
 
@@ -17,6 +20,11 @@ export const createPlayerDtoMock: CreatePlayerDto = {
 export const updateBoughtItemsDtoMock: UpdateBoughtItemsDto = {
   playerName: getName(),
   items: [itemMock.name],
+};
+
+export const updateLevelDtoMock: UpdateLevelDto = {
+  playerName: getName(),
+  xp: monsterMock.status.xp,
 };
 
 export const playerMock: Player = {
