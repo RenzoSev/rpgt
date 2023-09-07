@@ -16,12 +16,7 @@ import { PlayerAnalyzer } from '../../players/player.analyzer';
 
 describe('PlayerController', () => {
   let actionController: ActionController;
-
   let actionService: ActionService;
-  let playerService: PlayerService;
-  let itemService: ItemService;
-  let monsterService: MonsterService;
-  let playerAnalyzer: PlayerAnalyzer;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -41,19 +36,11 @@ describe('PlayerController', () => {
     actionController = moduleRef.get<ActionController>(ActionController);
 
     actionService = moduleRef.get<ActionService>(ActionService);
-    playerService = moduleRef.get<PlayerService>(PlayerService);
-    itemService = moduleRef.get<ItemService>(ItemService);
-    monsterService = moduleRef.get<MonsterService>(MonsterService);
-    playerAnalyzer = moduleRef.get<PlayerAnalyzer>(PlayerAnalyzer);
   });
 
   describe('buyItem', () => {
     it('should  buy item', async () => {
       jest.spyOn(actionService, 'buyItem').mockResolvedValue(playerMock);
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
-      jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionController.buyItem(buyItemDtoMock);
       expect(result).toStrictEqual(playerMock);
@@ -63,10 +50,6 @@ describe('PlayerController', () => {
   describe('fightMonster', () => {
     it('should fight monster', async () => {
       jest.spyOn(actionService, 'fightMonster').mockResolvedValue(playerMock);
-      jest.spyOn(playerService, 'get').mockResolvedValue(playerMock);
-      jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
-      jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
-      jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionController.fightMonster(fightMonsterDtoMock);
       expect(result).toStrictEqual(playerMock);

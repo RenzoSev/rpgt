@@ -46,9 +46,15 @@ export class ActionService {
       this.playerService.get({ name: playerName }),
       this.monsterService.get({ name: monsterName }),
     ]);
-    const checkResult = this.playerAnalyzer.playerFightMonster(player, monster);
 
+    const checkResult = this.playerAnalyzer.playerFightMonster(player, monster);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
-    return player;
+
+    const playerUpdated = await this.playerService.updateLevel({
+      xp: monster.status.xp,
+      playerName: player.name,
+    });
+
+    return playerUpdated;
   }
 }

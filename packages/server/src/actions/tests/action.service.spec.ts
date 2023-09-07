@@ -78,6 +78,7 @@ describe('ActionService', () => {
   describe('fightMonster', () => {
     it('should return player when fight is valid', async () => {
       jest.spyOn(playerAnalyzer, 'playerFightMonster').mockReturnValue([]);
+      jest.spyOn(playerService, 'updateLevel').mockResolvedValue(playerMock);
 
       const result = await actionService.fightMonster(fightMonsterDtoMock);
       expect(result).toStrictEqual(playerMock);
@@ -87,6 +88,7 @@ describe('ActionService', () => {
       jest
         .spyOn(playerAnalyzer, 'playerFightMonster')
         .mockReturnValue([ERRORS.NOT_WIN_FIGHT]);
+      jest.spyOn(playerService, 'updateLevel').mockResolvedValue(playerMock);
 
       const result = await actionService.fightMonster(fightMonsterDtoMock);
       expect(result).toStrictEqual({
