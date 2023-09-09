@@ -4,6 +4,7 @@ import {
   createPlayerDtoMock,
   getPlayerDtoMock,
   updateBoughtItemsDtoMock,
+  updateEquippedItemDtoMock,
   updateLevelDtoMock,
 } from './player.mocks';
 import {
@@ -14,6 +15,7 @@ import {
 import { CreatePlayerDto } from '../dto/create-player.dto';
 import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
 import { UpdateLevelDto } from '../dto/update-level.dto';
+import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
 
 describe('Player Dto', () => {
   let validationPipe: ValidationPipe;
@@ -295,6 +297,94 @@ describe('Player Dto', () => {
             'xp must not be less than 1',
             'xp must be a number conforming to the specified constraints',
             'xp should not be empty',
+          ]),
+        );
+      });
+    });
+  });
+
+  describe('UpdateEquippedItemDto', () => {
+    it('should pass validation with valid body', async () => {
+      const result = await runValidationTransformBody(validationPipe, {
+        Dto: UpdateEquippedItemDto,
+        value: updateEquippedItemDtoMock,
+      });
+      expect(result).toEqual(updateEquippedItemDtoMock);
+    });
+
+    describe('playerName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, playerName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, playerName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, playerName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be a string',
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+
+    describe('itemName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, itemName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, itemName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, itemName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be a string',
+            'itemName must be longer than or equal to 4 characters',
           ]),
         );
       });

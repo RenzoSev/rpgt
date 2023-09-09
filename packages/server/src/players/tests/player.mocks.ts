@@ -5,6 +5,7 @@ import { GetPlayerDto } from '../dto/get-player.dto';
 import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
 import { UpdateLevelDto } from '../dto/update-level.dto';
 import { Player } from '../player.schema';
+import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
 
 // TODO: change it. there is no reason why
 const getName = (): Player['name'] => 'name';
@@ -31,7 +32,12 @@ export const playerMock: Player = {
   class: getClass(),
   name: getName(),
   status: { gold: 2000, level: 30, attack: 100, defense: 100 },
-  inventory: { bought: ['123', '321'], equipped: ['456', '654'] },
+  inventory: { bought: ['attack-item'], equipped: ['456', '654'] },
+};
+
+export const updateEquippedItemDtoMock: UpdateEquippedItemDto = {
+  itemName: itemMock.name,
+  playerName: playerMock.name,
 };
 
 export const playerServiceMock = {
