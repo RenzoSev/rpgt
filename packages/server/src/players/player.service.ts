@@ -11,6 +11,7 @@ import {
 } from '../utils/services';
 import { UpdateBoughtItemsDto } from './dto/update-bought-items.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
+import { UpdateEquippedItemDto } from './dto/update-equipped-item-dto';
 
 @Injectable()
 export class PlayerService {
@@ -66,6 +67,42 @@ export class PlayerService {
       { new: true },
     );
 
+    return player;
+  }
+
+  async updateAttackEquippedItem({
+    playerName,
+    itemName,
+  }: UpdateEquippedItemDto): Promise<Player> {
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $set: {
+          'inventory.bought.0': itemName,
+        },
+      },
+      { new: true },
+    );
+    return player;
+  }
+
+  async updateDefenseEquippedItem({
+    playerName,
+    itemName,
+  }: UpdateEquippedItemDto): Promise<Player> {
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $set: {
+          'inventory.bought.1': itemName,
+        },
+      },
+      { new: true },
+    );
     return player;
   }
 }

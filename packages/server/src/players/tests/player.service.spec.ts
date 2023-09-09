@@ -5,6 +5,8 @@ import {
   getPlayerDtoMock,
   playerMock,
   updateBoughtItemsDtoMock,
+  updateEquippedItemDtoMock,
+  updateLevelDtoMock,
 } from './player.mocks';
 import { getModelToken } from '@nestjs/mongoose';
 import { Player } from '../player.schema';
@@ -75,6 +77,67 @@ describe('PlayerService', () => {
             'inventory.bought': {
               $each: updateBoughtItemsDtoMock.items,
             },
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('updateLevel', () => {
+    it('should update player level', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateLevel(updateLevelDtoMock);
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateLevelDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.level': updateLevelDtoMock.xp,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('updateAttackEquippedItem', () => {
+    it('should update player attack equipped item', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateAttackEquippedItem(
+        updateEquippedItemDtoMock,
+      );
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateEquippedItemDtoMock.playerName,
+        },
+        {
+          $set: {
+            'inventory.bought.0': updateEquippedItemDtoMock.itemName,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('updateDefenseEquippedItem', () => {
+    it('should update player defense equipped item', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateDefenseEquippedItem(
+        updateEquippedItemDtoMock,
+      );
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateEquippedItemDtoMock.playerName,
+        },
+        {
+          $set: {
+            'inventory.bought.1': updateEquippedItemDtoMock.itemName,
           },
         },
         { new: true },
