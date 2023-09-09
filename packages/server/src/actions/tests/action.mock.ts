@@ -20,6 +20,11 @@ export const fightMonsterDtoMock: FightMonsterDto = {
   playerName: playerMock.name,
 };
 
+export const equipItemDtoMock: EquipItemDto = {
+  itemName: itemMock.name,
+  playerName: playerMock.name,
+};
+
 export const actionServiceMock = {
   buyItem: async () => itemMock,
 };

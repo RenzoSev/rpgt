@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Post,
+  Patch,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -10,12 +10,13 @@ import { ActionService } from './action.service';
 import { BadRequestResponse } from '../utils';
 import { Player } from 'src/players/player.schema';
 import { FightMonsterDto } from './dto/fight-monster.dto';
+import { EquipItemDto } from './dto/equip-item-dto';
 
 @Controller()
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
-  @Post('/actions/buy-item')
+  @Patch('/actions/buy-item')
   @UsePipes(ValidationPipe)
   async buyItem(
     @Body() buyItemDto: BuyItemDto,
@@ -24,12 +25,21 @@ export class ActionController {
     return action;
   }
 
-  @Post('/actions/fight-monster')
+  @Patch('/actions/fight-monster')
   @UsePipes(ValidationPipe)
   async fightMonster(
     @Body() fightMonsterDto: FightMonsterDto,
   ): Promise<Player | BadRequestResponse<string[]>> {
     const action = await this.actionService.fightMonster(fightMonsterDto);
+    return action;
+  }
+
+  @Patch('/actions/equip-item')
+  @UsePipes(ValidationPipe)
+  async equipItem(
+    @Body() equipItemDto: EquipItemDto,
+  ): Promise<Player | BadRequestResponse<string[]>> {
+    const action = await this.actionService.equipItem(equipItemDto);
     return action;
   }
 }

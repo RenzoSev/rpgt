@@ -11,7 +11,11 @@ import { itemMock } from '../../items/tests/item.mock';
 import { monsterMock } from '../../monsters/tests/monster.mock';
 import { Item } from '../../items/item.schema';
 import { Monster } from '../../monsters/monster.schema';
-import { buyItemDtoMock, fightMonsterDtoMock } from './action.mock';
+import {
+  buyItemDtoMock,
+  equipItemDtoMock,
+  fightMonsterDtoMock,
+} from './action.mock';
 import { PlayerAnalyzer } from '../../players/player.analyzer';
 
 describe('PlayerController', () => {
@@ -52,6 +56,15 @@ describe('PlayerController', () => {
       jest.spyOn(actionService, 'fightMonster').mockResolvedValue(playerMock);
 
       const result = await actionController.fightMonster(fightMonsterDtoMock);
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('equipItem', () => {
+    it('should fight monster', async () => {
+      jest.spyOn(actionService, 'equipItem').mockResolvedValue(playerMock);
+
+      const result = await actionController.equipItem(equipItemDtoMock);
       expect(result).toStrictEqual(playerMock);
     });
   });
