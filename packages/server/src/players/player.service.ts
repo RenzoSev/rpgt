@@ -80,7 +80,7 @@ export class PlayerService {
       },
       {
         $set: {
-          'inventory.bought.0': itemName,
+          'inventory.equipped.0': itemName,
         },
       },
       { new: true },
@@ -98,7 +98,7 @@ export class PlayerService {
       },
       {
         $set: {
-          'inventory.bought.1': itemName,
+          'inventory.equipped.1': itemName,
         },
       },
       { new: true },

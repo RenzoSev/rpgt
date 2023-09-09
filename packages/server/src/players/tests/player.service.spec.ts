@@ -116,7 +116,7 @@ describe('PlayerService', () => {
         },
         {
           $set: {
-            'inventory.bought.0': updateEquippedItemDtoMock.itemName,
+            'inventory.equipped.0': updateEquippedItemDtoMock.itemName,
           },
         },
         { new: true },
@@ -137,7 +137,7 @@ describe('PlayerService', () => {
         },
         {
           $set: {
-            'inventory.bought.1': updateEquippedItemDtoMock.itemName,
+            'inventory.equipped.1': updateEquippedItemDtoMock.itemName,
           },
         },
         { new: true },
