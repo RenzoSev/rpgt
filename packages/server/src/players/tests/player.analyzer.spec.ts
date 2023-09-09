@@ -94,4 +94,20 @@ describe('PlayerAnalyzer', () => {
       });
     });
   });
+
+  describe('playerEquipItem', () => {
+    it('should pass without errors', () => {
+      const player: Player = playerMock;
+      const item: Item = itemMock;
+      const result = playerAnalyzer.playerEquipItem(player, item);
+      expect(result).toStrictEqual([]);
+    });
+
+    it('should return error when player.inventory.bought has not the item to equip', () => {
+      const player: Player = playerMock;
+      const item: Item = { ...itemMock, name: 'no-bought' };
+      const result = playerAnalyzer.playerEquipItem(player, item);
+      expect(result).toStrictEqual([ERRORS.NOT_ON_INVENTORY]);
+    });
+  });
 });

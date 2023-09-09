@@ -62,4 +62,16 @@ export class PlayerAnalyzer {
     const errors = this.check(checkers);
     return errors;
   }
+
+  playerEquipItem(player: Player, item: Item) {
+    const bought = player.inventory.bought as string[];
+    const checkers = {
+      inventory: {
+        condition: !bought.includes(item.name),
+        error: ERRORS.NOT_ON_INVENTORY,
+      },
+    };
+    const errors = this.check(checkers);
+    return errors;
+  }
 }
