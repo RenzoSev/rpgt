@@ -69,14 +69,14 @@ export class ActionService {
     const checkResult = this.playerAnalyzer.playerEquipItem(player, item);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
 
-    const updateItem =
-      item.type === 'weapon'
-        ? this.playerService.updateAttackEquippedItem
-        : this.playerService.updateDefenseEquippedItem;
-    const playerUpdate = await updateItem({
-      playerName,
+    const payload = {
       itemName,
-    });
+      playerName,
+    };
+    const playerUpdate =
+      item.type === 'weapon'
+        ? await this.playerService.updateAttackEquippedItem(payload)
+        : await this.playerService.updateDefenseEquippedItem(payload);
     return playerUpdate;
   }
 }

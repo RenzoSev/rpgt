@@ -25,6 +25,7 @@ export class ItemService {
     return item;
   }
 
+  // TODO: should not create an item with the same name
   async create(createItemDto: CreateItemDto): Promise<Item> {
     const item = await this.itemModel.create(createItemDto);
     return removeIdFromCreateMethod(item);
