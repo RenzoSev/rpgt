@@ -5,8 +5,13 @@ import {
   runValidationTransformBody,
 } from '../../utils/tests';
 import { BuyItemDto } from '../dto/buy-item.dto';
-import { buyItemDtoMock, fightMonsterDtoMock } from './action.mock';
+import {
+  buyItemDtoMock,
+  equipItemDto,
+  fightMonsterDtoMock,
+} from './action.mock';
 import { FightMonsterDto } from '../dto/fight-monster.dto';
+import { EquipItemDto } from '../dto/equip-item-dto';
 
 describe('Player Dto', () => {
   let validationPipe: ValidationPipe;
@@ -188,6 +193,94 @@ describe('Player Dto', () => {
           getValidationPipeError([
             'monsterName must be a string',
             'monsterName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+  });
+
+  describe('EquipItemDto', () => {
+    it('should pass validation with valid body', async () => {
+      const result = await runValidationTransformBody(validationPipe, {
+        Dto: EquipItemDto,
+        value: equipItemDto,
+      });
+      expect(result).toEqual(equipItemDto);
+    });
+
+    describe('playerName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, playerName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, playerName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, playerName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be a string',
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+
+    describe('itemName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, itemName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, itemName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: EquipItemDto,
+          value: { ...equipItemDto, itemName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'itemName must be a string',
+            'itemName must be longer than or equal to 4 characters',
           ]),
         );
       });

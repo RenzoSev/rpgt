@@ -7,6 +7,7 @@ import { PlayerAnalyzer } from '../players/player.analyzer';
 import { BadRequestResponse, buildBadRequestResponse } from '../utils';
 import { FightMonsterDto } from './dto/fight-monster.dto';
 import { Player } from 'src/players/player.schema';
+import { EquipItemDto } from './dto/equip-item-dto';
 
 @Injectable()
 export class ActionService {
@@ -34,7 +35,6 @@ export class ActionService {
       items: [itemName],
       playerName: player.name,
     });
-
     return playerUpdated;
   }
 
@@ -54,7 +54,29 @@ export class ActionService {
       xp: monster.status.xp,
       playerName: player.name,
     });
-
     return playerUpdated;
+  }
+
+  async equipItem({
+    itemName,
+    playerName,
+  }: EquipItemDto): Promise<Player | BadRequestResponse<string[]>> {
+    const [player, item] = await Promise.all([
+      this.playerService.get({ name: playerName }),
+      this.itemService.get({ name: itemName }),
+    ]);
+
+    const checkResult = this.playerAnalyzer.playerEquipItem(player, item);
+    if (checkResult.length) return buildBadRequestResponse(checkResult);
+
+    const updateItem =
+      item.type === 'weapon'
+        ? this.playerService.updateAttackEquippedItem
+        : this.playerService.updateDefenseEquippedItem;
+    const playerUpdate = await updateItem({
+      playerName,
+      itemName,
+    });
+    return playerUpdate;
   }
 }

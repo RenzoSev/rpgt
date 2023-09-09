@@ -3,7 +3,10 @@ import { ItemService } from '../../items/item.service';
 import { MonsterService } from '../../monsters/monster.service';
 import { PlayerService } from '../../players/player.service';
 import { ActionService } from '../action.service';
-import { playerMock } from '../../players/tests/player.mocks';
+import {
+  playerMock,
+  updateEquippedItemDtoMock,
+} from '../../players/tests/player.mocks';
 import { itemMock } from '../../items/tests/item.mock';
 import { monsterMock } from '../../monsters/tests/monster.mock';
 import { buyItemDtoMock, fightMonsterDtoMock } from './action.mock';
@@ -95,6 +98,50 @@ describe('ActionService', () => {
         statusError: 400,
         error: 'Bad Request',
         message: [ERRORS.NOT_WIN_FIGHT],
+      });
+    });
+  });
+
+  describe('equipItem', () => {
+    it('should return player when equip attack is valid', async () => {
+      jest.spyOn(playerAnalyzer, 'playerEquipItem').mockReturnValue([]);
+      jest
+        .spyOn(playerService, 'updateAttackEquippedItem')
+        .mockResolvedValue(playerMock);
+
+      const result = await actionService.equipItem({
+        playerName: playerMock.name,
+        itemName: itemMock.name,
+      });
+      expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should return player when equip defense is valid', async () => {
+      jest.spyOn(playerAnalyzer, 'playerEquipItem').mockReturnValue([]);
+      jest
+        .spyOn(itemService, 'get')
+        .mockResolvedValue({ ...itemMock, type: 'shield' });
+      jest
+        .spyOn(playerService, 'updateDefenseEquippedItem')
+        .mockResolvedValue(playerMock);
+
+      const result = await actionService.equipItem(updateEquippedItemDtoMock);
+      expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should return errors when equip item is not valid', async () => {
+      jest
+        .spyOn(playerAnalyzer, 'playerEquipItem')
+        .mockReturnValue([ERRORS.NOT_ON_INVENTORY]);
+      jest
+        .spyOn(playerService, 'updateAttackEquippedItem')
+        .mockResolvedValue(playerMock);
+
+      const result = await actionService.equipItem(updateEquippedItemDtoMock);
+      expect(result).toStrictEqual({
+        statusError: 400,
+        error: 'Bad Request',
+        message: [ERRORS.NOT_ON_INVENTORY],
       });
     });
   });
