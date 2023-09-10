@@ -12,6 +12,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Player } from '../player.schema';
 import { createNewInventory, createNewStatus } from '../utils/database';
 import { removeIdFromFindMethod } from '../../utils/services';
+import { MESSAGES } from '../../utils/constants';
 
 describe('PlayerService', () => {
   let playerService: PlayerService;
@@ -39,7 +40,7 @@ describe('PlayerService', () => {
         exec: jest.fn().mockResolvedValue(playerMock),
       });
       const result = await playerService.get(getPlayerDtoMock);
-      expect(playerModel.findOne).toHaveBeenCalledWith(
+      expect(playerModel.findOne).toBeCalledWith(
         getPlayerDtoMock,
         removeIdFromFindMethod,
       );
@@ -49,16 +50,33 @@ describe('PlayerService', () => {
 
   describe('create', () => {
     it('should create player', async () => {
+      playerModel.findOne.mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null),
+      });
       playerModel.create.mockResolvedValue({
         toObject: jest.fn().mockReturnValue(playerMock),
       });
       const result = await playerService.create(createPlayerDtoMock);
-      expect(playerModel.create).toHaveBeenCalledWith({
+      expect(playerModel.findOne).toBeCalledWith({
+        name: createPlayerDtoMock.name,
+      });
+      expect(playerModel.create).toBeCalledWith({
         ...createPlayerDtoMock,
         inventory: createNewInventory(),
         status: createNewStatus(),
       });
       expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should return message when player with same name already exists', async () => {
+      playerModel.findOne.mockReturnValue({
+        exec: jest.fn().mockResolvedValue(playerMock),
+      });
+      const result = await playerService.create(createPlayerDtoMock);
+      expect(playerModel.findOne).toBeCalledWith({
+        name: createPlayerDtoMock.name,
+      });
+      expect(result).toStrictEqual(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME);
     });
   });
 

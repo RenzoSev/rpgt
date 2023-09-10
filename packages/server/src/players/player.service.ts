@@ -12,6 +12,7 @@ import {
 import { UpdateBoughtItemsDto } from './dto/update-bought-items.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
 import { UpdateEquippedItemDto } from './dto/update-equipped-item-dto';
+import { MESSAGES } from '../utils/constants';
 
 @Injectable()
 export class PlayerService {
@@ -24,7 +25,16 @@ export class PlayerService {
     return player;
   }
 
-  async create(createPlayerDto: CreatePlayerDto): Promise<Player> {
+  async create(
+    createPlayerDto: CreatePlayerDto,
+  ): Promise<Player | MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME> {
+    const hasPlayer = await this.playerModel
+      .findOne({
+        name: createPlayerDto.name,
+      })
+      .exec();
+    if (hasPlayer) return MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME;
+
     const player = await this.playerModel.create({
       ...createPlayerDto,
       inventory: createNewInventory(),

@@ -8,6 +8,8 @@ import {
 } from './player.mocks';
 import { getModelToken } from '@nestjs/mongoose';
 import { Player } from '../player.schema';
+import { MESSAGES } from '../../utils/constants';
+import { buildBadRequestResponse } from '../../utils';
 
 describe('PlayerController', () => {
   let playerController: PlayerController;
@@ -39,6 +41,16 @@ describe('PlayerController', () => {
       jest.spyOn(playerService, 'create').mockResolvedValue(playerMock);
       const result = await playerController.create(createPlayerDtoMock);
       expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should return bad request when player with same name already exists', async () => {
+      jest
+        .spyOn(playerService, 'create')
+        .mockResolvedValue(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME);
+      const result = await playerController.create(createPlayerDtoMock);
+      expect(result).toStrictEqual(
+        buildBadRequestResponse(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME),
+      );
     });
   });
 });
