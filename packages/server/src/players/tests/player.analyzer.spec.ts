@@ -24,23 +24,30 @@ describe('PlayerAnalyzer', () => {
   describe('playerBuyItem', () => {
     it('should pass without errors', () => {
       const player: Player = playerMock;
-      const item: Item = itemMock;
+      const item: Item = { ...itemMock, name: 'item' };
       const result = playerAnalyzer.playerBuyItem(player, item);
       expect(result).toStrictEqual([]);
     });
 
     it('should return error when player.gold is not enough to buy item', () => {
       const player: Player = playerMock;
-      const item: Item = { ...itemMock, gold: 100000 };
+      const item: Item = { ...itemMock, name: 'item', gold: 100000 };
       const result = playerAnalyzer.playerBuyItem(player, item);
       expect(result).toStrictEqual([ERRORS.NOT_ENOUGH_GOLD]);
     });
 
     it('should return error when player.level is not enough to buy item', () => {
       const player: Player = playerMock;
-      const item: Item = { ...itemMock, level: 100000 };
+      const item: Item = { ...itemMock, name: 'item', level: 100000 };
       const result = playerAnalyzer.playerBuyItem(player, item);
       expect(result).toStrictEqual([ERRORS.NOT_ENOUGH_LEVEL]);
+    });
+
+    it('should return error when player.inventory has already the item', () => {
+      const player: Player = playerMock;
+      const item: Item = itemMock;
+      const result = playerAnalyzer.playerBuyItem(player, item);
+      expect(result).toStrictEqual([ERRORS.HAS_ON_INVENTORY]);
     });
 
     it('should return errors sorted on', () => {
@@ -50,6 +57,7 @@ describe('PlayerAnalyzer', () => {
       expect(result).toStrictEqual([
         ERRORS.NOT_ENOUGH_LEVEL,
         ERRORS.NOT_ENOUGH_GOLD,
+        ERRORS.HAS_ON_INVENTORY,
       ]);
     });
   });

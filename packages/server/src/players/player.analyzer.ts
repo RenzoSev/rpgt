@@ -22,6 +22,9 @@ export class PlayerAnalyzer {
   }
 
   playerBuyItem(player: Player, item: Item): string[] | [] {
+    const bought = player.inventory.bought as string[];
+    const equipped = player.inventory.equipped as string[];
+
     const checkers: Checkers = {
       level: {
         condition: player.status.level < item.level,
@@ -31,6 +34,11 @@ export class PlayerAnalyzer {
       gold: {
         condition: player.status.gold < item.gold,
         error: ERRORS.NOT_ENOUGH_GOLD,
+      },
+
+      inventory: {
+        condition: bought.includes(item.name) || equipped.includes(item.name),
+        error: ERRORS.HAS_ON_INVENTORY,
       },
     };
     const errors = this.check(checkers);

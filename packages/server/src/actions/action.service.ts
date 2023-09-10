@@ -30,7 +30,6 @@ export class ActionService {
     const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
 
-    // TODO: CANT BUY THE SAME ITEM TWICE
     const playerUpdated = await this.playerService.updateBoughtItems({
       items: [itemName],
       playerName: player.name,

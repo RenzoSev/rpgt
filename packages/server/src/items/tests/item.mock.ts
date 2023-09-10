@@ -18,7 +18,7 @@ export const createItemDtoMock: CreateItemDto = {
 };
 
 export const getItemDtoMock: GetItemDto = {
-  name: 'attack-item',
+  name: 'item',
 };
 
 export const itemMock: Item = {
