@@ -7,30 +7,29 @@ import { UpdateLevelDto } from '../dto/update-level.dto';
 import { Player } from '../player.schema';
 import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
 
-// TODO: change it. there is no reason why
-const getName = (): Player['name'] => 'name';
-const getClass = (): Player['class'] => 'mage';
+const name = 'name';
+const className = 'mage';
 
-export const getPlayerDtoMock: GetPlayerDto = { name: getName() };
+export const getPlayerDtoMock: GetPlayerDto = { name: name };
 
 export const createPlayerDtoMock: CreatePlayerDto = {
-  name: getName(),
-  class: getClass(),
+  name: name,
+  class: className,
 };
 
 export const updateBoughtItemsDtoMock: UpdateBoughtItemsDto = {
-  playerName: getName(),
+  playerName: name,
   items: [itemMock.name],
 };
 
 export const updateLevelDtoMock: UpdateLevelDto = {
-  playerName: getName(),
+  playerName: name,
   xp: monsterMock.status.xp,
 };
 
 export const playerMock: Player = {
-  class: getClass(),
-  name: getName(),
+  class: className,
+  name: name,
   status: { gold: 2000, level: 30, attack: 100, defense: 100 },
   inventory: { bought: ['attack-item'], equipped: ['456', '654'] },
 };

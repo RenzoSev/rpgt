@@ -2,19 +2,19 @@ import { CreateItemDto } from '../dto/create-item.dto';
 import { GetItemDto } from '../dto/get-item.dto';
 import { Item } from '../item.schema';
 
-const getAttack = (): Item['attack'] => 1;
-const getDefense = (): Item['defense'] => 1;
-const getGold = (): Item['gold'] => 1;
-const getLevel = (): Item['level'] => 1;
-const getAttackName = (): Item['name'] => 'attack-item';
-const getAttackType = (type: Item['type'] = 'weapon'): Item['type'] => type;
+const attack = 1;
+const defense = 1;
+const gold = 1;
+const level = 1;
+const attackName = 'attack-item';
+const attackType = 'weapon';
 
 export const createItemDtoMock: CreateItemDto = {
-  attack: getAttack(),
-  gold: getGold(),
-  level: getLevel(),
-  name: getAttackName(),
-  type: getAttackType(),
+  attack: attack,
+  gold: gold,
+  level: level,
+  name: attackName,
+  type: attackType,
 };
 
 export const getItemDtoMock: GetItemDto = {
@@ -22,27 +22,27 @@ export const getItemDtoMock: GetItemDto = {
 };
 
 export const itemMock: Item = {
-  attack: getAttack(),
-  gold: getGold(),
-  level: getLevel(),
-  name: getAttackName(),
-  type: getAttackType(),
+  attack: attack,
+  gold: gold,
+  level: level,
+  name: attackName,
+  type: attackType,
 };
 
 export const itemsMock: Item[] = [
   {
-    attack: getAttack(),
-    gold: getGold(),
-    level: getLevel(),
-    name: getAttackName(),
-    type: getAttackType(),
+    attack: attack,
+    gold: gold,
+    level: level,
+    name: attackName,
+    type: attackType,
   },
   {
-    defense: getDefense(),
-    gold: getGold(),
-    level: getLevel(),
-    name: getAttackName(),
-    type: getAttackType('shield'),
+    defense: defense,
+    gold: gold,
+    level: level,
+    name: attackName,
+    type: attackType,
   },
 ];
 

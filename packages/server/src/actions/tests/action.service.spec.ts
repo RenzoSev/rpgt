@@ -51,7 +51,6 @@ describe('ActionService', () => {
 
   describe('buyItem', () => {
     it('should return player when buy is valid', async () => {
-      // TODO: IMPROVE SERVICE TESTS WITH TESTING ARGS
       jest
         .spyOn(playerService, 'updateBoughtItems')
         .mockResolvedValue(playerMock);

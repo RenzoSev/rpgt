@@ -2,7 +2,7 @@ import { CreateMonsterDto } from '../dto/create-monster.dto';
 import { GetMonsterDto } from '../dto/get-monster.dto';
 import { Monster } from '../monster.schema';
 
-const getName = (): Monster['name'] => 'monster';
+const name = 'monster';
 const getStatus = (): Monster['status'] => ({
   attack: 1,
   defense: 1,
@@ -11,16 +11,16 @@ const getStatus = (): Monster['status'] => ({
 });
 
 export const createMonsterDtoMock: CreateMonsterDto = {
-  name: getName(),
+  name: name,
   status: getStatus(),
 };
 
 export const getMonsterDtoMock: GetMonsterDto = {
-  name: getName(),
+  name: name,
 };
 
 export const monsterMock: Monster = {
-  name: getName(),
+  name: name,
   status: getStatus(),
 };
 
