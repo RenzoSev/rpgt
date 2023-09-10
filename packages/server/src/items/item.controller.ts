@@ -10,6 +10,8 @@ import { ItemService } from './item.service';
 import { GetItemDto } from './dto/get-item.dto';
 import { Item } from './item.schema';
 import { CreateItemDto } from './dto/create-item.dto';
+import { BadRequestResponse, buildBadRequestResponse } from '../utils';
+import { MESSAGES } from '../utils/constants';
 
 @Controller()
 export class ItemController {
@@ -30,8 +32,11 @@ export class ItemController {
 
   @Post('/item')
   @UsePipes(ValidationPipe)
-  async create(@Body() createItemDto: CreateItemDto): Promise<Item> {
+  async create(
+    @Body() createItemDto: CreateItemDto,
+  ): Promise<Item | BadRequestResponse<MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME>> {
     const item = await this.itemService.create(createItemDto);
+    if (typeof item === 'string') return buildBadRequestResponse(item);
     return item;
   }
 }

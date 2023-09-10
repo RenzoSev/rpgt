@@ -9,6 +9,8 @@ import {
   itemsMock,
 } from './item.mock';
 import { getModelToken } from '@nestjs/mongoose';
+import { MESSAGES } from '../../utils/constants';
+import { buildBadRequestResponse } from '../../utils';
 
 describe('ItemController', () => {
   let itemController: ItemController;
@@ -61,6 +63,16 @@ describe('ItemController', () => {
       jest.spyOn(itemService, 'create').mockResolvedValue(itemMock);
       const result = await itemController.create(createItemDtoMock);
       expect(result).toStrictEqual(itemMock);
+    });
+
+    it('should return bad request when item with same name already exists', async () => {
+      jest
+        .spyOn(itemService, 'create')
+        .mockResolvedValue(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME);
+      const result = await itemController.create(createItemDtoMock);
+      expect(result).toStrictEqual(
+        buildBadRequestResponse(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME),
+      );
     });
   });
 });

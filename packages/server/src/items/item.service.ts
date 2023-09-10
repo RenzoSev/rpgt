@@ -8,6 +8,7 @@ import {
   removeIdFromCreateMethod,
   removeIdFromFindMethod,
 } from '../utils/services';
+import { MESSAGES } from '../utils/constants';
 
 @Injectable()
 export class ItemService {
@@ -25,8 +26,16 @@ export class ItemService {
     return item;
   }
 
-  // TODO: should not create an item with the same name
-  async create(createItemDto: CreateItemDto): Promise<Item> {
+  async create(
+    createItemDto: CreateItemDto,
+  ): Promise<Item | MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME> {
+    const hasItem = await this.itemModel
+      .findOne({
+        name: createItemDto.name,
+      })
+      .exec();
+    if (hasItem) return MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME;
+
     const item = await this.itemModel.create(createItemDto);
     return removeIdFromCreateMethod(item);
   }
