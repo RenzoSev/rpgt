@@ -7,6 +7,8 @@ import {
 } from './monster.mock';
 import { getModelToken } from '@nestjs/mongoose';
 import { Monster } from '../monster.schema';
+import { MESSAGES } from '../../utils/constants';
+import { removeIdFromFindMethod } from '../../utils/services';
 
 describe('MonsterService', () => {
   let monsterService: MonsterService;
@@ -28,23 +30,44 @@ describe('MonsterService', () => {
   });
 
   describe('get', () => {
-    createMonsterDtoMock;
     it('should return get monster', async () => {
       monsterModel.findOne.mockReturnValue({
         exec: jest.fn().mockResolvedValue(monsterMock),
       });
       const result = await monsterService.get(getMonsterDtoMock);
+      expect(monsterModel.findOne).toBeCalledWith(
+        getMonsterDtoMock,
+        removeIdFromFindMethod,
+      );
       expect(result).toStrictEqual(monsterMock);
     });
   });
 
   describe('create', () => {
     it('should create monster', async () => {
+      monsterModel.findOne.mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null),
+      });
       monsterModel.create.mockResolvedValue({
         toObject: jest.fn().mockReturnValue(monsterMock),
       });
       const result = await monsterService.create(createMonsterDtoMock);
+      expect(monsterModel.findOne).toBeCalledWith({
+        name: createMonsterDtoMock.name,
+      });
+      expect(monsterModel.create).toBeCalledWith(createMonsterDtoMock);
       expect(result).toStrictEqual(monsterMock);
+    });
+
+    it('should return message when monster with same name already exists', async () => {
+      monsterModel.findOne.mockReturnValue({
+        exec: jest.fn().mockResolvedValue(monsterMock),
+      });
+      const result = await monsterService.create(createMonsterDtoMock);
+      expect(monsterModel.findOne).toBeCalledWith({
+        name: createMonsterDtoMock.name,
+      });
+      expect(result).toStrictEqual(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME);
     });
   });
 });

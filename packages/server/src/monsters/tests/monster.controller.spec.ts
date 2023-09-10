@@ -8,6 +8,8 @@ import {
   monsterMock,
 } from './monster.mock';
 import { getModelToken } from '@nestjs/mongoose';
+import { MESSAGES } from '../../utils/constants';
+import { buildBadRequestResponse } from '../../utils';
 
 describe('MonsterController', () => {
   let monsterController: MonsterController;
@@ -39,6 +41,16 @@ describe('MonsterController', () => {
       jest.spyOn(monsterService, 'create').mockResolvedValue(monsterMock);
       const result = await monsterController.create(createMonsterDtoMock);
       expect(result).toStrictEqual(monsterMock);
+    });
+
+    it('should return bad request when monster with same name already exists', async () => {
+      jest
+        .spyOn(monsterService, 'create')
+        .mockResolvedValue(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME);
+      const result = await monsterController.create(createMonsterDtoMock);
+      expect(result).toStrictEqual(
+        buildBadRequestResponse(MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME),
+      );
     });
   });
 });

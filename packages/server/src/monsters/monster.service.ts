@@ -8,6 +8,7 @@ import {
   removeIdFromCreateMethod,
   removeIdFromFindMethod,
 } from '../utils/services';
+import { MESSAGES } from '../utils/constants';
 
 @Injectable()
 export class MonsterService {
@@ -22,7 +23,16 @@ export class MonsterService {
     return monster;
   }
 
-  async create(createMonsterDto: CreateMonsterDto): Promise<Monster> {
+  async create(
+    createMonsterDto: CreateMonsterDto,
+  ): Promise<Monster | MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME> {
+    const hasMonster = await this.monsterModel
+      .findOne({
+        name: createMonsterDto.name,
+      })
+      .exec();
+    if (hasMonster) return MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME;
+
     const monster = await this.monsterModel.create(createMonsterDto);
     return removeIdFromCreateMethod(monster);
   }
