@@ -1,25 +1,25 @@
 import { Item, Shield, Weapon } from "./Items";
 import { Service } from "./Service";
 
-export interface IProfileInventory {
+export interface IPlayerInventory {
   bought: number[];
   equipped: [number, number];
 }
 
-export interface IProfileStatus {
+export interface IPlayerStatus {
   gold: number;
   level: number;
 }
 
-export interface IProfile {
+export interface IPlayer {
   id: string;
   nickname: string;
   class: string;
-  inventory: IProfileInventory;
-  status: IProfileStatus;
+  inventory: IPlayerInventory;
+  status: IPlayerStatus;
 }
 
-export const profile: IProfile = {
+export const player: IPlayer = {
   id: "ads:298209382902",
   nickname: "alexstrasza",
   class: "mage",
@@ -55,10 +55,10 @@ export const profile: IProfile = {
   },
 };
 
-export class Profile implements Service {
-  async getAll(): Promise<IProfile> {
-    console.log("Starting request for profile");
+export class Player implements Service {
+  async getAll(): Promise<IPlayer> {
+    console.log("Starting request for player");
 
-    return profile;
+    return player;
   }
 }

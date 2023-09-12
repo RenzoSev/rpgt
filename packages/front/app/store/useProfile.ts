@@ -1,7 +1,7 @@
 'use client';
 
 import { atom } from 'jotai';
-import { IProfile } from '../services/Profile';
+import { IProfile } from '../services/Player';
 
 export const profile = atom<IProfile>({
   id: String(),

@@ -6,7 +6,7 @@ import {
   weapons,
   weaponsShop,
 } from './Items';
-import { IProfile, profile as profileMock } from './Profile';
+import { IProfile, profile as profileMock } from './Player';
 import { Service } from './Service';
 
 export class ShopItems implements Service {
