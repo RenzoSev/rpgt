@@ -39,7 +39,15 @@ import {
 import { getValidationPipeError } from '../src/utils/tests';
 import { ActionModule } from '../src/actions/action.module';
 import { ActionService } from '../src/actions/action.service';
-import { actionServiceMock } from '../src/actions/tests/action.mock';
+import {
+  actionServiceMock,
+  buyItemDtoMock,
+  buyItemErrorMessageForInvalidBody,
+  equipItemDtoMock,
+  equipItemErrorMessageForInvalidBody,
+  fightMonsterDtoMock,
+  fightMonsterErrorMessageForInvalidBody,
+} from '../src/actions/tests/action.mock';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -208,6 +216,58 @@ describe('AppController (e2e)', () => {
   });
 
   describe('Action', () => {
-    describe('OK', () => {});
+    describe('OK', () => {
+      it('should /actions/buy-item (PATCH) without errors', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/buy-item')
+          .send(buyItemDtoMock)
+          .expect(200)
+          .expect(playerMock);
+      });
+
+      it('should /actions/fight-monster (PATCH) without errors', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/fight-monster')
+          .send(fightMonsterDtoMock)
+          .expect(200)
+          .expect(playerMock);
+      });
+
+      it('should /actions/equip-item (PATCH) without errors', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/equip-item')
+          .send(equipItemDtoMock)
+          .expect(200)
+          .expect(playerMock);
+      });
+    });
+
+    describe('ERROR', () => {
+      it('should /actions/buy-item (PATCH) with error when body is invalid', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/buy-item')
+          .send({})
+          .expect(400)
+          .expect(getValidationPipeError(buyItemErrorMessageForInvalidBody));
+      });
+
+      it('should /actions/fight-monster (PATCH) with error when body is invalid', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/fight-monster')
+          .send({})
+          .expect(400)
+          .expect(
+            getValidationPipeError(fightMonsterErrorMessageForInvalidBody),
+          );
+      });
+
+      it('should /actions/equip-item (PATCH) with error when body is invalid', () => {
+        return request(app.getHttpServer())
+          .patch('/actions/equip-item')
+          .send({})
+          .expect(400)
+          .expect(getValidationPipeError(equipItemErrorMessageForInvalidBody));
+      });
+    });
   });
 });
