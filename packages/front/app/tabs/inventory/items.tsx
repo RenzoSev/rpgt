@@ -7,6 +7,7 @@ import {
 import { IItem, Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
 import classNames from 'classnames';
+import { player as playerAtom } from '@/app/store/usePlayer';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
 import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
 import {
@@ -18,6 +19,11 @@ import {
   AlertDialog,
   AlertDialogTextsProps,
 } from '@/app/components/alert-dialog';
+import { useAtom } from 'jotai';
+import {
+  playerHasBoughtItem,
+  playerHasEquippedItem,
+} from '@/app/utils/analyzer';
 
 export default function Items() {
   const itemsService = new ItemsService();
@@ -26,6 +32,7 @@ export default function Items() {
     itemsAtom,
     hasFetchedAtom
   );
+  const [player] = useAtom(playerAtom);
 
   const getTexts = (
     itemName: string,
@@ -54,7 +61,7 @@ export default function Items() {
     <>
       {items.map(
         ({ id, name, status }) =>
-          status.bought && (
+          playerHasBoughtItem(name, player.inventory.bought) && (
             <AlertDialog
               key={id}
               texts={getTexts(name, status)}
@@ -68,8 +75,14 @@ export default function Items() {
                     <div className="flex items-center gap-1">
                       <span
                         className={classNames('h-3 w-3 rounded-full', {
-                          'bg-ctp-red': status.equipped,
-                          'bg-ctp-green': !status.equipped,
+                          'bg-ctp-red': playerHasEquippedItem(
+                            name,
+                            player.inventory.equipped
+                          ),
+                          'bg-ctp-green': !playerHasEquippedItem(
+                            name,
+                            player.inventory.equipped
+                          ),
                         })}
                       ></span>
                       <p className="text-lg font-bold text-ctp-subtext0">
