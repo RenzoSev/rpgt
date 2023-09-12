@@ -21,7 +21,6 @@ export function useService<T>(
 
     const fetchAtom = async () => {
       const atomData = await service.getAll();
-
       setAtom(atomData);
       setHasFetched(true);
     };

@@ -3,23 +3,23 @@
 import TabTitle from '@/app/components/tabs/tab-title';
 import { catppuccin } from '@/app/styles/colors';
 import { GiTwoCoins } from 'react-icons/gi';
-import { Profile as ProfileService } from '@/app/services/Profile';
+import { Player as PlayerService } from '@/app/services/Player';
 import { useService } from '@/app/hooks/useService';
 import {
-  profile as profileAtoms,
+  player as playerAtoms,
   hasFetched as hasFetchedAtom,
-} from '@/app/store/useProfile';
+} from '@/app/store/usePlayer';
 
-export function ProfileInfo() {
-  const profileService = new ProfileService();
-  const { atom: profile } = useService(
-    profileService,
-    profileAtoms,
+export function PlayerInfo() {
+  const playerService = new PlayerService();
+  const { atom: player } = useService(
+    playerService,
+    playerAtoms,
     hasFetchedAtom
   );
   const {
     status: { gold },
-  } = profile;
+  } = player;
 
   return (
     <div className="flex justify-around items-center">

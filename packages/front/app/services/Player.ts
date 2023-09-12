@@ -2,8 +2,8 @@ import { IItem, Shield, Weapon } from './Items';
 import { Service } from './Service';
 
 export interface IPlayerInventory {
-  bought: number[];
-  equipped: [number, number];
+  bought: string[];
+  equipped: [string, string];
 }
 
 export interface IPlayerStatus {
@@ -13,7 +13,7 @@ export interface IPlayerStatus {
 
 export interface IPlayer {
   id: string;
-  nickname: string;
+  name: string;
   class: string;
   inventory: IPlayerInventory;
   status: IPlayerStatus;
@@ -21,7 +21,7 @@ export interface IPlayer {
 
 export const player: IPlayer = {
   id: 'ads:298209382902',
-  nickname: 'alexstrasza',
+  name: 'alexstrasza',
   class: 'mage',
   status: {
     gold: 30000,

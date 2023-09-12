@@ -13,7 +13,7 @@ export function Avatar({ src }: IAvatar) {
       <RadixAvatar.Image
         className="h-8 w-8 rounded-[inherit] object-cover"
         src={src}
-        alt="My profile picture which redirect for my GitHub"
+        alt="My player picture which redirect for my GitHub"
       />
       <RadixAvatar.Fallback
         className="text-violet11 leading-1 flex h-full w-full items-center justify-center bg-white text-[15px] font-medium"

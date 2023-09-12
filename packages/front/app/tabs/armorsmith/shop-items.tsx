@@ -19,8 +19,9 @@ import {
   AlertDialogTextsProps,
 } from '@/app/components/alert-dialog';
 import { TabGold } from '@/app/components/tabs/tab-gold';
-import { profile as profileAtom } from '@/app/store/useProfile';
+import { player as playerAtom } from '@/app/store/usePlayer';
 import { useAtom } from 'jotai';
+import { playerHasBoughtItem } from '@/app/utils/analyzer';
 
 export function ShopItems() {
   const shopItemsService = new ShopItemsService();
@@ -29,7 +30,7 @@ export function ShopItems() {
     itemsAtom,
     hasFetchedAtom
   );
-  const [profile, setProfile] = useAtom(profileAtom);
+  const [player, setPlayer] = useAtom(playerAtom);
 
   const getTexts = (
     itemName: string,
@@ -52,8 +53,8 @@ export function ShopItems() {
   });
 
   const handleBuyItem = async (item: IItem) => {
-    const data = await shopItemsService.buyItem(profile, item);
-    setProfile(data.profile);
+    const data = await shopItemsService.buyItem(player, item);
+    setPlayer(data.player);
     setItems(data.items);
   };
 
@@ -61,7 +62,7 @@ export function ShopItems() {
     <>
       {items.map(
         ({ id, name, status }) =>
-          !status.bought && (
+          !playerHasBoughtItem(name, player.inventory.bought) && (
             <AlertDialog
               key={id}
               texts={getTexts(name, status)}

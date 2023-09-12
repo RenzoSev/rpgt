@@ -14,28 +14,28 @@ import { containerContent, header } from '@/app/styles/classes';
 import BackToTabs from './back-to-tabs';
 import HealthProgress from '@/app/components/health-progress';
 import { StatusPower } from '@/app/components/status-power';
-import { IProfile, Profile as ProfileService } from '@/app/services/Profile';
+import { IPlayer, Player as PlayerService } from '@/app/services/Player';
 import {
-  profile as profileAtom,
-  hasFetched as hasFetchedProfileAtom,
-} from '@/app/store/useProfile';
+  player as playerAtom,
+  hasFetched as hasFetchedPlayerAtom,
+} from '@/app/store/usePlayer';
 import { Winner } from '@/app/services/Battle';
 import AlertDialogWin from './alert-dialog-win';
 import AlertDialogLose from './alert-dialog-lose';
 
 export default function Battle() {
   const monstersService = new MonstersService();
-  const profileService = new ProfileService();
+  const playerService = new PlayerService();
   const battleService = new BattleService();
 
   const params = useParams();
   const {
-    atom: profile,
-    setAtom: setProfile,
-    hasFetched: hasFetchedProfile,
-  } = useService<IProfile>(profileService, profileAtom, hasFetchedProfileAtom);
-  const playerAttack = profile.inventory.attack.status.attack;
-  const playerDefense = profile.inventory.defense.status.defense;
+    atom: player,
+    setAtom: setPlayer,
+    hasFetched: hasFetchedPlayer,
+  } = useService<IPlayer>(playerService, playerAtom, hasFetchedPlayerAtom);
+  const playerAttack = player.inventory.attack.status.attack;
+  const playerDefense = player.inventory.defense.status.defense;
 
   const { atom: monsters, hasFetched: hasFetchedMonsters } = useService<
     Monster[]
@@ -55,9 +55,9 @@ export default function Battle() {
       monster.id
     );
 
-    setProfile((profile) => ({
-      ...profile,
-      status: { ...profile.status, gold, level },
+    setPlayer((player) => ({
+      ...player,
+      status: { ...player.status, gold, level },
     }));
 
     if (winner === 'player') {
@@ -92,7 +92,7 @@ export default function Battle() {
     }
   }, [monsterHealth, playerHealth, battleHasStarted]);
 
-  if (!monster || !profile.id || !hasFetchedProfile || !hasFetchedMonsters) {
+  if (!monster || !player.id || !hasFetchedPlayer || !hasFetchedMonsters) {
     return <h1>Loading</h1>;
   }
 
@@ -159,12 +159,12 @@ export default function Battle() {
           <div className="flex flex-col items-center gap-2 w-full px-4">
             <div className="flex gap-3">
               <StatusPower
-                statusBattlePower={profile.inventory.defense.status.defense}
+                statusBattlePower={player.inventory.defense.status.defense}
                 statusBattleKey="defense"
               />
 
               <StatusPower
-                statusBattlePower={profile.inventory.attack.status.attack}
+                statusBattlePower={player.inventory.attack.status.attack}
                 statusBattleKey="attack"
                 paragraphClassName="text-ctp-red"
               />
@@ -172,7 +172,7 @@ export default function Battle() {
 
             <HealthProgress
               progress={playerHealth}
-              totalProgress={profile.inventory.defense.status.defense}
+              totalProgress={player.inventory.defense.status.defense}
               containerClassName="w-[300px] h-[20px]"
             />
           </div>

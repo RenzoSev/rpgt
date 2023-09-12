@@ -6,7 +6,7 @@ import {
   weapons,
   weaponsShop,
 } from './Items';
-import { IProfile, profile as profileMock } from './Player';
+import { IPlayer, player as playerMock } from './Player';
 import { Service } from './Service';
 
 export class ShopItems implements Service {
@@ -20,19 +20,19 @@ export class ShopItems implements Service {
   }
 
   async buyItem(
-    profile: IProfile,
+    player: IPlayer,
     item: IItem
-  ): Promise<{ profile: IProfile; items: IItem[] }> {
-    const updatedProfile = {
-      ...profileMock,
+  ): Promise<{ player: IPlayer; items: IItem[] }> {
+    const updatedPlayer = {
+      ...playerMock,
       status: {
-        ...profile.status,
-        gold: profile.status.gold - item.status.gold,
+        ...player.status,
+        gold: player.status.gold - item.status.gold,
       },
     };
 
     return {
-      profile: updatedProfile,
+      player: updatedPlayer,
       items: [
         ...shields,
         ...weapons,
