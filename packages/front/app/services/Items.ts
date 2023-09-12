@@ -1,4 +1,4 @@
-import { Client, Request } from './Client';
+import { Client, ClientRequest } from './Client';
 import { IPlayer } from './Player';
 import { Service } from './Service';
 
@@ -22,32 +22,41 @@ export interface Weapon extends StatusItem {
   type: 'weapon';
 }
 
-export type Status = Weapon | Shield;
+export type StatusType = Weapon | Shield;
 
-export interface IItem {
+export type Status<T = StatusType> = T;
+
+export interface IItem<T = StatusType> {
   id: number;
   name: string;
-  status: Status;
+  status: Status<T>;
 }
 
 export class Items implements Service {
-  private request: Request;
+  private request: ClientRequest;
 
   constructor() {
     const client = new Client();
     this.request = client.create();
   }
 
+  async get(name: string): Promise<IItem> {
+    const { data } = await this.request.get<IItem>('/item', {
+      params: { name },
+    });
+    return data;
+  }
+
   async getAll(): Promise<IItem[]> {
-    const { data } = await this.request.get('/items');
+    const { data } = await this.request.get<IItem[]>('/items');
     return data;
   }
 
   async equipItem(
     itemName: IItem['name'],
     playerName: IPlayer['name']
-  ): Promise<IItem[]> {
-    const { data } = await this.request.patch('/actions/equip-item', {
+  ): Promise<IPlayer> {
+    const { data } = await this.request.patch<IPlayer>('/actions/equip-item', {
       itemName,
       playerName,
     });

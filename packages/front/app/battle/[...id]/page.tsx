@@ -2,40 +2,60 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import classNames from 'classnames';
 import { useService } from '../../hooks/useService';
+import BackToTabs from './back-to-tabs';
 import { Monster, Monsters as MonstersService } from '@/app/services/Monsters';
+import { IItem, Items as ItemsService } from '@/app/services/Items';
 import { Battle as BattleService } from '@/app/services/Battle';
+import { IPlayer, Player as PlayerService } from '@/app/services/Player';
+import { Winner } from '@/app/services/Battle';
 import {
   monsters as monstersAtom,
   hasFetched as hasFetchedMonstersAtom,
 } from '../../store/useMonsters';
-import classNames from 'classnames';
-import { containerContent, header } from '@/app/styles/classes';
-import BackToTabs from './back-to-tabs';
-import HealthProgress from '@/app/components/health-progress';
-import { StatusPower } from '@/app/components/status-power';
-import { IPlayer, Player as PlayerService } from '@/app/services/Player';
+import {
+  items as itemsAtom,
+  hasFetched as hasFetchedItemsAtom,
+} from '@/app/store/useItems';
 import {
   player as playerAtom,
   hasFetched as hasFetchedPlayerAtom,
 } from '@/app/store/usePlayer';
-import { Winner } from '@/app/services/Battle';
+import { containerContent, header } from '@/app/styles/classes';
+import HealthProgress from '@/app/components/health-progress';
+import { StatusPower } from '@/app/components/status-power';
+
 import AlertDialogWin from './alert-dialog-win';
 import AlertDialogLose from './alert-dialog-lose';
 
 export default function Battle() {
   const monstersService = new MonstersService();
   const playerService = new PlayerService();
+  const itemsService = new ItemsService();
   const battleService = new BattleService();
 
   const params = useParams();
+
+  const { atom: items, hasFetched: hasFetchedItems } = useService<IItem[]>(
+    itemsService,
+    itemsAtom,
+    hasFetchedItemsAtom
+  );
+
   const {
     atom: player,
     setAtom: setPlayer,
     hasFetched: hasFetchedPlayer,
   } = useService<IPlayer>(playerService, playerAtom, hasFetchedPlayerAtom);
-  const playerAttack = player.inventory.attack.status.attack;
-  const playerDefense = player.inventory.defense.status.defense;
+
+  const equipped = player.inventory.equipped;
+  const {
+    status: { attack: playerAttack },
+  } = PlayerService.getAttack(equipped, items);
+  const {
+    status: { defense: playerDefense },
+  } = PlayerService.getDefense(equipped, items);
 
   const { atom: monsters, hasFetched: hasFetchedMonsters } = useService<
     Monster[]
@@ -92,7 +112,13 @@ export default function Battle() {
     }
   }, [monsterHealth, playerHealth, battleHasStarted]);
 
-  if (!monster || !player.id || !hasFetchedPlayer || !hasFetchedMonsters) {
+  if (
+    !monster ||
+    !player.id ||
+    !hasFetchedPlayer ||
+    !hasFetchedMonsters ||
+    !hasFetchedItems
+  ) {
     return <h1>Loading</h1>;
   }
 
@@ -159,12 +185,12 @@ export default function Battle() {
           <div className="flex flex-col items-center gap-2 w-full px-4">
             <div className="flex gap-3">
               <StatusPower
-                statusBattlePower={player.inventory.defense.status.defense}
+                statusBattlePower={playerDefense}
                 statusBattleKey="defense"
               />
 
               <StatusPower
-                statusBattlePower={player.inventory.attack.status.attack}
+                statusBattlePower={playerAttack}
                 statusBattleKey="attack"
                 paragraphClassName="text-ctp-red"
               />
@@ -172,7 +198,7 @@ export default function Battle() {
 
             <HealthProgress
               progress={playerHealth}
-              totalProgress={player.inventory.defense.status.defense}
+              totalProgress={playerDefense}
               containerClassName="w-[300px] h-[20px]"
             />
           </div>

@@ -1,3 +1,4 @@
+import { Client, ClientRequest } from './Client';
 import { Service } from './Service';
 
 export interface StatusMonster {
@@ -14,31 +15,23 @@ export interface Monster {
 }
 
 export class Monsters implements Service {
+  private request: ClientRequest;
+
+  constructor() {
+    const client = new Client();
+    this.request = client.create();
+  }
+
   async getAll(): Promise<Monster[]> {
-    const spider: Monster = {
-      id: 1,
-      name: 'spider',
-      status: {
-        attack: 5,
-        defense: 10,
-        level: 1,
-        xp: 5,
-      },
-    };
-    const wolf: Monster = {
-      id: 2,
-      name: 'wolf',
-      status: {
-        attack: 10,
-        defense: 15,
-        level: 2,
-        xp: 10,
-      },
-    };
+    const { data } = await this.request.get<Monster[]>('/monsters');
+    return data;
+  }
 
-    console.log('Starting request for monsters');
-
-    return [spider, wolf];
+  async get(name: string): Promise<Monster> {
+    const { data } = await this.request.get<Monster>('/monster', {
+      params: { name },
+    });
+    return data;
   }
 
   static getNextMonsterByASC(currentlyMonsterId: number, monsters: Monster[]) {

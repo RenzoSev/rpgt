@@ -1,3 +1,4 @@
+import { Client, ClientRequest } from './Client';
 import { IItem, Shield, Weapon } from './Items';
 import { Service } from './Service';
 
@@ -19,47 +20,42 @@ export interface IPlayer {
   status: IPlayerStatus;
 }
 
-export const player: IPlayer = {
-  id: 'ads:298209382902',
-  name: 'alexstrasza',
-  class: 'mage',
-  status: {
-    gold: 30000,
-    level: 10,
-  },
-  inventory: {
-    attack: {
-      id: 2133123,
-      name: 'stone sword',
-      status: {
-        type: 'weapon',
-        equipped: true,
-        attack: 2,
-        level: 2,
-        gold: 1,
-        bought: true,
-      },
-    },
-    defense: {
-      id: 1,
-      name: 'wooden shield',
-      status: {
-        level: 1,
-        type: 'shield',
-        equipped: true,
-        defense: 50,
-        gold: 1,
-        bought: true,
-      },
-    },
-  },
-};
-
 export class Player implements Service {
-  // TODO: SHOULD NOT BE GETALL. SHOULD BE GET.
-  async getAll(): Promise<IPlayer> {
+  private request: ClientRequest;
+
+  constructor() {
+    const client = new Client();
+    this.request = client.create();
+  }
+
+  async getAll(): Promise<IPlayer[]> {
     console.log('Starting request for player');
 
-    return player;
+    const { data } = await this.request.get<IPlayer[]>('/players');
+    return data;
+  }
+
+  async get(name: string): Promise<IPlayer> {
+    console.log('Starting request for player');
+
+    const { data } = await this.request.get<IPlayer>('/player', {
+      params: { name },
+    });
+    return data;
+  }
+
+  // TODO IMPLEMENT ENTIRE ITEM ON INVENTORY IN CLIENT SIDE
+  static getAttack(
+    equipped: IPlayer['inventory']['equipped'],
+    items: IItem[]
+  ): IItem<Weapon> {
+    return items.find(({ name }) => equipped[0] === name) as IItem<Weapon>;
+  }
+
+  static getDefense(
+    equipped: IPlayer['inventory']['equipped'],
+    items: IItem[]
+  ): IItem<Shield> {
+    return items.find(({ name }) => equipped[0] === name) as IItem<Shield>;
   }
 }
