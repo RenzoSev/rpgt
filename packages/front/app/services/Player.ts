@@ -56,6 +56,7 @@ export const player: IPlayer = {
 };
 
 export class Player implements Service {
+  // TODO: SHOULD NOT BE GETALL. SHOULD BE GET.
   async getAll(): Promise<IPlayer> {
     console.log('Starting request for player');
 

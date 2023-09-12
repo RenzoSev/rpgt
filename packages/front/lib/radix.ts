@@ -1,5 +1,7 @@
 'use client';
 
+// TODO: SHOULD ADD THE OTHERS COMPONENTS
+
 import * as Tabs from '@radix-ui/react-tabs';
 
 export const TabsRoot = Tabs.Root;
