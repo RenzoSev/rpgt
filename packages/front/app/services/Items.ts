@@ -1,3 +1,5 @@
+import { Client, Request } from './Client';
+import { IPlayer } from './Player';
 import { Service } from './Service';
 
 export type TypeItems = 'shield' | 'weapon';
@@ -28,119 +30,27 @@ export interface IItem {
   status: Status;
 }
 
-const changeEquippedItem = (item: IItem): IItem => ({
-  ...item,
-  status: { ...item.status, equipped: !item.status.equipped },
-});
-
-export const shields: IItem[] = [
-  {
-    id: 1,
-    name: 'wooden shield',
-    status: {
-      level: 1,
-      type: 'shield',
-      defense: 50,
-      gold: 1,
-    },
-  },
-  {
-    id: 15,
-    name: 'silver shield',
-    status: {
-      level: 50,
-      type: 'shield',
-      defense: 500,
-      gold: 1,
-    },
-  },
-];
-export const weapons: IItem[] = [
-  {
-    id: 2133123,
-    name: 'stone sword',
-    status: {
-      type: 'weapon',
-      attack: 75,
-      level: 2,
-      gold: 1,
-    },
-  },
-  {
-    id: 43433443,
-    name: 'diamond sword',
-    status: {
-      type: 'weapon',
-      attack: 750,
-      level: 75,
-      gold: 1,
-    },
-  },
-];
-
-export const changedEquippedShields: IItem[] = shields.map(changeEquippedItem);
-export const changedEquippedWeapons: IItem[] = weapons.map(changeEquippedItem);
-
-export const shieldsShop: IItem[] = [
-  {
-    id: 121211,
-    name: 'broken shield',
-    status: {
-      level: 1,
-      type: 'shield',
-      defense: 50,
-      gold: 1,
-    },
-  },
-  {
-    id: 132434,
-    name: 'lava shield',
-    status: {
-      level: 50,
-      type: 'shield',
-      defense: 500,
-      gold: 1,
-    },
-  },
-];
-export const weaponsShop: IItem[] = [
-  {
-    id: 2,
-    name: 'broken sword',
-    status: {
-      type: 'weapon',
-      attack: 75,
-      level: 2,
-      gold: 1,
-    },
-  },
-  {
-    id: 20,
-    name: 'lava sword',
-    status: {
-      type: 'weapon',
-      attack: 750,
-      level: 75,
-      gold: 1,
-    },
-  },
-];
-
 export class Items implements Service {
-  async getAll(): Promise<IItem[]> {
-    console.log('Starting request for items');
+  private request: Request;
 
-    return [...shields, ...weapons, ...shieldsShop, ...weaponsShop];
+  constructor() {
+    const client = new Client();
+    this.request = client.create();
   }
 
-  async equipItem(id: number, type: IItem['status']['type']): Promise<IItem[]> {
-    console.log('Starting request for equip items');
+  async getAll(): Promise<IItem[]> {
+    const { data } = await this.request.get('/items');
+    return data;
+  }
 
-    return [
-      ...changedEquippedShields,
-      ...changedEquippedWeapons,
-      ...shieldsShop,
-      ...weaponsShop,
-    ];
+  async equipItem(
+    itemName: IItem['name'],
+    playerName: IPlayer['name']
+  ): Promise<IItem[]> {
+    const { data } = await this.request.patch('/actions/equip-item', {
+      itemName,
+      playerName,
+    });
+    return data;
   }
 }

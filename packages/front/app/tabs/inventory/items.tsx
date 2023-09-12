@@ -24,14 +24,11 @@ import {
   playerHasBoughtItem,
   playerHasEquippedItem,
 } from '@/app/utils/analyzer';
+import { IPlayer } from '@/app/services/Player';
 
 export default function Items() {
   const itemsService = new ItemsService();
-  const { atom: items, setAtom: setItems } = useService(
-    itemsService,
-    itemsAtom,
-    hasFetchedAtom
-  );
+  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedAtom);
   const [player] = useAtom(playerAtom);
 
   const getTexts = (
@@ -50,11 +47,10 @@ export default function Items() {
   });
 
   const handleEquipItem = async (
-    id: number,
-    itemType: IItem['status']['type']
+    itemName: IItem['name'],
+    playerName: IPlayer['name']
   ) => {
-    const itemsUpdated = await itemsService.equipItem(id, itemType);
-    setItems(itemsUpdated);
+    await itemsService.equipItem(itemName, playerName);
   };
 
   return (
@@ -65,7 +61,7 @@ export default function Items() {
             <AlertDialog
               key={id}
               texts={getTexts(name, status)}
-              handleConfirmAction={() => handleEquipItem(id, status.type)}
+              handleConfirmAction={() => handleEquipItem(name, player.name)}
             >
               <TabCard>
                 <div className="flex flex-col items-start">
