@@ -1,5 +1,5 @@
-import { Item, Shield, Weapon } from "./Items";
-import { Service } from "./Service";
+import { IItem, Shield, Weapon } from './Items';
+import { Service } from './Service';
 
 export interface IPlayerInventory {
   bought: number[];
@@ -20,9 +20,9 @@ export interface IPlayer {
 }
 
 export const player: IPlayer = {
-  id: "ads:298209382902",
-  nickname: "alexstrasza",
-  class: "mage",
+  id: 'ads:298209382902',
+  nickname: 'alexstrasza',
+  class: 'mage',
   status: {
     gold: 30000,
     level: 10,
@@ -30,9 +30,9 @@ export const player: IPlayer = {
   inventory: {
     attack: {
       id: 2133123,
-      name: "stone sword",
+      name: 'stone sword',
       status: {
-        type: "weapon",
+        type: 'weapon',
         equipped: true,
         attack: 2,
         level: 2,
@@ -42,10 +42,10 @@ export const player: IPlayer = {
     },
     defense: {
       id: 1,
-      name: "wooden shield",
+      name: 'wooden shield',
       status: {
         level: 1,
-        type: "shield",
+        type: 'shield',
         equipped: true,
         defense: 50,
         gold: 1,
@@ -57,7 +57,7 @@ export const player: IPlayer = {
 
 export class Player implements Service {
   async getAll(): Promise<IPlayer> {
-    console.log("Starting request for player");
+    console.log('Starting request for player');
 
     return player;
   }

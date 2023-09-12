@@ -1,5 +1,5 @@
 import {
-  Item,
+  IItem,
   Items as ItemsService,
   shields,
   shieldsShop,
@@ -10,7 +10,7 @@ import { IProfile, profile as profileMock } from './Player';
 import { Service } from './Service';
 
 export class ShopItems implements Service {
-  async getAll(): Promise<Item[]> {
+  async getAll(): Promise<IItem[]> {
     console.log('Starting request for shop items');
 
     const itemsService = new ItemsService();
@@ -21,8 +21,8 @@ export class ShopItems implements Service {
 
   async buyItem(
     profile: IProfile,
-    item: Item
-  ): Promise<{ profile: IProfile; items: Item[] }> {
+    item: IItem
+  ): Promise<{ profile: IProfile; items: IItem[] }> {
     const updatedProfile = {
       ...profileMock,
       status: {

@@ -4,7 +4,7 @@ import {
   items as itemsAtom,
   hasFetched as hasFetchedAtom,
 } from '../../store/useItems';
-import { Item, Items as ItemsService } from '../../services/Items';
+import { IItem, Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
 import classNames from 'classnames';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
@@ -44,7 +44,7 @@ export default function Items() {
 
   const handleEquipItem = async (
     id: number,
-    itemType: Item['status']['type']
+    itemType: IItem['status']['type']
   ) => {
     const itemsUpdated = await itemsService.equipItem(id, itemType);
     setItems(itemsUpdated);

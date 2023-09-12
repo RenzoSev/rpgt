@@ -1,8 +1,8 @@
-import { Service } from "./Service";
+import { Service } from './Service';
 
-export type TypeItems = "shield" | "weapon";
+export type TypeItems = 'shield' | 'weapon';
 
-export type PowerItems = "attack" | "defense";
+export type PowerItems = 'attack' | 'defense';
 
 export interface StatusItem {
   level: number;
@@ -12,55 +12,55 @@ export interface StatusItem {
 
 export interface Shield extends StatusItem {
   defense: number;
-  type: "shield";
+  type: 'shield';
 }
 
 export interface Weapon extends StatusItem {
   attack: number;
-  type: "weapon";
+  type: 'weapon';
 }
 
 export type Status = Weapon | Shield;
 
-export interface Item {
+export interface IItem {
   id: number;
   name: string;
   status: Status;
 }
 
-const changeEquippedItem = (item: Item): Item => ({
+const changeEquippedItem = (item: IItem): IItem => ({
   ...item,
   status: { ...item.status, equipped: !item.status.equipped },
 });
 
-export const shields: Item[] = [
+export const shields: IItem[] = [
   {
     id: 1,
-    name: "wooden shield",
+    name: 'wooden shield',
     status: {
       level: 1,
-      type: "shield",
+      type: 'shield',
       defense: 50,
       gold: 1,
     },
   },
   {
     id: 15,
-    name: "silver shield",
+    name: 'silver shield',
     status: {
       level: 50,
-      type: "shield",
+      type: 'shield',
       defense: 500,
       gold: 1,
     },
   },
 ];
-export const weapons: Item[] = [
+export const weapons: IItem[] = [
   {
     id: 2133123,
-    name: "stone sword",
+    name: 'stone sword',
     status: {
-      type: "weapon",
+      type: 'weapon',
       attack: 75,
       level: 2,
       gold: 1,
@@ -68,9 +68,9 @@ export const weapons: Item[] = [
   },
   {
     id: 43433443,
-    name: "diamond sword",
+    name: 'diamond sword',
     status: {
-      type: "weapon",
+      type: 'weapon',
       attack: 750,
       level: 75,
       gold: 1,
@@ -78,37 +78,37 @@ export const weapons: Item[] = [
   },
 ];
 
-export const changedEquippedShields: Item[] = shields.map(changeEquippedItem);
-export const changedEquippedWeapons: Item[] = weapons.map(changeEquippedItem);
+export const changedEquippedShields: IItem[] = shields.map(changeEquippedItem);
+export const changedEquippedWeapons: IItem[] = weapons.map(changeEquippedItem);
 
-export const shieldsShop: Item[] = [
+export const shieldsShop: IItem[] = [
   {
     id: 121211,
-    name: "broken shield",
+    name: 'broken shield',
     status: {
       level: 1,
-      type: "shield",
+      type: 'shield',
       defense: 50,
       gold: 1,
     },
   },
   {
     id: 132434,
-    name: "lava shield",
+    name: 'lava shield',
     status: {
       level: 50,
-      type: "shield",
+      type: 'shield',
       defense: 500,
       gold: 1,
     },
   },
 ];
-export const weaponsShop: Item[] = [
+export const weaponsShop: IItem[] = [
   {
     id: 2,
-    name: "broken sword",
+    name: 'broken sword',
     status: {
-      type: "weapon",
+      type: 'weapon',
       attack: 75,
       level: 2,
       gold: 1,
@@ -116,9 +116,9 @@ export const weaponsShop: Item[] = [
   },
   {
     id: 20,
-    name: "lava sword",
+    name: 'lava sword',
     status: {
-      type: "weapon",
+      type: 'weapon',
       attack: 750,
       level: 75,
       gold: 1,
@@ -127,14 +127,14 @@ export const weaponsShop: Item[] = [
 ];
 
 export class Items implements Service {
-  async getAll(): Promise<Item[]> {
-    console.log("Starting request for items");
+  async getAll(): Promise<IItem[]> {
+    console.log('Starting request for items');
 
     return [...shields, ...weapons, ...shieldsShop, ...weaponsShop];
   }
 
-  async equipItem(id: number, type: Item["status"]["type"]): Promise<Item[]> {
-    console.log("Starting request for equip items");
+  async equipItem(id: number, type: IItem['status']['type']): Promise<IItem[]> {
+    console.log('Starting request for equip items');
 
     return [
       ...changedEquippedShields,

@@ -9,7 +9,7 @@ import {
 } from '@/app/components/tabs/tab-card-status-item';
 import { useService } from '@/app/hooks/useService';
 import { ShopItems as ShopItemsService } from '@/app/services/ShopItems';
-import { Item } from '@/app/services/Items';
+import { IItem } from '@/app/services/Items';
 import {
   items as itemsAtom,
   hasFetched as hasFetchedAtom,
@@ -51,7 +51,7 @@ export function ShopItems() {
     ),
   });
 
-  const handleBuyItem = async (item: Item) => {
+  const handleBuyItem = async (item: IItem) => {
     const data = await shopItemsService.buyItem(profile, item);
     setProfile(data.profile);
     setItems(data.items);
