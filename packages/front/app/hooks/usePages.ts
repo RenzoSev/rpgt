@@ -1,11 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { Monster } from '../services/Monsters';
 
 export function usePages() {
   const { refresh, replace } = useRouter();
 
-  const getBattleMonsterPage = (id: number) => `/battle/${id}`;
+  const getBattleMonsterPage = (name: Monster['name']) => `/battle/${name}`;
   const reload = () => window.location.reload();
   const tabsPage = '/tabs';
 
@@ -19,8 +20,8 @@ export function usePages() {
       replace(tabsPage);
     },
 
-    pushToBattle(id: number) {
-      replace(getBattleMonsterPage(id));
+    pushToBattle(name: Monster['name']) {
+      replace(getBattleMonsterPage(name));
     },
   };
 }

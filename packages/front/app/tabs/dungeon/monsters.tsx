@@ -25,8 +25,8 @@ export default function Monsters() {
 
   return (
     <>
-      {monsters.map(({ id, name, status: { attack, defense, level } }) => (
-        <Link href={getBattleMonsterPage(id)} key={id}>
+      {monsters.map(({ name, status: { attack, defense, level } }) => (
+        <Link href={getBattleMonsterPage(name)} key={name}>
           <TabCard>
             <div className="flex flex-col items-start">
               <TabCardName name={name} />
