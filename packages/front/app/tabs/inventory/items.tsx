@@ -35,7 +35,9 @@ export default function Items() {
   const { atom: player, setAtom: setPlayer } = useService(
       playerService,
       playerAtom,
-      hasFetchedPlayerAtom
+      hasFetchedPlayerAtom,
+      'get',
+      'admin'
     );
 
   const getTexts = (

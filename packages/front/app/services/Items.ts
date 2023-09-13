@@ -41,9 +41,7 @@ export class Items implements Service {
   }
 
   async get(name: string): Promise<IItem> {
-    const { data } = await this.request.get<IItem>('/item', {
-      params: { name },
-    });
+    const { data } = await this.request.get<IItem>(`/item/${name}`);
     return data;
   }
 

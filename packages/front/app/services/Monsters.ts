@@ -28,9 +28,7 @@ export class Monsters implements Service {
   }
 
   async get(name: string): Promise<Monster> {
-    const { data } = await this.request.get<Monster>('/monster', {
-      params: { name },
-    });
+    const { data } = await this.request.get<Monster>(`/monster/${name}`);
     return data;
   }
 

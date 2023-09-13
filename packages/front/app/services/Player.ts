@@ -38,9 +38,7 @@ export class Player implements Service {
   async get(name: string): Promise<IPlayer> {
     console.log('Starting request for player');
 
-    const { data } = await this.request.get<IPlayer>('/player', {
-      params: { name },
-    });
+    const { data } = await this.request.get<IPlayer>(`/player/${name}`);
     return data;
   }
 
