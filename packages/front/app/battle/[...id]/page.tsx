@@ -1,5 +1,7 @@
 'use client';
 
+// jeez i need to organize this front.
+
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import classNames from 'classnames';
@@ -47,7 +49,13 @@ export default function Battle() {
     atom: player,
     setAtom: setPlayer,
     hasFetched: hasFetchedPlayer,
-  } = useService<IPlayer>(playerService, playerAtom, hasFetchedPlayerAtom);
+  } = useService<IPlayer>(
+      playerService,
+      playerAtom,
+      hasFetchedPlayerAtom,
+      'get',
+      'admin'
+    );
 
   const equipped = player.inventory.equipped;
   const {

@@ -2,12 +2,12 @@
 
 import {
   items as itemsAtom,
-  hasFetched as hasFetchedAtom,
+  hasFetched as hasFetchedItemsAtom,
 } from '../../store/useItems';
 import { IItem, Items as ItemsService } from '../../services/Items';
 import { useService } from '@/app/hooks/useService';
 import classNames from 'classnames';
-import { player as playerAtom } from '@/app/store/usePlayer';
+import { player as playerAtom, hasFetched as hasFetchedPlayerAtom } from '@/app/store/usePlayer';
 import { TabCardName } from '@/app/components/tabs/tab-card-name';
 import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
 import {
@@ -19,17 +19,24 @@ import {
   AlertDialog,
   AlertDialogTextsProps,
 } from '@/app/components/alert-dialog';
-import { useAtom } from 'jotai';
 import {
   playerHasBoughtItem,
   playerHasEquippedItem,
 } from '@/app/utils/analyzer';
-import { IPlayer } from '@/app/services/Player';
+import { IPlayer, Player as PlayerService } from '@/app/services/Player';
+import { Actions as ActionsService } from '@/app/services/Actions';
 
 export default function Items() {
   const itemsService = new ItemsService();
-  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedAtom);
-  const [player] = useAtom(playerAtom);
+  const playerService = new PlayerService();
+  const actionsService = new ActionsService();
+
+  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedItemsAtom);
+  const { atom: player, setAtom: setPlayer } = useService(
+      playerService,
+      playerAtom,
+      hasFetchedPlayerAtom
+    );
 
   const getTexts = (
     itemName: string,
@@ -50,7 +57,8 @@ export default function Items() {
     itemName: IItem['name'],
     playerName: IPlayer['name']
   ) => {
-    await itemsService.equipItem(itemName, playerName);
+    const player = await actionsService.equipItem(itemName, playerName);
+    setPlayer(player)
   };
 
   return (

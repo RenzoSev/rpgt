@@ -15,7 +15,9 @@ export function PlayerInfo() {
   const { atom: player } = useService(
     playerService,
     playerAtoms,
-    hasFetchedAtom
+    hasFetchedAtom,
+    'get',
+    'admin'
   );
   const {
     status: { gold },

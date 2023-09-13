@@ -51,15 +51,4 @@ export class Items implements Service {
     const { data } = await this.request.get<IItem[]>('/items');
     return data;
   }
-
-  async equipItem(
-    itemName: IItem['name'],
-    playerName: IPlayer['name']
-  ): Promise<IPlayer> {
-    const { data } = await this.request.patch<IPlayer>('/actions/equip-item', {
-      itemName,
-      playerName,
-    });
-    return data;
-  }
 }

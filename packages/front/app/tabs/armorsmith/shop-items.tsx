@@ -8,7 +8,8 @@ import {
   TabCardStatusItem,
 } from '@/app/components/tabs/tab-card-status-item';
 import { useService } from '@/app/hooks/useService';
-import { ShopItems as ShopItemsService } from '@/app/services/ShopItems';
+import { Actions as ActionsService } from '@/app/services/Actions';
+import { Items as ItemsService } from '@/app/services/Items';
 import { IItem } from '@/app/services/Items';
 import {
   items as itemsAtom,
@@ -22,11 +23,14 @@ import { TabGold } from '@/app/components/tabs/tab-gold';
 import { player as playerAtom } from '@/app/store/usePlayer';
 import { useAtom } from 'jotai';
 import { playerHasBoughtItem } from '@/app/utils/analyzer';
+import { IPlayer } from '@/app/services/Player';
 
 export function ShopItems() {
-  const shopItemsService = new ShopItemsService();
-  const { atom: items, setAtom: setItems } = useService(
-    shopItemsService,
+  const actionsService = new ActionsService();
+  const itemsService = new ItemsService();
+
+  const { atom: items } = useService(
+    itemsService,
     itemsAtom,
     hasFetchedAtom
   );
@@ -52,10 +56,12 @@ export function ShopItems() {
     ),
   });
 
-  const handleBuyItem = async (item: IItem) => {
-    const data = await shopItemsService.buyItem(player, item);
-    setPlayer(data.player);
-    setItems(data.items);
+  const handleBuyItem = async (
+      itemName: IItem['name'],
+      playerName: IPlayer['name']
+    ) => {
+    const player = await actionsService.buyItem(itemName, playerName);
+    setPlayer(player);
   };
 
   return (
@@ -66,7 +72,7 @@ export function ShopItems() {
             <AlertDialog
               key={id}
               texts={getTexts(name, status)}
-              handleConfirmAction={() => handleBuyItem({ id, name, status })}
+              handleConfirmAction={() => handleBuyItem(name, player.name)}
             >
               <TabCard>
                 <div className="flex flex-col items-start">
