@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -13,13 +14,13 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { BadRequestResponse, buildBadRequestResponse } from '../utils';
 import { MESSAGES } from '../utils/constants';
 
-@Controller()
+@Controller('')
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
-  @Get('/item')
+  @Get('/item/:name')
   @UsePipes(ValidationPipe)
-  async get(@Body() getItemDto: GetItemDto): Promise<Item> {
+  async get(@Param() getItemDto: GetItemDto): Promise<Item> {
     const item = await this.itemService.get(getItemDto);
     return item;
   }

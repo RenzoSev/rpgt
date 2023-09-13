@@ -1,5 +1,6 @@
 import {
   Body,
+  Param,
   Controller,
   Get,
   Post,
@@ -13,18 +14,18 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 import { BadRequestResponse, buildBadRequestResponse } from '../utils';
 import { MESSAGES } from '../utils/constants';
 
-@Controller()
+@Controller('player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
-  @Get('/player')
+  @Get(':name')
   @UsePipes(ValidationPipe)
-  async get(@Body() getPlayerDto: GetPlayerDto): Promise<Player> {
+  async get(@Param() getPlayerDto: GetPlayerDto): Promise<Player> {
     const player = await this.playerService.get(getPlayerDto);
     return player;
   }
 
-  @Post('/player')
+  @Post()
   @UsePipes(ValidationPipe)
   async create(
     @Body() createPlayerDto: CreatePlayerDto,

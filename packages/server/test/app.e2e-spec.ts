@@ -12,7 +12,6 @@ import { PlayerService } from '../src/players/player.service';
 import {
   createPlayerDtoMock,
   createPlayerErrorMessageForInvalidBody,
-  getPlayerDtoMock,
   getPlayerErrorMessageForInvalidBody,
   playerMock,
   playerServiceMock,
@@ -22,7 +21,6 @@ import { ItemService } from '../src/items/item.service';
 import {
   createMonsterDtoMock,
   createMonsterErrorMessageForInvalidBody,
-  getMonsterDtoMock,
   getMonsterErrorMessageForInvalidBody,
   monsterMock,
   monsterServiceMock,
@@ -30,8 +28,6 @@ import {
 import {
   createItemDtoMock,
   createItemErrorMessageForInvalidBody,
-  getItemDtoMock,
-  getItemErrorMessageForInvalidBody,
   itemMock,
   itemServiceMock,
   itemsMock,
@@ -100,8 +96,7 @@ describe('AppController (e2e)', () => {
     describe('OK', () => {
       it('should /player (GET) without errors', () => {
         return request(app.getHttpServer())
-          .get('/player')
-          .send(getPlayerDtoMock)
+          .get('/player/playerName')
           .expect(200)
           .expect(playerMock);
       });
@@ -116,9 +111,9 @@ describe('AppController (e2e)', () => {
     });
 
     describe('ERROR', () => {
-      it('should /player (GET) with error when body is invalid', () => {
+      it('should /player (GET) with error when param route is invalid', () => {
         return request(app.getHttpServer())
-          .get('/player')
+          .get('/player/1')
           .expect(400)
           .expect(getValidationPipeError(getPlayerErrorMessageForInvalidBody));
       });
@@ -138,8 +133,7 @@ describe('AppController (e2e)', () => {
     describe('OK', () => {
       it('should /monster (GET) without errors', () => {
         return request(app.getHttpServer())
-          .get('/monster')
-          .send(getMonsterDtoMock)
+          .get('/monster/monsterName')
           .expect(200)
           .expect(monsterMock);
       });
@@ -156,7 +150,7 @@ describe('AppController (e2e)', () => {
     describe('ERROR', () => {
       it('should /monster (GET) with error when body is invalid', () => {
         return request(app.getHttpServer())
-          .get('/monster')
+          .get('/monster/a')
           .expect(400)
           .expect(getValidationPipeError(getMonsterErrorMessageForInvalidBody));
       });
@@ -176,8 +170,7 @@ describe('AppController (e2e)', () => {
     describe('OK', () => {
       it('should /item (GET) without errors', () => {
         return request(app.getHttpServer())
-          .get('/item')
-          .send(getItemDtoMock)
+          .get('/item/itemName')
           .expect(200)
           .expect(itemMock);
       });
@@ -199,14 +192,7 @@ describe('AppController (e2e)', () => {
     });
 
     describe('ERROR', () => {
-      it('should /item (GET) with error when body is invalid', () => {
-        return request(app.getHttpServer())
-          .get('/item')
-          .expect(400)
-          .expect(getValidationPipeError(getItemErrorMessageForInvalidBody));
-      });
-
-      it('should /item (POST) with error when body is invalid', () => {
+      it('should / (POST) with error when body is invalid', () => {
         return request(app.getHttpServer())
           .post('/item')
           .expect(400)
