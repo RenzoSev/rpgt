@@ -24,6 +24,7 @@ import {
   getMonsterErrorMessageForInvalidBody,
   monsterMock,
   monsterServiceMock,
+  monstersMock,
 } from '../src/monsters/tests/monster.mock';
 import {
   createItemDtoMock,
@@ -136,6 +137,13 @@ describe('AppController (e2e)', () => {
           .get('/monster/monsterName')
           .expect(200)
           .expect(monsterMock);
+      });
+
+      it('should /monsters (GET) without errors', () => {
+        return request(app.getHttpServer())
+          .get('/monsters')
+          .expect(200)
+          .expect(monstersMock);
       });
 
       it('should /monster (POST) without errors', () => {

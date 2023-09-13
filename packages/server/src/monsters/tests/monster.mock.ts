@@ -24,9 +24,17 @@ export const monsterMock: Monster = {
   status: getStatus(),
 };
 
+export const monstersMock: Monster[] = [
+  {
+    name: name,
+    status: getStatus(),
+  },
+];
+
 export const monsterServiceMock = {
   get: async () => monsterMock,
   create: async () => monsterMock,
+  getAll: async () => monstersMock,
 };
 
 export const getMonsterErrorMessageForInvalidBody = [

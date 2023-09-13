@@ -4,6 +4,7 @@ import {
   createMonsterDtoMock,
   getMonsterDtoMock,
   monsterMock,
+  monstersMock,
 } from './monster.mock';
 import { getModelToken } from '@nestjs/mongoose';
 import { Monster } from '../monster.schema';
@@ -40,6 +41,32 @@ describe('MonsterService', () => {
         removeIdFromFindMethod,
       );
       expect(result).toStrictEqual(monsterMock);
+    });
+  });
+
+  describe('getAll', () => {
+    beforeEach(async () => {
+      monsterModel = {
+        find: jest.fn(),
+        create: jest.fn(),
+      };
+
+      const moduleRef: TestingModule = await Test.createTestingModule({
+        providers: [
+          MonsterService,
+          { provide: getModelToken(Monster.name), useValue: monsterModel },
+        ],
+      }).compile();
+      monsterService = moduleRef.get<MonsterService>(MonsterService);
+    });
+
+    it('should return get all items', async () => {
+      monsterModel.find.mockReturnValue({
+        exec: jest.fn().mockResolvedValue(monstersMock),
+      });
+      const result = await monsterService.getAll();
+      expect(monsterModel.find).toBeCalledWith({}, removeIdFromFindMethod);
+      expect(result).toStrictEqual(monstersMock);
     });
   });
 

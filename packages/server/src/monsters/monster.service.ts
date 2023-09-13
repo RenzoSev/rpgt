@@ -23,6 +23,13 @@ export class MonsterService {
     return monster;
   }
 
+  async getAll(): Promise<Monster[]> {
+    const item = await this.monsterModel
+      .find({}, removeIdFromFindMethod)
+      .exec();
+    return item;
+  }
+
   async create(
     createMonsterDto: CreateMonsterDto,
   ): Promise<Monster | MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME> {
