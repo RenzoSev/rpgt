@@ -98,6 +98,8 @@ export default function Battle() {
   const playerHealth = playerDefense - monsterAttack * turnCount;
   const monsterHealth = monsterDefense - playerAttack * turnCount;
 
+  console.log({ playerHealth });
+
   useEffect(() => {
     if (!battleHasStarted) return;
 

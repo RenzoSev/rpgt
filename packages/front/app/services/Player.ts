@@ -47,7 +47,6 @@ export class Player implements Service {
     items: IItem[]
   ): Weapon['attack'] {
     const weapon = items.find(({ name }) => equipped[0] === name) as Weapon | undefined;
-    console.log({weapon});
     return weapon ? weapon.attack : 0;
   }
 
