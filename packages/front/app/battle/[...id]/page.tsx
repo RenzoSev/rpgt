@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { useService } from '../../hooks/useService';
 import BackToTabs from './back-to-tabs';
 import { Monster, Monsters as MonstersService } from '@/app/services/Monsters';
-import { IItem, Items as ItemsService } from '@/app/services/Items';
+import { IItem, Items as ItemsService, Shield, Weapon } from '@/app/services/Items';
 import { Battle as BattleService } from '@/app/services/Battle';
 import { IPlayer, Player as PlayerService } from '@/app/services/Player';
 import { Winner } from '@/app/services/Battle';
@@ -38,13 +38,11 @@ export default function Battle() {
   const battleService = new BattleService();
 
   const params = useParams();
-
   const { atom: items, hasFetched: hasFetchedItems } = useService<IItem[]>(
     itemsService,
     itemsAtom,
     hasFetchedItemsAtom
   );
-
   const {
     atom: player,
     setAtom: setPlayer,
@@ -55,32 +53,23 @@ export default function Battle() {
       hasFetchedPlayerAtom,
       'get',
       'admin'
-    );
-
-  const equipped = player.inventory.equipped;
-  const {
-    status: { attack: playerAttack },
-  } = PlayerService.getAttack(equipped, items);
-  const {
-    status: { defense: playerDefense },
-  } = PlayerService.getDefense(equipped, items);
-
+  );
   const { atom: monsters, hasFetched: hasFetchedMonsters } = useService<
     Monster[]
   >(monstersService, monstersAtom, hasFetchedMonstersAtom);
-  const monster = monsters.find(({ id }) => id === Number(params.id));
-  const monsterAttack = Number(monster?.status.attack);
-  const monsterDefense = Number(monster?.status.defense);
-
   const [battleHasStarted, setBattleHasStarted] = useState(false);
   const [turnCount, setTurnCount] = useState(0);
   const [openDialogWin, setOpenDialogWin] = useState(false);
   const [openDialogLose, setOpenDialogLose] = useState(false);
 
+  const monster = monsters.find(({ name }) => name === params.id);
+  const monsterAttack = Number(monster?.status.attack);
+  const monsterDefense = Number(monster?.status.defense);
+
   const endBattle = async (winner: Winner, monster: Monster) => {
     const { gold, level } = await battleService.sendBattleResult(
       winner,
-      monster.id
+      monster.name
     );
 
     setPlayer((player) => ({
@@ -95,13 +84,16 @@ export default function Battle() {
 
     setOpenDialogLose(true);
   };
-
   const resetBattle = () => {
     setBattleHasStarted(false);
     setTurnCount(0);
     setOpenDialogWin(false);
     setOpenDialogLose(false);
   };
+
+  const equipped = player.inventory.equipped;
+  const playerAttack = playerService.getAttack(equipped, items);
+  const playerDefense = playerService.getDefense(equipped, items);
 
   const playerHealth = playerDefense - monsterAttack * turnCount;
   const monsterHealth = monsterDefense - playerAttack * turnCount;
@@ -122,7 +114,7 @@ export default function Battle() {
 
   if (
     !monster ||
-    !player.id ||
+    !player.name ||
     !hasFetchedPlayer ||
     !hasFetchedMonsters ||
     !hasFetchedItems
@@ -141,7 +133,7 @@ export default function Battle() {
         open={openDialogWin}
         onOpenChange={setOpenDialogWin}
         monsters={monsters}
-        currentlyMonsterId={monster.id}
+        currentlyMonsterName={monster.name}
       />
       <AlertDialogLose
         open={openDialogLose}

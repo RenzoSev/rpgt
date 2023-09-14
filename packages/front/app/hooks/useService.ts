@@ -21,7 +21,7 @@ export function useService<T>(
       return;
     }
 
-    const fetchAtom = async () => {
+    const fetchAtom = async () => {      
       if (method === 'get' && typeof name === 'string') {
         const atomData = await service.get(name);
         setAtom(atomData);

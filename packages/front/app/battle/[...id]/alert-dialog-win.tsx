@@ -10,14 +10,14 @@ interface IAlertDialogWin {
   open: RootProps['open'];
   onOpenChange: RootProps['onOpenChange'];
   monsters: Monster[];
-  currentlyMonsterId: number;
+  currentlyMonsterName: Monster['name'];
 }
 
 export default function AlertDialogWin({
   open,
   onOpenChange,
   monsters,
-  currentlyMonsterId,
+  currentlyMonsterName,
 }: IAlertDialogWin) {
   const { pushToTabs, pushToBattle } = usePages();
 
@@ -30,12 +30,12 @@ export default function AlertDialogWin({
   };
 
   const handleNextBattle = () => {
-    const { id } = MonstersService.getNextMonsterByASC(
-      currentlyMonsterId,
+    const { name } = MonstersService.getNextMonsterByASC(
+      currentlyMonsterName,
       monsters
     );
 
-    pushToBattle(id);
+    pushToBattle(name);
   };
   const handleReturnToTabs = () => pushToTabs();
 

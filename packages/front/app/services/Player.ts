@@ -13,7 +13,6 @@ export interface IPlayerStatus {
 }
 
 export interface IPlayer {
-  id: string;
   name: string;
   class: string;
   inventory: IPlayerInventory;
@@ -43,17 +42,20 @@ export class Player implements Service {
   }
 
   // TODO IMPLEMENT ENTIRE ITEM ON INVENTORY IN CLIENT SIDE
-  static getAttack(
+  getAttack(
     equipped: IPlayer['inventory']['equipped'],
     items: IItem[]
-  ): IItem<Weapon> {
-    return items.find(({ name }) => equipped[0] === name) as IItem<Weapon>;
+  ): Weapon['attack'] {
+    const weapon = items.find(({ name }) => equipped[0] === name) as Weapon | undefined;
+    console.log({weapon});
+    return weapon ? weapon.attack : 0;
   }
 
-  static getDefense(
+  getDefense(
     equipped: IPlayer['inventory']['equipped'],
     items: IItem[]
-  ): IItem<Shield> {
-    return items.find(({ name }) => equipped[0] === name) as IItem<Shield>;
+  ): Shield['defense'] {
+    const shield = items.find(({ name }) => equipped[0] === name) as Shield | undefined;
+    return shield ? shield.defense : 0;
   }
 }

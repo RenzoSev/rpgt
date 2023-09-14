@@ -9,7 +9,6 @@ export interface StatusMonster {
 }
 
 export interface Monster {
-  id: number;
   name: string;
   status: StatusMonster;
 }
@@ -32,9 +31,9 @@ export class Monsters implements Service {
     return data;
   }
 
-  static getNextMonsterByASC(currentlyMonsterId: number, monsters: Monster[]) {
+  static getNextMonsterByASC(currentlyMonsterName: Monster['name'], monsters: Monster[]) {
     const currentlyMonsterIndex = monsters.findIndex(
-      ({ id }) => id === currentlyMonsterId
+      ({ name }) => name === currentlyMonsterName
     );
 
     return monsters[currentlyMonsterIndex + 1];

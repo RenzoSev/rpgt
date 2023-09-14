@@ -16,7 +16,6 @@ export interface Weapon extends IItem {
 }
 
 export interface IItem {
-  id: number;
   name: string;
   level: number;
   type: TypeItems;
