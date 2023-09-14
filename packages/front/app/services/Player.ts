@@ -54,7 +54,7 @@ export class Player implements Service {
     equipped: IPlayer['inventory']['equipped'],
     items: IItem[]
   ): Shield['defense'] {
-    const shield = items.find(({ name }) => equipped[0] === name) as Shield | undefined;
+    const shield = items.find(({ name }) => equipped[1] === name) as Shield | undefined;
     return shield ? shield.defense : 0;
   }
 }

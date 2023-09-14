@@ -1,35 +1,36 @@
-'use client';
+"use client";
 
 // jeez i need to organize this front.
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import classNames from 'classnames';
-import { useService } from '../../hooks/useService';
-import BackToTabs from './back-to-tabs';
-import { Monster, Monsters as MonstersService } from '@/app/services/Monsters';
-import { IItem, Items as ItemsService, Shield, Weapon } from '@/app/services/Items';
-import { Battle as BattleService } from '@/app/services/Battle';
-import { IPlayer, Player as PlayerService } from '@/app/services/Player';
-import { Winner } from '@/app/services/Battle';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import classNames from "classnames";
+import { useService } from "../../hooks/useService";
+import BackToTabs from "./back-to-tabs";
+import { Monster, Monsters as MonstersService } from "@/app/services/Monsters";
+import { IItem, Items as ItemsService } from "@/app/services/Items";
+import { Battle as BattleService } from "@/app/services/Battle";
+import { IPlayer, Player as PlayerService } from "@/app/services/Player";
+import { Winner } from "@/app/services/Battle";
 import {
   monsters as monstersAtom,
   hasFetched as hasFetchedMonstersAtom,
-} from '../../store/useMonsters';
+} from "../../store/useMonsters";
 import {
   items as itemsAtom,
   hasFetched as hasFetchedItemsAtom,
-} from '@/app/store/useItems';
+} from "@/app/store/useItems";
 import {
   player as playerAtom,
   hasFetched as hasFetchedPlayerAtom,
-} from '@/app/store/usePlayer';
-import { containerContent, header } from '@/app/styles/classes';
-import HealthProgress from '@/app/components/health-progress';
-import { StatusPower } from '@/app/components/status-power';
+} from "@/app/store/usePlayer";
+import { containerContent, header } from "@/app/styles/classes";
+import HealthProgress from "@/app/components/health-progress";
+import { StatusPower } from "@/app/components/status-power";
 
-import AlertDialogWin from './alert-dialog-win';
-import AlertDialogLose from './alert-dialog-lose';
+import AlertDialogWin from "./alert-dialog-win";
+import AlertDialogLose from "./alert-dialog-lose";
+import { getHealthOnTurn, zeroThreshold } from "@/app/utils/calc";
 
 export default function Battle() {
   const monstersService = new MonstersService();
@@ -41,18 +42,18 @@ export default function Battle() {
   const { atom: items, hasFetched: hasFetchedItems } = useService<IItem[]>(
     itemsService,
     itemsAtom,
-    hasFetchedItemsAtom
+    hasFetchedItemsAtom,
   );
   const {
     atom: player,
     setAtom: setPlayer,
     hasFetched: hasFetchedPlayer,
   } = useService<IPlayer>(
-      playerService,
-      playerAtom,
-      hasFetchedPlayerAtom,
-      'get',
-      'admin'
+    playerService,
+    playerAtom,
+    hasFetchedPlayerAtom,
+    "get",
+    "admin",
   );
   const { atom: monsters, hasFetched: hasFetchedMonsters } = useService<
     Monster[]
@@ -69,7 +70,7 @@ export default function Battle() {
   const endBattle = async (winner: Winner, monster: Monster) => {
     const { gold, level } = await battleService.sendBattleResult(
       winner,
-      monster.name
+      monster.name,
     );
 
     setPlayer((player) => ({
@@ -77,7 +78,7 @@ export default function Battle() {
       status: { ...player.status, gold, level },
     }));
 
-    if (winner === 'player') {
+    if (winner === "player") {
       setOpenDialogWin(true);
       return;
     }
@@ -95,21 +96,31 @@ export default function Battle() {
   const playerAttack = playerService.getAttack(equipped, items);
   const playerDefense = playerService.getDefense(equipped, items);
 
-  const playerHealth = playerDefense - monsterAttack * turnCount;
-  const monsterHealth = monsterDefense - playerAttack * turnCount;
-
-  console.log({ playerHealth });
+  const playerHealth = zeroThreshold(
+    getHealthOnTurn({
+      defense: playerDefense,
+      attack: monsterAttack,
+      turnCount,
+    }),
+  );
+  const monsterHealth = zeroThreshold(
+    getHealthOnTurn({
+      defense: monsterDefense,
+      attack: playerAttack,
+      turnCount,
+    }),
+  );
 
   useEffect(() => {
     if (!battleHasStarted) return;
 
     if (playerHealth <= 0) {
-      endBattle('monster', monster as Monster);
+      endBattle("monster", monster as Monster);
       return;
     }
 
     if (monsterHealth <= 0) {
-      endBattle('player', monster as Monster);
+      endBattle("player", monster as Monster);
       return;
     }
   }, [monsterHealth, playerHealth, battleHasStarted]);
@@ -150,9 +161,9 @@ export default function Battle() {
       <div
         className={classNames(
           containerContent,
-          'min-h-[calc(100vh-5rem)]',
-          'flex flex-col justify-between items-center',
-          'pb-0 pt-0 pl-0 pr-0'
+          "min-h-[calc(100vh-5rem)]",
+          "flex flex-col justify-between items-center",
+          "pb-0 pt-0 pl-0 pr-0",
         )}
       >
         <div className="pt-4 flex flex-col gap-4">
@@ -208,11 +219,11 @@ export default function Battle() {
           <button
             onClick={attackMonster}
             className={classNames(
-              'flex items-end justify-around',
-              'w-full px-2 py-8',
-              'bg-ctp-red shadow-md rounded-b',
-              'active:bg-ctp-mauve transition-transform duration-200 transform-gpu active:scale-95',
-              'text-ctp-crust text-2xl font-bold'
+              "flex items-end justify-around",
+              "w-full px-2 py-8",
+              "bg-ctp-red shadow-md rounded-b",
+              "active:bg-ctp-mauve transition-transform duration-200 transform-gpu active:scale-95",
+              "text-ctp-crust text-2xl font-bold",
             )}
           >
             Attack
