@@ -68,23 +68,23 @@ export function ShopItems() {
   return (
     <>
       {items.map(
-        ({ id, name, status }) =>
+        ({ name, gold, level, type, ...powerAttribute }) =>
           !playerHasBoughtItem(name, player.inventory.bought) && (
             <AlertDialog
-              key={id}
-              texts={getTexts(name, status)}
+              key={name}
+              texts={getTexts(name, { gold, level, type, ...powerAttribute })}
               handleConfirmAction={() => handleBuyItem(name, player.name)}
             >
               <TabCard>
                 <div className="flex flex-col items-start">
                   <TabCardName name={name} />
 
-                  <TabCardStatusItem status={status}>
-                    <TabGold gold={status.gold} />
+                  <TabCardStatusItem status={{ gold, level, type, ...powerAttribute }}>
+                    <TabGold gold={gold} />
                   </TabCardStatusItem>
                 </div>
 
-                <TabCardLevel level={status.level} />
+                <TabCardLevel level={level} />
               </TabCard>
             </AlertDialog>
           )

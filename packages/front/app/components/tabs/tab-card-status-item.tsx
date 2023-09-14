@@ -27,13 +27,13 @@ export function TabCardStatusItem({ children, status }: ITabCardStatusItem) {
   const Icon = weaponsIcons[status.type];
 
   return (
-    <div className="flex gap-4">
-      <div className="flex items-center gap-1">
+    <span className="flex gap-4">
+      <span className="flex items-center gap-1">
         <span className="text-lg font-bold text-ctp-subtext0">{statusPower}</span>
         <Icon color={catppuccin.mocha[iconColorKey]} />
-      </div>
+      </span>
 
       {children}
-    </div>
+    </span>
   );
 }
