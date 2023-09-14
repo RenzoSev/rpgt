@@ -1,35 +1,26 @@
 import { Client, ClientRequest } from './Client';
-import { IPlayer } from './Player';
 import { Service } from './Service';
 
 export type TypeItems = 'shield' | 'weapon';
 
 export type PowerItems = 'attack' | 'defense';
 
-export interface StatusItem {
-  level: number;
-  type: TypeItems;
-  gold: number;
-}
-
-export interface Shield extends StatusItem {
+export interface Shield extends IItem {
   defense: number;
   type: 'shield';
 }
 
-export interface Weapon extends StatusItem {
+export interface Weapon extends IItem {
   attack: number;
   type: 'weapon';
 }
 
-export type StatusType = Weapon | Shield;
-
-export type Status<T = StatusType> = T;
-
-export interface IItem<T = StatusType> {
+export interface IItem {
   id: number;
   name: string;
-  status: Status<T>;
+  level: number;
+  type: TypeItems;
+  gold: number;
 }
 
 export class Items implements Service {

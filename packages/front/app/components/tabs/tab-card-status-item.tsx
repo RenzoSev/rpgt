@@ -1,11 +1,17 @@
 import { IconType } from 'react-icons';
-import { PowerItems, Status, TypeItems } from '../../services/Items';
+import { PowerItems, TypeItems } from '../../services/Items';
 import { GiBroadsword, GiTemplarShield } from 'react-icons/gi';
 import { catppuccin } from '../../styles/colors';
 
 export interface ITabCardStatusItem {
   children?: React.ReactNode;
-  status: Status;
+  status: {
+    level: number;
+    type: TypeItems;
+    gold: number;
+    attack?: number;
+    defense?: number;
+  };
 }
 
 export function TabCardStatusItem({ children, status }: ITabCardStatusItem) {
@@ -16,14 +22,14 @@ export function TabCardStatusItem({ children, status }: ITabCardStatusItem) {
 
   const statusPowerKey: PowerItems =
     status.type === 'shield' ? 'defense' : 'attack';
-  const statusPower = status[statusPowerKey as keyof Status];
+  const statusPower = status[statusPowerKey];
   const iconColorKey = status.type === 'shield' ? 'green' : 'red';
   const Icon = weaponsIcons[status.type];
 
   return (
     <div className="flex gap-4">
       <div className="flex items-center gap-1">
-        <p className="text-lg font-bold text-ctp-subtext0">{statusPower}</p>
+        <span className="text-lg font-bold text-ctp-subtext0">{statusPower}</span>
         <Icon color={catppuccin.mocha[iconColorKey]} />
       </div>
 

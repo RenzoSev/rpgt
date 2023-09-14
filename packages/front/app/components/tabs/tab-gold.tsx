@@ -16,14 +16,14 @@ export function TabGold({ gold, textColor = 'light' }: ITabGold) {
   return (
     <div className="flex items-center gap-1">
       <GiTwoCoins color={catppuccin.mocha.yellow} />
-      <p
+      <span
         className={classNames(
           'text-lg font-bold text-ctp-subtext0',
           textColors[textColor]
         )}
       >
         {gold}
-      </p>
+      </span>
     </div>
   );
 }

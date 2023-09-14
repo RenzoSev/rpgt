@@ -29,6 +29,7 @@ export function ShopItems() {
   const actionsService = new ActionsService();
   const itemsService = new ItemsService();
 
+  // TODO: should add useService when necessary. useAtom, for basic components, should be enough.
   const { atom: items } = useService(
     itemsService,
     itemsAtom,

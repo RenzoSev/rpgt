@@ -63,42 +63,44 @@ export default function Items() {
     setPlayer(player)
   };
 
+  // SORT: EQUIPPED ITEMS FIRST
+
   return (
     <>
       {items.map(
-        ({ id, name, status }) =>
+        ({ name, gold, level, type, ...powerAttribute }) =>
           playerHasBoughtItem(name, player.inventory.bought) && (
             <AlertDialog
-              key={id}
-              texts={getTexts(name, status)}
+              key={name}
+              texts={getTexts(name, { gold, level, type, ...powerAttribute })}
               handleConfirmAction={() => handleEquipItem(name, player.name)}
             >
               <TabCard>
                 <div className="flex flex-col items-start">
                   <TabCardName name={name} />
 
-                  <TabCardStatusItem status={status}>
+                  <TabCardStatusItem status={{ gold, level, type, ...powerAttribute }}>
                     <div className="flex items-center gap-1">
                       <span
                         className={classNames('h-3 w-3 rounded-full', {
-                          'bg-ctp-red': playerHasEquippedItem(
+                          'bg-ctp-red': !playerHasEquippedItem(
                             name,
                             player.inventory.equipped
                           ),
-                          'bg-ctp-green': !playerHasEquippedItem(
+                          'bg-ctp-green': playerHasEquippedItem(
                             name,
                             player.inventory.equipped
                           ),
                         })}
                       ></span>
-                      <p className="text-lg font-bold text-ctp-subtext0">
+                      <span className="text-lg font-bold text-ctp-subtext0">
                         Equipped
-                      </p>
+                      </span>
                     </div>
                   </TabCardStatusItem>
                 </div>
 
-                <TabCardLevel level={status.level} />
+                <TabCardLevel level={level} />
               </TabCard>
             </AlertDialog>
           )
