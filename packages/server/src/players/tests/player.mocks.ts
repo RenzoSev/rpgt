@@ -6,9 +6,11 @@ import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
 import { UpdateLevelDto } from '../dto/update-level.dto';
 import { Player } from '../player.schema';
 import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
+import { UpdateGoldDto } from '../dto/update-gold.dto';
 
 const name = 'name';
 const className = 'mage';
+const gold = 1000;
 
 export const getPlayerDtoMock: GetPlayerDto = { name: name };
 
@@ -25,6 +27,12 @@ export const updateBoughtItemsDtoMock: UpdateBoughtItemsDto = {
 export const updateLevelDtoMock: UpdateLevelDto = {
   playerName: name,
   xp: monsterMock.status.xp,
+};
+
+export const updateGoldDtoMock: UpdateGoldDto = {
+  playerName: name,
+  gold,
+  action: 'add',
 };
 
 export const playerMock: Player = {

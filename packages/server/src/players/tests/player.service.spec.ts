@@ -6,6 +6,7 @@ import {
   playerMock,
   updateBoughtItemsDtoMock,
   updateEquippedItemDtoMock,
+  updateGoldDtoMock,
   updateLevelDtoMock,
 } from './player.mocks';
 import { getModelToken } from '@nestjs/mongoose';
@@ -114,6 +115,44 @@ describe('PlayerService', () => {
         {
           $inc: {
             'status.level': updateLevelDtoMock.xp,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('updateGold', () => {
+    it('should update player gold - add', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateGold(updateGoldDtoMock);
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateGoldDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.gold': updateGoldDtoMock.gold,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+    it('should update player gold - remove', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateGold({
+        ...updateGoldDtoMock,
+        action: 'remove',
+      });
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateGoldDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.gold': -updateGoldDtoMock.gold,
           },
         },
         { new: true },

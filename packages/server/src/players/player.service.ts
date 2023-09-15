@@ -13,6 +13,7 @@ import { UpdateBoughtItemsDto } from './dto/update-bought-items.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
 import { UpdateEquippedItemDto } from './dto/update-equipped-item-dto';
 import { MESSAGES } from '../utils/constants';
+import { UpdateGoldDto } from './dto/update-gold.dto';
 
 @Injectable()
 export class PlayerService {
@@ -64,6 +65,8 @@ export class PlayerService {
     return player;
   }
 
+  // TODO: REMOVE RETURN ID FROM UPDATE METHODS
+
   async updateLevel({ playerName, xp }: UpdateLevelDto): Promise<Player> {
     const player = await this.playerModel.findOneAndUpdate(
       {
@@ -72,6 +75,26 @@ export class PlayerService {
       {
         $inc: {
           'status.level': xp,
+        },
+      },
+      { new: true },
+    );
+
+    return player;
+  }
+
+  async updateGold({
+    playerName,
+    gold,
+    action,
+  }: UpdateGoldDto): Promise<Player> {
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $inc: {
+          'status.gold': action === 'add' ? gold : -gold,
         },
       },
       { new: true },

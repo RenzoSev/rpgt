@@ -5,6 +5,7 @@ import {
   getPlayerDtoMock,
   updateBoughtItemsDtoMock,
   updateEquippedItemDtoMock,
+  updateGoldDtoMock,
   updateLevelDtoMock,
 } from './player.mocks';
 import {
@@ -16,6 +17,8 @@ import { CreatePlayerDto } from '../dto/create-player.dto';
 import { UpdateBoughtItemsDto } from '../dto/update-bought-items.dto';
 import { UpdateLevelDto } from '../dto/update-level.dto';
 import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
+import { UpdateGoldDto } from '../dto/update-gold.dto';
+import { VALIDATE_GOLD_ACTION_TYPE_MESSAGE } from '../utils/constants';
 
 describe('Player Dto', () => {
   let validationPipe: ValidationPipe;
@@ -386,6 +389,131 @@ describe('Player Dto', () => {
             'itemName must be a string',
             'itemName must be longer than or equal to 4 characters',
           ]),
+        );
+      });
+    });
+  });
+
+  describe('UpdateGoldDto', () => {
+    it('should pass validation with valid body', async () => {
+      const resultForAddAction = await runValidationTransformBody(
+        validationPipe,
+        {
+          Dto: UpdateGoldDto,
+          value: updateGoldDtoMock,
+        },
+      );
+      expect(resultForAddAction).toEqual(updateGoldDtoMock);
+
+      const resultForRemoveAction = await runValidationTransformBody(
+        validationPipe,
+        {
+          Dto: UpdateGoldDto,
+          value: { ...updateGoldDtoMock, action: 'remove' },
+        },
+      );
+      expect(resultForRemoveAction).toEqual({
+        ...updateGoldDtoMock,
+        action: 'remove',
+      });
+    });
+
+    describe('playerName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: { ...updateGoldDtoMock, playerName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: { ...updateGoldDtoMock, playerName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: { ...updateGoldDtoMock, playerName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be a string',
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+
+    describe('gold', () => {
+      it('should throw an error when < 1', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: {
+            ...updateGoldDtoMock,
+            gold: 0,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be less than 1']),
+        );
+      });
+
+      it('should throw an error when > 99999', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: {
+            ...updateGoldDtoMock,
+            gold: 100000,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be greater than 99999']),
+        );
+      });
+
+      it('should throw an error when it is not number', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: {
+            ...updateGoldDtoMock,
+            gold: String(),
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'gold must not be greater than 99999',
+            'gold must not be less than 1',
+            'gold must be a number conforming to the specified constraints',
+            'gold should not be empty',
+          ]),
+        );
+      });
+    });
+
+    describe('action', () => {
+      it('should throw an error when action is not in action types', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateGoldDto,
+          value: {
+            ...updateGoldDtoMock,
+            action: 'error',
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([VALIDATE_GOLD_ACTION_TYPE_MESSAGE]),
         );
       });
     });
