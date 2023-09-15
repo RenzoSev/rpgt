@@ -30,9 +30,14 @@ export class ActionService {
     const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
 
-    const playerUpdated = await this.playerService.updateBoughtItems({
+    await this.playerService.updateBoughtItems({
       items: [itemName],
       playerName: player.name,
+    });
+    const playerUpdated = await this.playerService.updateGold({
+      playerName,
+      gold: item.gold,
+      action: 'remove',
     });
     return playerUpdated;
   }

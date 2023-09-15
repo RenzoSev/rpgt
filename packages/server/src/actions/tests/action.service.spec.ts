@@ -48,12 +48,13 @@ describe('ActionService', () => {
     jest.spyOn(itemService, 'get').mockResolvedValue(itemMock);
     jest.spyOn(monsterService, 'get').mockResolvedValue(monsterMock);
   });
-
+  // TODO: CHECK ARGS FROM SPY FNS
   describe('buyItem', () => {
     it('should return player when buy is valid', async () => {
       jest
         .spyOn(playerService, 'updateBoughtItems')
         .mockResolvedValue(playerMock);
+      jest.spyOn(playerService, 'updateGold').mockResolvedValue(playerMock);
       jest.spyOn(playerAnalyzer, 'playerBuyItem').mockReturnValue([]);
 
       const result = await actionService.buyItem(buyItemDtoMock);
