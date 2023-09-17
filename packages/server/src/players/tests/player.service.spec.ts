@@ -97,6 +97,9 @@ describe('PlayerService', () => {
               $each: updateBoughtItemsDtoMock.items,
             },
           },
+          $inc: {
+            'status.gold': -updateBoughtItemsDtoMock.gold,
+          },
         },
         { new: true },
       );

@@ -44,9 +44,12 @@ export class PlayerService {
     return removeIdFromCreateMethod(player);
   }
 
+  // TODO: REMOVE RETURN ID FROM UPDATE METHODS
+
   async updateBoughtItems({
     playerName,
     items,
+    gold,
   }: UpdateBoughtItemsDto): Promise<Player> {
     const player = await this.playerModel.findOneAndUpdate(
       {
@@ -58,14 +61,15 @@ export class PlayerService {
             $each: items,
           },
         },
+
+        $inc: {
+          'status.gold': -gold,
+        },
       },
       { new: true },
     );
-
     return player;
   }
-
-  // TODO: REMOVE RETURN ID FROM UPDATE METHODS
 
   async updateLevel({ playerName, xp }: UpdateLevelDto): Promise<Player> {
     const player = await this.playerModel.findOneAndUpdate(

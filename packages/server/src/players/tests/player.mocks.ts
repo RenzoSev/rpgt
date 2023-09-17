@@ -22,6 +22,7 @@ export const createPlayerDtoMock: CreatePlayerDto = {
 export const updateBoughtItemsDtoMock: UpdateBoughtItemsDto = {
   playerName: name,
   items: [itemMock.name],
+  gold,
 };
 
 export const updateLevelDtoMock: UpdateLevelDto = {

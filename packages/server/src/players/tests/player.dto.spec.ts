@@ -209,6 +209,52 @@ describe('Player Dto', () => {
         );
       });
     });
+
+    describe('gold', () => {
+      it('should throw an error when < 1', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateBoughtItemsDto,
+          value: {
+            ...updateBoughtItemsDtoMock,
+            gold: 0,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be less than 1']),
+        );
+      });
+
+      it('should throw an error when > 99999', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateBoughtItemsDto,
+          value: {
+            ...updateBoughtItemsDtoMock,
+            gold: 100000,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be greater than 99999']),
+        );
+      });
+
+      it('should throw an error when it is not number', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateBoughtItemsDto,
+          value: {
+            ...updateBoughtItemsDtoMock,
+            gold: String(),
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'gold must not be greater than 99999',
+            'gold must not be less than 1',
+            'gold must be a number conforming to the specified constraints',
+            'gold should not be empty',
+          ]),
+        );
+      });
+    });
   });
 
   describe('UpdateLevelDto', () => {
