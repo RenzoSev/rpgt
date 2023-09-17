@@ -323,6 +323,60 @@ describe('Monster Dto', () => {
           );
         });
       });
+
+      describe('gold', () => {
+        it('should throw an error when < 1', async () => {
+          const result = await runValidationTransformBody(validationPipe, {
+            Dto: CreateMonsterDto,
+            value: {
+              ...createMonsterDtoMock,
+              status: { ...createMonsterDtoMock.status, gold: 0 },
+            },
+          });
+          expect(result).toEqual(
+            getValidationPipeError(['status.gold must not be less than 1']),
+          );
+        });
+
+        it('should throw an error when > 999', async () => {
+          const result = await runValidationTransformBody(validationPipe, {
+            Dto: CreateMonsterDto,
+            value: {
+              ...createMonsterDtoMock,
+              status: {
+                ...createMonsterDtoMock.status,
+                gold: 100000,
+              },
+            },
+          });
+          expect(result).toEqual(
+            getValidationPipeError([
+              'status.gold must not be greater than 99999',
+            ]),
+          );
+        });
+
+        it('should throw an error when it is not number', async () => {
+          const result = await runValidationTransformBody(validationPipe, {
+            Dto: CreateMonsterDto,
+            value: {
+              ...createMonsterDtoMock,
+              status: {
+                ...createMonsterDtoMock.status,
+                gold: String(),
+              },
+            },
+          });
+          expect(result).toEqual(
+            getValidationPipeError([
+              'status.gold must not be greater than 99999',
+              'status.gold must not be less than 1',
+              'status.gold must be a number conforming to the specified constraints',
+              'status.gold should not be empty',
+            ]),
+          );
+        });
+      });
     });
   });
 });

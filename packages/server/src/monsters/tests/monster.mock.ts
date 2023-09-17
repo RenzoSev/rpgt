@@ -8,6 +8,7 @@ const getStatus = (): Monster['status'] => ({
   defense: 1,
   level: 1,
   xp: 1,
+  gold: 1,
 });
 
 export const createMonsterDtoMock: CreateMonsterDto = {

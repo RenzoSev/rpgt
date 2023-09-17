@@ -34,6 +34,12 @@ export class StatusDto {
   @Min(1)
   @Max(999)
   xp: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
+  @Max(99999)
+  gold: number;
 }
 
 export class CreateMonsterDto {

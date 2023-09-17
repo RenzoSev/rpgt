@@ -10,6 +10,7 @@ export interface Status {
   defense: number;
   level: number;
   xp: number;
+  gold: number;
 }
 
 @Schema()
@@ -23,6 +24,7 @@ export class Monster {
       defense: getRequiredProp({ type: Number }),
       level: getRequiredProp({ type: Number }),
       xp: getRequiredProp({ type: Number }),
+      gold: getRequiredProp({ type: Number }),
     }),
   )
   status: Status;
