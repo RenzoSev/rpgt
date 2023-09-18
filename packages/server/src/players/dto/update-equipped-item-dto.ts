@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH } from '../utils/constants';
 
 export class UpdateEquippedItemDto {
@@ -11,4 +11,8 @@ export class UpdateEquippedItemDto {
   @Length(NAME_MIN_LENGTH, NAME_MAX_LENGTH)
   @IsString()
   readonly itemName: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly powerValue: number;
 }

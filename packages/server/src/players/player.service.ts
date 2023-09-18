@@ -14,6 +14,7 @@ import { UpdateLevelDto } from './dto/update-level.dto';
 import { UpdateEquippedItemDto } from './dto/update-equipped-item-dto';
 import { MESSAGES } from '../utils/constants';
 import { UpdateGoldDto } from './dto/update-gold.dto';
+import { UpdateIncStatusDto } from './dto/update-inc-status.dto';
 
 @Injectable()
 export class PlayerService {
@@ -107,9 +108,36 @@ export class PlayerService {
     return player;
   }
 
+  async updateIncStatus({
+    level,
+    gold,
+    playerName,
+  }: UpdateIncStatusDto): Promise<Player> {
+    const getStatusModelKey = (status: string) => `status.${status}`;
+    const statusToInc = {};
+    for (const [statusKey, statusValue] of Object.entries({ level, gold })) {
+      if (typeof statusValue === 'number') {
+        statusToInc[getStatusModelKey(statusKey)] = statusValue;
+      }
+    }
+
+    const player = await this.playerModel.findOneAndUpdate(
+      {
+        name: playerName,
+      },
+      {
+        $inc: { ...statusToInc },
+      },
+      { new: true },
+    );
+
+    return player;
+  }
+
   async updateAttackEquippedItem({
     playerName,
     itemName,
+    powerValue,
   }: UpdateEquippedItemDto): Promise<Player> {
     const player = await this.playerModel.findOneAndUpdate(
       {
@@ -118,6 +146,7 @@ export class PlayerService {
       {
         $set: {
           'inventory.equipped.0': itemName,
+          'status.attack': powerValue,
         },
       },
       { new: true },
@@ -128,6 +157,7 @@ export class PlayerService {
   async updateDefenseEquippedItem({
     playerName,
     itemName,
+    powerValue,
   }: UpdateEquippedItemDto): Promise<Player> {
     const player = await this.playerModel.findOneAndUpdate(
       {
@@ -136,6 +166,7 @@ export class PlayerService {
       {
         $set: {
           'inventory.equipped.1': itemName,
+          'status.defense': powerValue,
         },
       },
       { new: true },

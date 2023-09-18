@@ -7,6 +7,7 @@ import {
   updateBoughtItemsDtoMock,
   updateEquippedItemDtoMock,
   updateGoldDtoMock,
+  updateIncStatusDtoMock,
   updateLevelDtoMock,
 } from './player.mocks';
 import { getModelToken } from '@nestjs/mongoose';
@@ -177,6 +178,7 @@ describe('PlayerService', () => {
         {
           $set: {
             'inventory.equipped.0': updateEquippedItemDtoMock.itemName,
+            'status.attack': updateEquippedItemDtoMock.powerValue,
           },
         },
         { new: true },
@@ -198,6 +200,69 @@ describe('PlayerService', () => {
         {
           $set: {
             'inventory.equipped.1': updateEquippedItemDtoMock.itemName,
+            'status.defense': updateEquippedItemDtoMock.powerValue,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+  });
+
+  describe('updateIncStatus', () => {
+    it('should update player level and gold', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateIncStatus(
+        updateIncStatusDtoMock,
+      );
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateIncStatusDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.level': updateIncStatusDtoMock.level,
+            'status.gold': updateIncStatusDtoMock.gold,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should update player level', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateIncStatus({
+        ...updateIncStatusDtoMock,
+        gold: undefined,
+      });
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateIncStatusDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.level': updateIncStatusDtoMock.level,
+          },
+        },
+        { new: true },
+      );
+      expect(result).toStrictEqual(playerMock);
+    });
+
+    it('should update player gold', async () => {
+      playerModel.findOneAndUpdate.mockResolvedValue(playerMock);
+      const result = await playerService.updateIncStatus({
+        ...updateIncStatusDtoMock,
+        level: undefined,
+      });
+      expect(playerModel.findOneAndUpdate).toBeCalledWith(
+        {
+          name: updateIncStatusDtoMock.playerName,
+        },
+        {
+          $inc: {
+            'status.gold': updateIncStatusDtoMock.gold,
           },
         },
         { new: true },

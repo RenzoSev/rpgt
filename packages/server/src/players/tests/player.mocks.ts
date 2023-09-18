@@ -7,10 +7,12 @@ import { UpdateLevelDto } from '../dto/update-level.dto';
 import { Player } from '../player.schema';
 import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
 import { UpdateGoldDto } from '../dto/update-gold.dto';
+import { UpdateIncStatusDto } from '../dto/update-inc-status.dto';
 
 const name = 'name';
 const className = 'mage';
 const gold = 1000;
+const powerValue = 1;
 
 export const getPlayerDtoMock: GetPlayerDto = { name: name };
 
@@ -30,6 +32,12 @@ export const updateLevelDtoMock: UpdateLevelDto = {
   xp: monsterMock.status.xp,
 };
 
+export const updateIncStatusDtoMock: UpdateIncStatusDto = {
+  playerName: name,
+  level: monsterMock.status.xp,
+  gold,
+};
+
 export const updateGoldDtoMock: UpdateGoldDto = {
   playerName: name,
   gold,
@@ -46,6 +54,7 @@ export const playerMock: Player = {
 export const updateEquippedItemDtoMock: UpdateEquippedItemDto = {
   itemName: itemMock.name,
   playerName: playerMock.name,
+  powerValue,
 };
 
 export const playerServiceMock = {

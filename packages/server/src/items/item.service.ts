@@ -34,7 +34,6 @@ export class ItemService {
         name: createItemDto.name,
       })
       .exec();
-    console.log({ hasItem });
     if (hasItem) return MESSAGES.HAS_DOCUMENT_WITH_SAME_NAME;
 
     const item = await this.itemModel.create(createItemDto);

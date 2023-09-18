@@ -30,14 +30,10 @@ export class ActionService {
     const checkResult = this.playerAnalyzer.playerBuyItem(player, item);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
 
-    await this.playerService.updateBoughtItems({
+    const playerUpdated = await this.playerService.updateBoughtItems({
       items: [itemName],
       playerName: player.name,
-    });
-    const playerUpdated = await this.playerService.updateGold({
-      playerName,
       gold: item.gold,
-      action: 'remove',
     });
     return playerUpdated;
   }
@@ -54,8 +50,9 @@ export class ActionService {
     const checkResult = this.playerAnalyzer.playerFightMonster(player, monster);
     if (checkResult.length) return buildBadRequestResponse(checkResult);
 
-    const playerUpdated = await this.playerService.updateLevel({
-      xp: monster.status.xp,
+    const playerUpdated = await this.playerService.updateIncStatus({
+      gold: monster.status.gold,
+      level: monster.status.xp,
       playerName: player.name,
     });
     return playerUpdated;
@@ -79,8 +76,14 @@ export class ActionService {
     };
     const playerUpdate =
       item.type === 'weapon'
-        ? await this.playerService.updateAttackEquippedItem(payload)
-        : await this.playerService.updateDefenseEquippedItem(payload);
+        ? await this.playerService.updateAttackEquippedItem({
+            ...payload,
+            powerValue: item.attack,
+          })
+        : await this.playerService.updateDefenseEquippedItem({
+            ...payload,
+            powerValue: item.defense,
+          });
     return playerUpdate;
   }
 }

@@ -6,6 +6,7 @@ import {
   updateBoughtItemsDtoMock,
   updateEquippedItemDtoMock,
   updateGoldDtoMock,
+  updateIncStatusDtoMock,
   updateLevelDtoMock,
 } from './player.mocks';
 import {
@@ -19,6 +20,7 @@ import { UpdateLevelDto } from '../dto/update-level.dto';
 import { UpdateEquippedItemDto } from '../dto/update-equipped-item-dto';
 import { UpdateGoldDto } from '../dto/update-gold.dto';
 import { VALIDATE_GOLD_ACTION_TYPE_MESSAGE } from '../utils/constants';
+import { UpdateIncStatusDto } from '../dto/update-inc-status.dto';
 
 describe('Player Dto', () => {
   let validationPipe: ValidationPipe;
@@ -352,6 +354,145 @@ describe('Player Dto', () => {
     });
   });
 
+  describe('UpdateIncStatusDto', () => {
+    it('should pass validation with valid body', async () => {
+      const result = await runValidationTransformBody(validationPipe, {
+        Dto: UpdateIncStatusDto,
+        value: updateIncStatusDtoMock,
+      });
+      expect(result).toEqual(updateIncStatusDtoMock);
+    });
+
+    describe('playerName', () => {
+      it('should throw an error when length < 4', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: { ...updateIncStatusDtoMock, playerName: genWord(3) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when length > 20', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: { ...updateIncStatusDtoMock, playerName: genWord(21) },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be shorter than or equal to 20 characters',
+          ]),
+        );
+      });
+
+      it('should throw an error when not string', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: { ...updateIncStatusDtoMock, playerName: Number() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'playerName must be a string',
+            'playerName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+
+    describe('level', () => {
+      it('should throw an error when < 1', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            level: 0,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['level must not be less than 1']),
+        );
+      });
+
+      it('should throw an error when > 999', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            level: 1000,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['level must not be greater than 999']),
+        );
+      });
+
+      it('should throw an error when it is not number', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            level: String(),
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'level must not be greater than 999',
+            'level must not be less than 1',
+            'level must be a number conforming to the specified constraints',
+          ]),
+        );
+      });
+    });
+
+    describe('gold', () => {
+      it('should throw an error when < 1', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            gold: 0,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be less than 1']),
+        );
+      });
+
+      it('should throw an error when > 99999', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            gold: 100000,
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError(['gold must not be greater than 99999']),
+        );
+      });
+
+      it('should throw an error when it is not number', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateIncStatusDto,
+          value: {
+            ...updateIncStatusDtoMock,
+            gold: String(),
+          },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'gold must not be greater than 99999',
+            'gold must not be less than 1',
+            'gold must be a number conforming to the specified constraints',
+          ]),
+        );
+      });
+    });
+  });
+
   describe('UpdateEquippedItemDto', () => {
     it('should pass validation with valid body', async () => {
       const result = await runValidationTransformBody(validationPipe, {
@@ -434,6 +575,34 @@ describe('Player Dto', () => {
           getValidationPipeError([
             'itemName must be a string',
             'itemName must be longer than or equal to 4 characters',
+          ]),
+        );
+      });
+    });
+
+    describe('powerValue', () => {
+      it('should throw an error when not defined', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, powerValue: undefined },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'powerValue must be a number conforming to the specified constraints',
+            'powerValue should not be empty',
+          ]),
+        );
+      });
+
+      it('should throw an error when not number', async () => {
+        const result = await runValidationTransformBody(validationPipe, {
+          Dto: UpdateEquippedItemDto,
+          value: { ...updateEquippedItemDtoMock, powerValue: String() },
+        });
+        expect(result).toEqual(
+          getValidationPipeError([
+            'powerValue must be a number conforming to the specified constraints',
+            'powerValue should not be empty',
           ]),
         );
       });

@@ -13,7 +13,6 @@ import { FightMonsterDto } from './dto/fight-monster.dto';
 import { EquipItemDto } from './dto/equip-item-dto';
 
 // TODO: CHECK DE HTTP STATUSES
-
 @Controller()
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
