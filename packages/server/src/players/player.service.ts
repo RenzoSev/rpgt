@@ -45,8 +45,6 @@ export class PlayerService {
     return removeIdFromCreateMethod(player);
   }
 
-  // TODO: REMOVE RETURN ID FROM UPDATE METHODS
-
   async updateBoughtItems({
     playerName,
     items,
@@ -67,7 +65,7 @@ export class PlayerService {
           'status.gold': -gold,
         },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
     return player;
   }
@@ -82,7 +80,7 @@ export class PlayerService {
           'status.level': xp,
         },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
 
     return player;
@@ -102,7 +100,7 @@ export class PlayerService {
           'status.gold': action === 'add' ? gold : -gold,
         },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
 
     return player;
@@ -128,7 +126,7 @@ export class PlayerService {
       {
         $inc: { ...statusToInc },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
 
     return player;
@@ -149,7 +147,7 @@ export class PlayerService {
           'status.attack': powerValue,
         },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
     return player;
   }
@@ -169,7 +167,7 @@ export class PlayerService {
           'status.defense': powerValue,
         },
       },
-      { new: true },
+      { new: true, projection: { _id: 0 } },
     );
     return player;
   }

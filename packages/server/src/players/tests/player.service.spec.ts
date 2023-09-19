@@ -102,7 +102,7 @@ describe('PlayerService', () => {
             'status.gold': -updateBoughtItemsDtoMock.gold,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -121,7 +121,7 @@ describe('PlayerService', () => {
             'status.level': updateLevelDtoMock.xp,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -140,7 +140,7 @@ describe('PlayerService', () => {
             'status.gold': updateGoldDtoMock.gold,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -159,7 +159,7 @@ describe('PlayerService', () => {
             'status.gold': -updateGoldDtoMock.gold,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -181,7 +181,7 @@ describe('PlayerService', () => {
             'status.attack': updateEquippedItemDtoMock.powerValue,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -203,7 +203,7 @@ describe('PlayerService', () => {
             'status.defense': updateEquippedItemDtoMock.powerValue,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -225,7 +225,7 @@ describe('PlayerService', () => {
             'status.gold': updateIncStatusDtoMock.gold,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -245,7 +245,7 @@ describe('PlayerService', () => {
             'status.level': updateIncStatusDtoMock.level,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
@@ -265,7 +265,7 @@ describe('PlayerService', () => {
             'status.gold': updateIncStatusDtoMock.gold,
           },
         },
-        { new: true },
+        { new: true, projection: { _id: 0 } },
       );
       expect(result).toStrictEqual(playerMock);
     });
