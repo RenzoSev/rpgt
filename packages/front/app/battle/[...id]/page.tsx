@@ -7,11 +7,10 @@ import { useParams } from "next/navigation";
 import classNames from "classnames";
 import { useService } from "../../hooks/useService";
 import BackToTabs from "./back-to-tabs";
+import { Actions as ActionsService } from "@/app/services/Actions";
 import { Monster, Monsters as MonstersService } from "@/app/services/Monsters";
 import { IItem, Items as ItemsService } from "@/app/services/Items";
-import { Battle as BattleService } from "@/app/services/Battle";
 import { IPlayer, Player as PlayerService } from "@/app/services/Player";
-import { Winner } from "@/app/services/Battle";
 import {
   monsters as monstersAtom,
   hasFetched as hasFetchedMonstersAtom,
@@ -36,7 +35,7 @@ export default function Battle() {
   const monstersService = new MonstersService();
   const playerService = new PlayerService();
   const itemsService = new ItemsService();
-  const battleService = new BattleService();
+  const actionsService = new ActionsService();
 
   const params = useParams();
   const { atom: items, hasFetched: hasFetchedItems } = useService<IItem[]>(
@@ -67,23 +66,19 @@ export default function Battle() {
   const monsterAttack = Number(monster?.status.attack);
   const monsterDefense = Number(monster?.status.defense);
 
-  const endBattle = async (winner: Winner, monster: Monster) => {
-    const { gold, level } = await battleService.sendBattleResult(
-      winner,
-      monster.name,
-    );
-
-    setPlayer((player) => ({
-      ...player,
-      status: { ...player.status, gold, level },
-    }));
-
-    if (winner === "player") {
-      setOpenDialogWin(true);
+  const endBattle = async (winner: "player" | "monster", monster: Monster) => {
+    if (winner !== "player") {
+      setOpenDialogLose(true);
       return;
     }
 
-    setOpenDialogLose(true);
+    const playerUpdated = await actionsService.fightMonster(
+      player.name,
+      monster.name,
+    );
+
+    setPlayer(playerUpdated);
+    setOpenDialogWin(true);
   };
   const resetBattle = () => {
     setBattleHasStarted(false);
