@@ -12,7 +12,7 @@ import { MESSAGES } from '../../utils/constants';
 import { removeIdFromFindMethod } from '../../utils/services';
 
 describe('ItemService', () => {
-  let itemService: ItemService;
+  let itemService;
   let itemModel;
 
   beforeEach(async () => {
@@ -29,6 +29,11 @@ describe('ItemService', () => {
       ],
     }).compile();
     itemService = moduleRef.get<ItemService>(ItemService);
+  });
+
+  afterEach(() => {
+    itemService = {};
+    itemModel = {};
   });
 
   describe('get', () => {
