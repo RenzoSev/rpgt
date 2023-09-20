@@ -1,5 +1,5 @@
-import { Client, ClientRequest } from './Client';
-import { Service } from './Service';
+import { Client, ClientRequest } from "./Client";
+import { Service } from "./Service";
 
 export interface StatusMonster {
   attack: number;
@@ -22,7 +22,7 @@ export class Monsters implements Service {
   }
 
   async getAll(): Promise<Monster[]> {
-    const { data } = await this.request.get<Monster[]>('/monsters');
+    const { data } = await this.request.get<Monster[]>("/monsters");
     return data;
   }
 
@@ -31,11 +31,14 @@ export class Monsters implements Service {
     return data;
   }
 
-  static getNextMonsterByASC(currentlyMonsterName: Monster['name'], monsters: Monster[]) {
+  static getNextMonsterByASC(
+    currentlyMonsterName: Monster["name"],
+    monsters: Monster[],
+  ) {
     const currentlyMonsterIndex = monsters.findIndex(
-      ({ name }) => name === currentlyMonsterName
+      ({ name }) => name === currentlyMonsterName,
     );
-
-    return monsters[currentlyMonsterIndex + 1];
+    const nextMonster = monsters[currentlyMonsterIndex + 1];
+    return nextMonster || monsters[currentlyMonsterIndex];
   }
 }

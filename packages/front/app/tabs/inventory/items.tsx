@@ -71,7 +71,7 @@ export default function Items() {
   };
 
   const orderByEquippedItems = (a: IItem) =>
-    playerHasBoughtItem(a.name, player.inventory.bought) ? 1 : -1;
+    playerHasBoughtItem(a.name, player.inventory.equipped) ? -1 : 1;
 
   return (
     <>
