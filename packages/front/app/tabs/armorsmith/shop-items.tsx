@@ -1,50 +1,45 @@
-'use client';
+"use client";
 
-import { TabCard } from '@/app/components/tabs/tab-card';
-import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
-import { TabCardName } from '@/app/components/tabs/tab-card-name';
+import { TabCard } from "@/app/components/tabs/tab-card";
+import { TabCardLevel } from "@/app/components/tabs/tab-card-level";
+import { TabCardName } from "@/app/components/tabs/tab-card-name";
 import {
   ITabCardStatusItem,
   TabCardStatusItem,
-} from '@/app/components/tabs/tab-card-status-item';
-import { useService } from '@/app/hooks/useService';
-import { Actions as ActionsService } from '@/app/services/Actions';
-import { Items as ItemsService } from '@/app/services/Items';
-import { IItem } from '@/app/services/Items';
+} from "@/app/components/tabs/tab-card-status-item";
+import { useService } from "@/app/hooks/useService";
+import { Actions as ActionsService } from "@/app/services/Actions";
+import { Items as ItemsService } from "@/app/services/Items";
+import { IItem } from "@/app/services/Items";
 import {
   items as itemsAtom,
   hasFetched as hasFetchedAtom,
-} from '@/app/store/useItems';
+} from "@/app/store/useItems";
 import {
   AlertDialog,
   AlertDialogTextsProps,
-} from '@/app/components/alert-dialog';
-import { TabGold } from '@/app/components/tabs/tab-gold';
-import { player as playerAtom } from '@/app/store/usePlayer';
-import { useAtom } from 'jotai';
-import { playerHasBoughtItem } from '@/app/utils/analyzer';
-import { IPlayer } from '@/app/services/Player';
+} from "@/app/components/alert-dialog";
+import { TabGold } from "@/app/components/tabs/tab-gold";
+import { player as playerAtom } from "@/app/store/usePlayer";
+import { useAtom } from "jotai";
+import { playerHasBoughtItem } from "@/app/utils/analyzer";
+import { IPlayer } from "@/app/services/Player";
 
 export function ShopItems() {
   const actionsService = new ActionsService();
   const itemsService = new ItemsService();
 
   // TODO: should add useService when necessary. useAtom, for basic components, should be enough.
-  const { atom: items } = useService(
-    itemsService,
-    itemsAtom,
-    hasFetchedAtom
-  );
+  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedAtom);
   const [player, setPlayer] = useAtom(playerAtom);
 
   const getTexts = (
     itemName: string,
-    status: ITabCardStatusItem['status']
+    status: ITabCardStatusItem["status"],
   ): AlertDialogTextsProps => ({
-    cancelActionMessage: 'Cancel',
+    cancelActionMessage: "Cancel",
     confirmActionMessage: (
       <span className="flex gap-1 items-center">
-        Buy
         <TabGold gold={status.gold} textColor="dark" />
       </span>
     ),
@@ -58,9 +53,9 @@ export function ShopItems() {
   });
 
   const handleBuyItem = async (
-      itemName: IItem['name'],
-      playerName: IPlayer['name']
-    ) => {
+    itemName: IItem["name"],
+    playerName: IPlayer["name"],
+  ) => {
     const player = await actionsService.buyItem(itemName, playerName);
     setPlayer(player);
   };
@@ -79,7 +74,9 @@ export function ShopItems() {
                 <div className="flex flex-col items-start">
                   <TabCardName name={name} />
 
-                  <TabCardStatusItem status={{ gold, level, type, ...powerAttribute }}>
+                  <TabCardStatusItem
+                    status={{ gold, level, type, ...powerAttribute }}
+                  >
                     <TabGold gold={gold} />
                   </TabCardStatusItem>
                 </div>
@@ -87,7 +84,7 @@ export function ShopItems() {
                 <TabCardLevel level={level} />
               </TabCard>
             </AlertDialog>
-          )
+          ),
       )}
     </>
   );

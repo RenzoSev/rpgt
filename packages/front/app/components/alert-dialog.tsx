@@ -1,6 +1,6 @@
-import React from 'react';
-import * as RadixAlertDialog from '@radix-ui/react-alert-dialog';
-import { VariantProps, tv } from 'tailwind-variants';
+import React from "react";
+import * as RadixAlertDialog from "@radix-ui/react-alert-dialog";
+import { VariantProps, tv } from "tailwind-variants";
 
 export interface AlertDialogTextsProps {
   titleMessage: string | React.ReactNode;
@@ -26,54 +26,55 @@ export interface AlertDialogProps extends ButtonConfirmActionVariants {
 const baseButtonActionClass = tv({
   variants: {
     size: {
-      responsiveWidth: 'h-16 w-1/2 p-2',
+      responsiveWidth: "h-16 w-1/2 p-2",
     },
   },
 });
 const buttonConfirmActionClass = tv({
   extend: baseButtonActionClass,
   base: [
-    'text-ctp-crust',
-    'bg-ctp-green',
-    'hover:opacity-60',
-    'focus:shadow-ctp-lavender',
-    'inline-flex',
-    'items-center',
-    'justify-center',
-    'rounded-[4px]',
-    'font-medium',
-    'leading-none',
-    'outline-none',
-    'focus:shadow-[0_0_0_2px]',
+    "text-ctp-crust",
+    "bg-ctp-green",
+    "hover:opacity-60",
+    "focus:shadow-ctp-lavender",
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "rounded-[4px]",
+    "font-medium",
+    "leading-none",
+    "outline-none",
+    "focus:shadow-[0_0_0_2px]",
   ],
   variants: {
     size: {
-      radix: 'h-[35px] px-[15px]',
+      radix: "h-[35px] px-[15px]",
     },
   },
   defaultVariants: {
-    size: 'radix',
+    size: "radix",
   },
 });
 const buttonCancelActionClass = tv({
   extend: baseButtonActionClass,
   base: [
-    'text-ctp-crust',
-    'bg-ctp-red',
-    'hover:opacity-70',
-    'focus:shadow-ctp-lavender',
-    'inline-flex',
-    'items-center',
-    'justify-center',
-    'rounded-[4px]',
-    'font-medium',
-    'leading-none',
-    'outline-none',
-    'focus:shadow-[0_0_0_2px]',
+    "text-ctp-crust",
+    "bg-ctp-red",
+    "hover:opacity-70",
+    "focus:shadow-ctp-lavender",
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "rounded-[4px]",
+    "font-medium",
+    "leading-none",
+    "outline-none",
+    "focus:shadow-[0_0_0_2px]",
+    "w-20",
   ],
   variants: {
     size: {
-      radix: 'h-[35px] px-[15px]',
+      radix: "h-[35px] px-[15px]",
     },
   },
 });
