@@ -2,15 +2,16 @@ import {
   AlertDialog,
   AlertDialogTextsProps,
   RootProps,
-} from '@/app/components/alert-dialog';
-import { usePages } from '@/app/hooks/usePages';
-import { Monsters as MonstersService, Monster } from '@/app/services/Monsters';
+} from "@/app/components/alert-dialog";
+import { usePages } from "@/app/hooks/usePages";
+import { Monsters as MonstersService, Monster } from "@/app/services/Monsters";
 
 interface IAlertDialogWin {
-  open: RootProps['open'];
-  onOpenChange: RootProps['onOpenChange'];
+  open: RootProps["open"];
+  onOpenChange: RootProps["onOpenChange"];
   monsters: Monster[];
-  currentlyMonsterName: Monster['name'];
+  currentlyMonsterName: Monster["name"];
+  resetBattle: () => void;
 }
 
 export default function AlertDialogWin({
@@ -18,23 +19,25 @@ export default function AlertDialogWin({
   onOpenChange,
   monsters,
   currentlyMonsterName,
+  resetBattle,
 }: IAlertDialogWin) {
   const { pushToTabs, pushToBattle } = usePages();
 
   const texts: AlertDialogTextsProps = {
-    titleMessage: 'Triumphant Victory!',
+    titleMessage: "Triumphant Victory!",
     descriptionMessage:
-      'Congratulations, brave adventurer! You fearlessly faced the dungeon monster and emerged victorious!',
-    confirmActionMessage: 'Ready for the next battle?',
-    cancelActionMessage: 'Return to the surface as an acclaimed hero',
+      "Congratulations, brave adventurer! You fearlessly faced the dungeon monster and emerged victorious!",
+    confirmActionMessage: "Ready for the next battle?",
+    cancelActionMessage: "Return to the surface as an acclaimed hero",
   };
 
   const handleNextBattle = () => {
     const { name } = MonstersService.getNextMonsterByASC(
       currentlyMonsterName,
-      monsters
+      monsters,
     );
 
+    resetBattle();
     pushToBattle(name);
   };
   const handleReturnToTabs = () => pushToTabs();

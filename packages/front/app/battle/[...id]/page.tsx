@@ -142,6 +142,7 @@ export default function Battle() {
         onOpenChange={setOpenDialogWin}
         monsters={monsters}
         currentlyMonsterName={monster.name}
+        resetBattle={resetBattle}
       />
       <AlertDialogLose
         open={openDialogLose}
