@@ -1,51 +1,58 @@
-'use client';
+"use client";
 
 import {
   items as itemsAtom,
   hasFetched as hasFetchedItemsAtom,
-} from '../../store/useItems';
-import { IItem, Items as ItemsService } from '../../services/Items';
-import { useService } from '@/app/hooks/useService';
-import classNames from 'classnames';
-import { player as playerAtom, hasFetched as hasFetchedPlayerAtom } from '@/app/store/usePlayer';
-import { TabCardName } from '@/app/components/tabs/tab-card-name';
-import { TabCardLevel } from '@/app/components/tabs/tab-card-level';
+} from "../../store/useItems";
+import { IItem, Items as ItemsService } from "../../services/Items";
+import { useService } from "@/app/hooks/useService";
+import classNames from "classnames";
+import {
+  player as playerAtom,
+  hasFetched as hasFetchedPlayerAtom,
+} from "@/app/store/usePlayer";
+import { TabCardName } from "@/app/components/tabs/tab-card-name";
+import { TabCardLevel } from "@/app/components/tabs/tab-card-level";
 import {
   ITabCardStatusItem,
   TabCardStatusItem,
-} from '@/app/components/tabs/tab-card-status-item';
-import { TabCard } from '@/app/components/tabs/tab-card';
+} from "@/app/components/tabs/tab-card-status-item";
+import { TabCard } from "@/app/components/tabs/tab-card";
 import {
   AlertDialog,
   AlertDialogTextsProps,
-} from '@/app/components/alert-dialog';
+} from "@/app/components/alert-dialog";
 import {
   playerHasBoughtItem,
   playerHasEquippedItem,
-} from '@/app/utils/analyzer';
-import { IPlayer, Player as PlayerService } from '@/app/services/Player';
-import { Actions as ActionsService } from '@/app/services/Actions';
+} from "@/app/utils/analyzer";
+import { IPlayer, Player as PlayerService } from "@/app/services/Player";
+import { Actions as ActionsService } from "@/app/services/Actions";
 
 export default function Items() {
   const itemsService = new ItemsService();
   const playerService = new PlayerService();
   const actionsService = new ActionsService();
 
-  const { atom: items } = useService(itemsService, itemsAtom, hasFetchedItemsAtom);
+  const { atom: items } = useService(
+    itemsService,
+    itemsAtom,
+    hasFetchedItemsAtom,
+  );
   const { atom: player, setAtom: setPlayer } = useService(
-      playerService,
-      playerAtom,
-      hasFetchedPlayerAtom,
-      'get',
-      'admin'
-    );
+    playerService,
+    playerAtom,
+    hasFetchedPlayerAtom,
+    "get",
+    "admin",
+  );
 
   const getTexts = (
     itemName: string,
-    status: ITabCardStatusItem['status']
+    status: ITabCardStatusItem["status"],
   ): AlertDialogTextsProps => ({
-    cancelActionMessage: 'Cancel',
-    confirmActionMessage: 'Equip',
+    cancelActionMessage: "Cancel",
+    confirmActionMessage: "Equip",
     titleMessage: itemName,
     descriptionMessage: (
       <span className="flex gap-4">
@@ -56,18 +63,19 @@ export default function Items() {
   });
 
   const handleEquipItem = async (
-    itemName: IItem['name'],
-    playerName: IPlayer['name']
+    itemName: IItem["name"],
+    playerName: IPlayer["name"],
   ) => {
     const player = await actionsService.equipItem(itemName, playerName);
-    setPlayer(player)
+    setPlayer(player);
   };
 
-  // SORT: EQUIPPED ITEMS FIRST
+  const orderByEquippedItems = (a: IItem) =>
+    playerHasBoughtItem(a.name, player.inventory.bought) ? 1 : -1;
 
   return (
     <>
-      {items.map(
+      {[...items].sort(orderByEquippedItems).map(
         ({ name, gold, level, type, ...powerAttribute }) =>
           playerHasBoughtItem(name, player.inventory.bought) && (
             <AlertDialog
@@ -79,17 +87,19 @@ export default function Items() {
                 <div className="flex flex-col items-start">
                   <TabCardName name={name} />
 
-                  <TabCardStatusItem status={{ gold, level, type, ...powerAttribute }}>
+                  <TabCardStatusItem
+                    status={{ gold, level, type, ...powerAttribute }}
+                  >
                     <div className="flex items-center gap-1">
                       <span
-                        className={classNames('h-3 w-3 rounded-full', {
-                          'bg-ctp-red': !playerHasEquippedItem(
+                        className={classNames("h-3 w-3 rounded-full", {
+                          "bg-ctp-red": !playerHasEquippedItem(
                             name,
-                            player.inventory.equipped
+                            player.inventory.equipped,
                           ),
-                          'bg-ctp-green': playerHasEquippedItem(
+                          "bg-ctp-green": playerHasEquippedItem(
                             name,
-                            player.inventory.equipped
+                            player.inventory.equipped,
                           ),
                         })}
                       ></span>
@@ -103,7 +113,7 @@ export default function Items() {
                 <TabCardLevel level={level} />
               </TabCard>
             </AlertDialog>
-          )
+          ),
       )}
     </>
   );
