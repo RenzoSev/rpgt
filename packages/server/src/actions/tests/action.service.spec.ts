@@ -180,10 +180,10 @@ describe('ActionService', () => {
 
       const result = await actionService.equipItem(updateEquippedItemDtoMock);
 
-      expect(playerAnalyzer.playerEquipItem).toBeCalledWith(
-        playerMock.name,
-        itemMock.name,
-      );
+      expect(playerAnalyzer.playerEquipItem).toBeCalledWith(playerMock, {
+        ...itemMock,
+        type: 'shield',
+      });
       expect(playerService.updateDefenseEquippedItem).toBeCalledWith({
         playerName: playerMock.name,
         itemName: itemMock.name,
@@ -200,8 +200,8 @@ describe('ActionService', () => {
       const result = await actionService.equipItem(updateEquippedItemDtoMock);
 
       expect(playerAnalyzer.playerEquipItem).toHaveBeenCalledWith(
-        playerMock.name,
-        itemMock.name,
+        playerMock,
+        itemMock,
       );
       expect(result).toStrictEqual({
         statusError: 400,
