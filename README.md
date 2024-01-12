@@ -1,6 +1,7 @@
 # About the project
 It is currently a monolite project with SERVER and FRONT.
-## Front
+
+# Front
 ### Technologies
 #### Prod
 - React
