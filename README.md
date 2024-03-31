@@ -48,8 +48,8 @@ https://httpie.io/cli
 
 # Players
 ```
-https POST http://localhost:3000/player name=player class=Mage
-https GET http://localhost:3000/player/player
+https POST http://localhost:3000/player name=admin class=Mage
+https GET http://localhost:3000/player/admin
 ```
 
 # Items
@@ -79,17 +79,17 @@ https POST http://localhost:3000/item name=main_shield type=shield level:=15 gol
 ## Actions
 ### Buy Item
 ```
-https PATCH http://localhost:3000/actions/buy-item playerName=player itemName='main_sword'
-https PATCH http://localhost:3000/actions/buy-item playerName=player itemName='main_shield'
+https PATCH http://localhost:3000/actions/buy-item playerName=admin itemName='main_sword'
+https PATCH http://localhost:3000/actions/buy-item playerName=admin itemName='main_shield'
 ```
 
 ### Equip Item
 ```
-https PATCH http://localhost:3000/actions/equip-item playerName=player itemName='main_sword'
-https PATCH http://localhost:3000/actions/equip-item playerName=player itemName='main_shield'
+https PATCH http://localhost:3000/actions/equip-item playerName=admin itemName='main_sword'
+https PATCH http://localhost:3000/actions/equip-item playerName=admin itemName='main_shield'
 ```
 
 ### Fight Monster
 ```
-https PATCH http://localhost:3000/actions/fight-monster playerName=player monsterName='monster'
+https PATCH http://localhost:3000/actions/fight-monster playerName=admin monsterName='monster'
 ```
