@@ -1,6 +1,10 @@
 # About the project
 It is currently a monolite project with SERVER and FRONT.
 
+This project was made to my Final Paper presentation for Fisk.
+
+Please, check the FINAL_PAPER.MD file for more information.
+
 # Front
 ### Technologies
 #### Prod
